@@ -1,0 +1,5 @@
+local INTERACTION_TYPE = {
+	GENERIC = 1
+}
+
+return INTERACTION_TYPE

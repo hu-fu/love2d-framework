@@ -1,0 +1,6 @@
+return {
+	INIT_EMITTER = 1,
+	END_EMITTER = 2,
+	INIT_EFFECT = 3,
+	END_EFFECT = 4
+}

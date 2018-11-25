@@ -1,0 +1,13 @@
+local HEALTH_SCRIPT = {}
+
+HEALTH_SCRIPT.ID = {
+	HEALTH_POINTS_GENERIC = 1,
+	
+}
+
+HEALTH_SCRIPT.SCRIPT = {
+	[HEALTH_SCRIPT.ID.HEALTH_POINTS_GENERIC] = require '/health/pool script/GENERIC',
+	
+}
+
+return HEALTH_SCRIPT

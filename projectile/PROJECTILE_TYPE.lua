@@ -1,0 +1,5 @@
+local PROJECTILE_TYPE = {
+	GENERIC = 1
+}
+
+return PROJECTILE_TYPE

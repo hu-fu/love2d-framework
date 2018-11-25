@@ -1,0 +1,4 @@
+return {
+	INIT_PROJECTILE = 1,
+	END_PROJECTILE = 2,
+}

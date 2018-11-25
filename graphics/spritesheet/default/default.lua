@@ -1,0 +1,3 @@
+local quads = {}
+
+return quads

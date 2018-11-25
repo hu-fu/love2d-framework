@@ -1,0 +1,8 @@
+return {
+	DEFAULT = 1,
+	GENERIC_ENTITY = 2,
+	TEST_FLOOR = 3,
+	TEST_ITEM = 4,
+	TEST_PROJECTILE = 5,
+	TEST_EFFECT = 6
+}

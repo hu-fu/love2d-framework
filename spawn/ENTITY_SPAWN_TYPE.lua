@@ -1,0 +1,5 @@
+local ENTITY_SPAWN_TYPE = {
+	GENERIC = 1
+}
+
+return ENTITY_SPAWN_TYPE

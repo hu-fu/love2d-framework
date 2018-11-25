@@ -1,0 +1,10 @@
+local GAME_STATE = {
+	VOID = 1,
+	TEST_STATE = 2,
+	TEST_STATE_B = 3,
+	SCENE_LOAD = 4,
+	TEST_STATE_C = 5,
+	SCENE_SAVE = 6,
+}
+
+return GAME_STATE

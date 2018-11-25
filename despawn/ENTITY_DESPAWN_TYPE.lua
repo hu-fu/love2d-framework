@@ -1,0 +1,5 @@
+local ENTITY_DESPAWN_TYPE = {
+	GENERIC = 1
+}
+
+return ENTITY_DESPAWN_TYPE

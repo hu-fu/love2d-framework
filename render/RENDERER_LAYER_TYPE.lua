@@ -1,0 +1,3 @@
+return {
+	SPATIAL_ENTITY_LAYER = 1
+}

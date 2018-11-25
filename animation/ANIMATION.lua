@@ -1,0 +1,17 @@
+local ANIMATION = {}
+
+ANIMATION.SET_ID = {
+	PLAYER_MAIN = 1
+}
+
+ANIMATION.ANIMATION_ID = {
+	[ANIMATION.SET_ID.PLAYER_MAIN] = {
+		IDLE = 1,
+		WALK = 2,
+		ATTACK = 3,
+		HIT = 4
+		--...
+	}
+}
+
+return ANIMATION

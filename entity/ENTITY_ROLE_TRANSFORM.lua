@@ -1,0 +1,46 @@
+local ROLES = require '/entity/ENTITY_ROLE'
+local ROLE_GROUPS = require '/entity/ENTITY_ROLE_GROUP'
+
+local ROLE_TRANSFORM = {}
+
+ROLE_TRANSFORM.map = {
+	[ROLE_GROUPS.SAME] = {
+		[ROLES.PLAYER] = {ROLES.PLAYER}
+	},
+	
+	[ROLE_GROUPS.FRIEND] = {
+		
+	},
+	
+	[ROLE_GROUPS.ENEMY] = {
+		[ROLES.PLAYER] = {ROLES.HOSTILE_NPC},
+		[ROLES.HOSTILE_NPC] = {ROLES.PLAYER}
+	},
+	
+	[ROLE_GROUPS.SAME_PROJECTILE] = {
+		[ROLES.PLAYER] = {ROLES.FRIEND_PROJECTILE},
+		[ROLES.HOSTILE_NPC] = {ROLES.HOSTILE_PROJECTILE},
+	},
+	
+	[ROLE_GROUPS.FRIEND_PROJECTILE] = {
+		[ROLES.PLAYER] = {ROLES.FRIEND_PROJECTILE},
+		[ROLES.HOSTILE_NPC] = {ROLES.HOSTILE_PROJECTILE},
+	},
+	
+	[ROLE_GROUPS.ENEMY_PROJECTILE] = {
+		[ROLES.PLAYER] = {ROLES.HOSTILE_PROJECTILE},
+		[ROLES.HOSTILE_NPC] = {ROLES.FRIEND_PROJECTILE},
+	},
+	
+	--...
+}
+
+function ROLE_TRANSFORM:transformRole(roleGroup, role)
+	return ROLE_TRANSFORM.map[roleGroup][role]
+end
+
+function ROLE_TRANSFORM:transformRoleUnique(roleGroup, role)
+	return ROLE_TRANSFORM.map[roleGroup][role][1]
+end
+
+return ROLE_TRANSFORM

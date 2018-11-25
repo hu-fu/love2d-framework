@@ -1,0 +1,3 @@
+return {
+	GENERIC = 1
+}

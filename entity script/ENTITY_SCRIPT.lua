@@ -1,0 +1,5 @@
+local SCENE_SCRIPT = {
+	GENERIC = 1
+}
+
+return SCENE_SCRIPT

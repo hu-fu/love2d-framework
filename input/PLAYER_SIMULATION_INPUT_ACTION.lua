@@ -1,0 +1,15 @@
+return {
+	NONE = 'none',
+	MOVE_UP = 'move_up',
+	MOVE_LEFT = 'move_left',
+	MOVE_DOWN = 'move_down',
+	MOVE_RIGHT = 'move_right',
+	SET_TARGETING_STATE = 'set_targeting_state',
+	SEARCH_TARGET = 'search_target',
+	INTERACT_REQUEST = 'interact_request',
+	ATTACK_A = 'attack_a',
+	ATTACK_B = 'attack_b',
+	ATTACK_C = 'attack_c',
+	END_ATTACK = 'end_attack',
+	SPECIAL_MOVE = 'special_move',
+}
