@@ -1,0 +1,11 @@
+return {
+	PLAY_SOUND = 1,
+	STOP_SOUND = 2,
+	REPEAT_SOUND = 3,
+	PAUSE_SOUND = 4,
+	RESUME_SOUND = 5,
+	STOP_ALL = 6,
+	SET_VOLUME = 7,
+	STOP_BGM = 8,
+	
+}

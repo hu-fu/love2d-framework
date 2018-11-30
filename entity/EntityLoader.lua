@@ -776,6 +776,7 @@ function EntityLoader:setEntityDbOnAllSystems()
 	self.setEntityDbOnSystemMethods[SYSTEM_ID.ENTITY_SCRIPT](self, request)
 	self.setEntityDbOnSystemMethods[SYSTEM_ID.COMBAT](self, request)
 	self.setEntityDbOnSystemMethods[SYSTEM_ID.HEALTH](self, request)
+	self.setEntityDbOnSystemMethods[SYSTEM_ID.SOUND](self, request)
 	self.initEntityRequestPool:incrementCurrentIndex()
 end
 
@@ -834,6 +835,10 @@ EntityLoader.setEntityDbOnSystemMethods = {
 	
 	[SYSTEM_ID.HEALTH] = function(entityLoader, request)
 		entityLoader.eventDispatcher:postEvent(16, 1, request)
+	end,
+	
+	[SYSTEM_ID.SOUND] = function(entityLoader, request)
+		entityLoader.eventDispatcher:postEvent(17, 2, request)
 	end,
 	
 	--...

@@ -161,8 +161,13 @@ return {
 				callTime = 0.2,
 				frameFrequency = 10,
 				method = function(self, system, component)
+					
 					--shoot bullets pew pew pew
 					system:sendProjectileRequest(component, 1, component.componentTable.movement.rotation)
+					
+					system:sendSoundRequest(component, 1, 2, 1, 2, 'name', 0.4, false, false, component, 
+						false, component.componentTable.hitbox.x, component.componentTable.hitbox.y)
+					
 				end
 			},
 			{

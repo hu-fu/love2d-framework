@@ -26,6 +26,9 @@ EntityCombatSystem.VISUAL_EFFECT_REQUEST = require '/effect/VISUAL_EFFECT_REQUES
 EntityCombatSystem.VISUAL_EFFECT_EMITTER_TYPE = require '/effect/EMITTER_TYPE'
 EntityCombatSystem.VISUAL_EFFECT_TYPE = require '/effect/EFFECT_TYPE'
 EntityCombatSystem.HEALTH_REQUEST = require '/health/HEALTH_REQUEST'
+EntityCombatSystem.SOUND = require '/sound/SOUND'
+EntityCombatSystem.SOUND_TYPE = require '/sound/SOUND_TYPE'
+EntityCombatSystem.SOUND_REQUEST = require '/sound/SOUND_REQUEST'
 
 -------------------
 --System Variables:
@@ -39,6 +42,7 @@ EntityCombatSystem.entityInputRequestPool = EventObjectPool.new(EntityCombatSyst
 EntityCombatSystem.projectileRequestPool = EventObjectPool.new(EntityCombatSystem.EVENT_TYPE.PROJECTILE, 100)
 EntityCombatSystem.visualEffectRequestPool = EventObjectPool.new(EntityCombatSystem.EVENT_TYPE.VISUAL_EFFECT, 100)
 EntityCombatSystem.healthRequestPool = EventObjectPool.new(EntityCombatSystem.EVENT_TYPE.ENTITY_HEALTH, 100)
+EntityCombatSystem.soundRequestPool = EventObjectPool.new(EntityCombatSystem.EVENT_TYPE.SOUND, 100)
 
 EntityCombatSystem.combatComponentTable = {}
 EntityCombatSystem.requestStack = {}
@@ -113,6 +117,7 @@ function EntityCombatSystem:update(dt)
 	self.projectileRequestPool:resetCurrentIndex()
 	self.visualEffectRequestPool:resetCurrentIndex()
 	self.healthRequestPool:resetCurrentIndex()
+	self.soundRequestPool:resetCurrentIndex()
 	
 	--INFO_STR = self.combatComponentTable[3].attackComboState[1] .. ', ' .. 
 	--	self.combatComponentTable[3].attackComboState[2] .. ', ' .. 
@@ -488,6 +493,29 @@ function EntityCombatSystem:sendHealthRequest(combatComponent, healthRequestType
 	
 	self.eventDispatcher:postEvent(6, 2, effectRequest)
 	self.projectileRequestPool:incrementCurrentIndex()
+end
+
+function EntityCombatSystem:sendSoundRequest(combatComponent, requestType, audioId, soundType, playerId,
+	playerName, volumePercentage, loop, effectId, parentEntity, distance, x, y)
+	local soundRequest = self.soundRequestPool:getCurrentAvailableObject()
+	local hitboxComponent = combatComponent.componentTable.hitbox
+	
+	soundRequest.requestType = requestType
+	
+	soundRequest.audioId = audioId
+	soundRequest.soundType = soundType
+	soundRequest.playerId = playerId
+	soundRequest.playerName = playerName
+	soundRequest.volumePercentage = volumePercentage
+	soundRequest.loop = loop
+	soundRequest.effectId = effectId
+	soundRequest.parentEntity = parentEntity
+	soundRequest.distance = distance
+	soundRequest.x = x
+	soundRequest.y = y
+				
+	self.eventDispatcher:postEvent(7, 3, soundRequest)
+	self.soundRequestPool:incrementCurrentIndex()
 end
 
 ----------------

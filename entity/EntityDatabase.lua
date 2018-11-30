@@ -16,7 +16,7 @@ function EntityDatabase.new (id, ENTITY_TYPE, ENTITY_COMPONENT)
 		self.id = id
 		
 		self.globalTables = {}		--['entity type'] = globalTable
-		self.componentTables = {}	--['entity type']['table name string'] = componentTable
+		self.componentTables = {}	--['entity type']['component id'] = componentTable
 		
 		self:buildGlobalTables(ENTITY_TYPE)
 		self:buildComponentTables(ENTITY_TYPE, ENTITY_COMPONENT)
@@ -27,16 +27,16 @@ function EntityDatabase:indexGlobalTable(entityType, tbl)
 	self.globalTables[entityType] = tbl
 end
 
-function EntityDatabase:indexComponentTable(entityType, name, tbl)
-	self.componentTables[entityType][name] = tbl
+function EntityDatabase:indexComponentTable(entityType, componentId, tbl)
+	self.componentTables[entityType][componentId] = tbl
 end
 
-function EntityDatabase:getComponentTable(entityType, name)
-	return self.componentTables[entityType][name]
+function EntityDatabase:getComponentTable(entityType, componentId)
+	return self.componentTables[entityType][componentId]
 end
 
-function EntityDatabase:getComponentTableRows(entityType, name)
-	local tbl = self.componentTables[entityType][name]
+function EntityDatabase:getComponentTableRows(entityType, componentId)
+	local tbl = self.componentTables[entityType][componentId]
 	if tbl ~= nil then
 		return tbl
 	end

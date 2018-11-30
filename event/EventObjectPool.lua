@@ -314,6 +314,27 @@ function EventObjectPool:setCreateEventObjectMethods()
 			}
 		end,
 		
+		[self.EVENT_TYPES.SOUND] = function()
+			return {
+				requestType = nil,
+				
+				config = nil,
+				listenerEntity = nil,
+				
+				audioId = nil,
+				soundType = nil,
+				playerId = nil,
+				playerName = nil,
+				volumePercentage = nil,
+				loop = nil,
+				effectId = nil,
+				parentEntity = nil,
+				distance = nil,
+				x = nil,
+				y = nil,
+			}
+		end,
+		
 	}
 end
 
