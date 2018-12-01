@@ -1,7 +1,6 @@
 -----------------
 --Action Methods:
 -----------------
---TODO: frameCounter property must run on real time
 
 ACTION_METHODS = {}
 
@@ -10,7 +9,6 @@ ACTION_METHODS.ACTION_CALL_TYPES = require '/action/ACTION_CALL_TYPE'
 function ACTION_METHODS:resetComponent(component)
 	component.currentTime = 0
 	component.updatePoint = 0
-	component.frameCounter = 0
 	component.currentMethodIndex = 1
 	self:resetMethodThreads(component)
 end
@@ -61,7 +59,6 @@ end
 function ACTION_METHODS:playAction(dt, system, component)
 	
 	component.currentTime = component.currentTime + dt
-	component.frameCounter = component.frameCounter + 1
 	
 	if component.currentTime >= component.action.totalTime then
 		self:updateAction(system, component)
@@ -72,7 +69,7 @@ function ACTION_METHODS:playAction(dt, system, component)
 			self:endAction(system, component)
 		end
 	else
-		self:runMethodThreads(system, component, component.methodThreads)
+		self:runMethodThreads(dt, system, component, component.methodThreads)
 		
 		if component.currentTime >= component.updatePoint then
 			self:updateAction(system, component)
@@ -80,14 +77,14 @@ function ACTION_METHODS:playAction(dt, system, component)
 	end
 end
 
-function ACTION_METHODS:runMethodThreads(system, component, threadList)
+function ACTION_METHODS:runMethodThreads(dt, system, component, threadList)
 	for i=1, #threadList do
-		self:runMethodThread(system, component, threadList[i])
+		self:runMethodThread(dt, system, component, threadList[i], dt)
 	end
 end
 
-function ACTION_METHODS:runMethodThread(system, component, actionMethod)
-	if component.frameCounter % actionMethod.frameFrequency == 0 then
+function ACTION_METHODS:runMethodThread(dt, system, component, actionMethod)
+	if (component.currentTime % actionMethod.timeFrequency) - dt <= 0 then	--absolute genius
 		self.runActionMethodByCallType[self.ACTION_CALL_TYPES.ONCE](system, component, actionMethod)
 	end
 end

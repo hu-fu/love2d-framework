@@ -20,7 +20,7 @@ return {
 			{
 				callType = CALL_TYPE.ONCE,
 				callTime = 0.0,
-				frameFrequency = 0,
+				timeFrequency = 0,
 				method = function(self, system, component)
 					component.componentTable.actionState.state = 1
 				end
@@ -43,7 +43,7 @@ return {
 			{
 				callType = CALL_TYPE.ONCE,
 				callTime = 0.0,
-				frameFrequency = 0,
+				timeFrequency = 0,
 				method = function(self, system, component)
 					
 				end
@@ -66,7 +66,7 @@ return {
 			{
 				callType = CALL_TYPE.ONCE,
 				callTime = 0.0,
-				frameFrequency = 0,
+				timeFrequency = 0,
 				method = function(self, system, component)
 					
 				end
@@ -89,7 +89,7 @@ return {
 			{
 				callType = CALL_TYPE.ONCE,
 				callTime = 0.0,
-				frameFrequency = 0,
+				timeFrequency = 0,
 				method = function(self, system, component)
 					--start interaction
 				end
@@ -98,7 +98,7 @@ return {
 			{
 				callType = CALL_TYPE.ONCE,
 				callTime = 1.2,
-				frameFrequency = 0,
+				timeFrequency = 0,
 				method = function(self, system, component)
 					system:endEventState(component)
 				end
@@ -124,7 +124,7 @@ return {
 			{
 				callType = CALL_TYPE.ONCE,
 				callTime = 0.0,
-				frameFrequency = 0,
+				timeFrequency = 0,
 				method = function(self, system, component)
 					system:sendHealthRequest(component, 2, -90, nil, nil)
 				end
@@ -132,7 +132,7 @@ return {
 			{
 				callType = CALL_TYPE.ONCE,
 				callTime = 0.25,
-				frameFrequency = 0,
+				timeFrequency = 0,
 				method = function(self, system, component)
 					component.comboActivation = true
 				end
@@ -159,7 +159,7 @@ return {
 				id = 1,
 				callType = CALL_TYPE.THREAD_START,
 				callTime = 0.2,
-				frameFrequency = 10,
+				timeFrequency = 0.15,
 				method = function(self, system, component)
 					
 					--shoot bullets pew pew pew
@@ -174,7 +174,7 @@ return {
 				id = 2,
 				callType = CALL_TYPE.ONCE,
 				callTime = 0.4,
-				frameFrequency = 0,
+				timeFrequency = 0,
 				method = function(self, system, component)
 					
 					system:sendVisualEffectRequest(component, 1, 1, 1, component.componentTable.spritebox, 
@@ -186,7 +186,7 @@ return {
 				id = 1,
 				callType = CALL_TYPE.THREAD_STOP,
 				callTime = 999.9,
-				frameFrequency = 10,
+				timeFrequency = 10,
 				method = function(self, system, component)
 					--ends thread where id == 1
 				end
@@ -195,7 +195,7 @@ return {
 				id = nil,
 				callType = CALL_TYPE.ONCE,
 				callTime = 999.8,
-				frameFrequency = 0,
+				timeFrequency = 0,
 				method = function(self, system, component)
 					component.comboActivation = true
 					
@@ -224,7 +224,7 @@ return {
 			{
 				callType = CALL_TYPE.ONCE,
 				callTime = 0.0,
-				frameFrequency = 0,
+				timeFrequency = 0,
 				method = function(self, system, component)
 					
 				end

@@ -18,7 +18,7 @@ return {
 			{
 				callType = CALL_TYPE.THREAD_START,
 				callTime = 0.0,
-				frameFrequency = 1,
+				timeFrequency = 1,
 				method = function(self, system, component)
 					INFO_STR = component.currentTime .. ', ' .. #component.childEntities
 				end
@@ -26,7 +26,7 @@ return {
 			{
 				callType = CALL_TYPE.ONCE,
 				callTime = 2.0,
-				frameFrequency = 1,
+				timeFrequency = 1,
 				method = function(self, system, component)
 					component.active = false
 				end
@@ -49,7 +49,7 @@ return {
 			{
 				callType = CALL_TYPE.ONCE,
 				callTime = 0.0,
-				frameFrequency = 0,
+				timeFrequency = 0,
 				method = function(self, system, component)
 					--scene change proof of concept:
 					--you can set spawn data and other stuff to the triggering entity here
@@ -75,7 +75,7 @@ return {
 			{
 				callType = CALL_TYPE.ONCE,
 				callTime = 0.0,
-				frameFrequency = 0,
+				timeFrequency = 0,
 				method = function(self, system, component)
 					
 				end
@@ -98,7 +98,7 @@ return {
 			{
 				callType = CALL_TYPE.ONCE,
 				callTime = 0.0,
-				frameFrequency = 0,
+				timeFrequency = 0,
 				method = function(self, system, component)
 					
 				end
@@ -121,7 +121,7 @@ return {
 			{
 				callType = CALL_TYPE.ONCE,
 				callTime = 0.0,
-				frameFrequency = 0,
+				timeFrequency = 0,
 				method = function(self, system, component)
 					
 				end

@@ -26,7 +26,7 @@ function love.load()
 	love.window.setTitle('Project_1_2')
 	
 	--------------------init game state:---------------------
-	INFO_STR = ''
+	INFO_STR = 0
 	
 	FPS_CONFIG = require '/timestep/FpsConfig'
 	

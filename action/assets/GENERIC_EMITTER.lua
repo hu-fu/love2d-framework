@@ -18,7 +18,7 @@ return {
 			{
 				callType = CALL_TYPE.ONCE,
 				callTime = 0.0,
-				frameFrequency = 1,
+				timeFrequency = 1,
 				method = function(self, system, component)
 					--bad business, should send the thing to the request stack first
 					--note that you can set up the emission position here relative to the w,h of the emitter
@@ -30,7 +30,7 @@ return {
 			{
 				callType = CALL_TYPE.ONCE,
 				callTime = 0.1,
-				frameFrequency = 1,
+				timeFrequency = 1,
 				method = function(self, system, component)
 					local x = component.x + (component.w/2)
 					local y = component.y + (component.h/2)
@@ -55,7 +55,7 @@ return {
 			{
 				callType = CALL_TYPE.ONCE,
 				callTime = 0.0,
-				frameFrequency = 1,
+				timeFrequency = 1,
 				method = function(self, system, component)
 					--apparently an action with no methods crashes the game. nice
 				end
