@@ -165,7 +165,7 @@ return {
 					--shoot bullets pew pew pew
 					system:sendProjectileRequest(component, 1, component.componentTable.movement.rotation)
 					
-					system:sendSoundRequest(component, 1, 2, 1, 2, 'name', 0.4, false, false, component, 
+					system:sendSoundRequest(component, 1, 1, 2, 2, 'name', 0.0, false, false, component, 
 						false, component.componentTable.hitbox.x, component.componentTable.hitbox.y)
 					
 				end
