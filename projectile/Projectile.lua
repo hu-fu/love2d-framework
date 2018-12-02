@@ -79,7 +79,11 @@ function ProjectileFactory:setCreateComponentMethods()
 				updatePoint = 0,
 				currentMethodIndex = 1,
 				currentControlMethod = 1,
-				methodArguments = nil
+				methodArguments = nil,
+				animation = false,
+				animationCurrentTime = 0,
+				animationUpdatePoint = 0,
+				animationCurrentIndex = 0
 			}
 		end,
 		
@@ -110,7 +114,8 @@ function ProjectileFactory:setCreateComponentMethods()
 				spritesheetQuad = 0,
 				spriteOffsetX = 0,
 				spriteOffsetY = 0,
-				rotation = 0
+				defaultQuad = 0,
+				rotation = 0,
 			}
 		end,
 		
@@ -244,23 +249,6 @@ function ProjectileSpawnObject.new (template)
 	return self
 end
 
------------------------
---Projectile animation:
------------------------
---Animation routine for projectiles | 
---just frame incrementation timings | use the proj state component as player !
---include this in the main run routine
-
---use this:
---SpriteAnimation.new (id, spritesheetId, frequency, totalTime, frameUpdates, quads, replay)
---or have a dedicated (and simpler) animator : @t -> frame++	(this is the best option)
---PROJECTILE_ANIMATOR | additional effects use the sfx system
-
---only for projectiles which have animations
---fuck I forgot this shit damn shit bruvsky
-
---steal from the effects animator
-
 ------------------------
 --Projectile Controller:
 ------------------------
@@ -274,12 +262,17 @@ setmetatable(ProjectileController, {
 	end,
 	})
 
-function ProjectileController.new (controllerType, totalTime)
+function ProjectileController.new (controllerType, totalTime, animation, animationTotalTime, animationLoop)
 	local self = setmetatable ({}, ProjectileController)
 		self.controllerType = controllerType
 		self.totalTime = totalTime
+		self.animation = animation
+		self.animationTotalTime = animationTotalTime
+		self.animationLoop = animationLoop
 		self.methodMap = {}
+		self.animationMap = {}
 		self.sortControllerMethod = function(a, b) return a.stopTime < b.stopTime end
+		self.sortAnimationMethod = function(a, b) return a.updateTime < b.updateTime end
 	return self
 end
 
@@ -290,6 +283,15 @@ function ProjectileController:setMethodMap(methods)
 	end
 	
 	table.sort(self.methodMap, self.sortControllerMethod)
+end
+
+function ProjectileController:setAnimationMap(animationList)
+	for i=1, #animationList do
+		table.insert(self.animationMap, ProjectileAnimationObject.new(animationList[i].updateTime, 
+			animationList[i].quad))
+	end
+	
+	table.sort(self.animationMap, self.sortAnimationMethod)
 end
 
 ProjectileControlMethod = {}
@@ -306,6 +308,26 @@ function ProjectileControlMethod.new (methodId, stopTime, arguments)
 		self.methodId = methodId
 		self.stopTime = stopTime
 		self.arguments = arguments
+	return self
+end
+
+-----------------------
+--Projectile animation:
+-----------------------
+
+ProjectileAnimationObject = {}
+ProjectileAnimationObject.__index = ProjectileAnimationObject
+
+setmetatable(ProjectileAnimationObject, {
+	__call = function(cls, ...)
+		return cls.new(...)
+	end,
+	})
+
+function ProjectileAnimationObject.new (updateTime, quad, soundId)
+	local self = setmetatable ({}, ProjectileAnimationObject)
+		self.updateTime = updateTime
+		self.quad = quad
 	return self
 end
 

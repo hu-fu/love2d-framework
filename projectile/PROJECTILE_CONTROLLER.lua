@@ -4,6 +4,9 @@ local CONTROLLER_TYPE = require '/projectile/PROJECTILE_CONTROLLER_TYPE'
 local PROJECTILE_CONTROLLER = {
 	[CONTROLLER_TYPE.GENERIC] = {
 		totalTime = 2.0,
+		animation = true,
+		animationTotalTime = 0.1,
+		animationLoop = true,
 		
 		methods = {
 			{
@@ -13,6 +16,13 @@ local PROJECTILE_CONTROLLER = {
 			},
 			
 			--add more here (called at previous method stop time)
+		},
+		
+		animationUpdate = {
+			{
+				updateTime = 0.05,
+				quad = 2,
+			},
 		}
 	},
 	

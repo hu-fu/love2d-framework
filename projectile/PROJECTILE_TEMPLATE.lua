@@ -15,7 +15,6 @@ local PROJECTILE_TEMPLATE = {
 		spriteOffsetY = -12,
 		controller = PROJECTILE_CONTROLLER_TYPES.GENERIC,
 		destructor = PROJECTILE_DESTRUCTOR_TYPES.GENERIC,
-		animation = 1
 	}
 	
 	--...

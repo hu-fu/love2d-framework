@@ -101,8 +101,10 @@ function ProjectileSystem:createControllerTable()
 	local templates = require '/projectile/PROJECTILE_CONTROLLER'
 	
 	for controllerType, controllerTemplate in pairs(templates) do
-		local controller = ProjectileController.new(controllerType, controllerTemplate.totalTime)
+		local controller = ProjectileController.new(controllerType, controllerTemplate.totalTime,
+			controllerTemplate.animation, controllerTemplate.animationTotalTime, controllerTemplate.animationLoop)
 		controller:setMethodMap(controllerTemplate.methods)
+		controller:setAnimationMap(controllerTemplate.animationUpdate)
 		self.controllerTable[controllerType] = controller
 	end
 end
@@ -235,6 +237,9 @@ function ProjectileSystem:initProjectile(senderType, senderRef, role, x, y, dire
 	projectile.components.state.updatePoint = 0.0
 	projectile.components.state.currentMethodIndex = 0
 	projectile.components.state.currentControlMethod = 1
+	projectile.components.state.animationCurrentTime = 0
+	projectile.components.state.animationUpdatePoint = 0
+	projectile.components.state.animationCurrentIndex = 1
 	projectile.components.state.methodArguments = nil
 	projectile.components.scene.role = role
 	projectile.components.spatial.x = x
@@ -255,35 +260,43 @@ function ProjectileSystem:initProjectile(senderType, senderRef, role, x, y, dire
 		projectile.components.sprite.spritesheetQuad = template.spritesheetQuad
 		projectile.components.sprite.spriteOffsetX = template.spriteOffsetX
 		projectile.components.sprite.spriteOffsetY = template.spriteOffsetY
+		projectile.components.sprite.defaultQuad = template.spritesheetQuad
 		projectile.controller = template.controller
 		projectile.destructor = template.destructor
 		projectile.animation = template.animation
 	end
 	
 	self:registerProjectileOnSpatialSystem(projectile)
-	self:updateProjectile(projectile, self.controllerTable[projectile.controller])
+	
+	local controller = self.controllerTable[projectile.controller]
+	self:resetAnimation(projectile.components.state, controller)
+	self:updateProjectile(projectile.components.state, controller)
 	--update the current control method (??)
 end
 
 function ProjectileSystem:runProjectile(projectile, dt)
 	local controller = self.controllerTable[projectile.controller]
-	projectile.components.state.currentTime = projectile.components.state.currentTime + dt
+	local stateComponent = projectile.components.state
 	
-	if projectile.components.state.currentTime >= controller.totalTime then
+	stateComponent.currentTime = stateComponent.currentTime + dt
+	
+	if stateComponent.currentTime >= controller.totalTime then
 		self:destroyProjectile(projectile, self.PROJECTILE_DESTRUCTION_TYPE.GENERIC, nil)
 	else
-		self.controlMethods[projectile.components.state.currentControlMethod](self, 
-			projectile, projectile.components.state.methodArguments, dt)
+		self.controlMethods[stateComponent.currentControlMethod](self, projectile, 
+			stateComponent.methodArguments, dt)
 		
-		if projectile.components.state.currentTime >= projectile.components.state.updatePoint then
-			self:updateProjectile(projectile, controller)
+		if controller.animation then
+			self:runAnimation(controller, stateComponent, dt)
+		end
+		
+		if stateComponent.currentTime >= stateComponent.updatePoint then
+			self:updateProjectile(stateComponent, controller)
 		end
 	end
 end
 
-function ProjectileSystem:updateProjectile(projectile, controller)
-	local stateComponent = projectile.components.state
-	
+function ProjectileSystem:updateProjectile(stateComponent, controller)
 	if stateComponent.currentMethodIndex == #controller.methodMap then
 		stateComponent.updatePoint = controller.totalTime
 		stateComponent.currentControlMethod = 1	--runs a generic control method
@@ -293,6 +306,47 @@ function ProjectileSystem:updateProjectile(projectile, controller)
 		stateComponent.updatePoint = controller.methodMap[stateComponent.currentMethodIndex].stopTime
 		stateComponent.currentControlMethod = controller.methodMap[stateComponent.currentMethodIndex].methodId
 		stateComponent.methodArguments = controller.methodMap[stateComponent.currentMethodIndex].arguments
+	end
+end
+
+function ProjectileSystem:runAnimation(controller, stateComponent, dt)
+	stateComponent.animationCurrentTime = stateComponent.animationCurrentTime + dt
+	
+	if stateComponent.animationCurrentTime >= controller.animationTotalTime then
+		if controller.animationLoop then
+			self:resetAnimation(stateComponent, controller)
+		else
+			stateComponent.animationCurrentTime = stateComponent.animationCurrentTime - dt
+		end
+	else
+		if stateComponent.animationCurrentTime >= stateComponent.animationUpdatePoint then
+			self:updateAnimation(stateComponent, controller)
+		end
+	end
+end
+
+function ProjectileSystem:updateAnimation(stateComponent, controller)
+	local nextIndex = stateComponent.animationCurrentIndex + 1
+	
+	if nextIndex <= #controller.animationMap then
+		stateComponent.animationUpdatePoint = controller.animationMap[nextIndex].updateTime
+		stateComponent.self.components.sprite.spritesheetQuad = 
+			controller.animationMap[stateComponent.animationCurrentIndex].quad
+		stateComponent.animationCurrentIndex = nextIndex
+	else
+		stateComponent.animationUpdatePoint = controller.animationTotalTime
+		stateComponent.self.components.sprite.spritesheetQuad = 
+			controller.animationMap[stateComponent.animationCurrentIndex].quad
+	end
+end
+
+function ProjectileSystem:resetAnimation(stateComponent, controller)
+	if controller.animation then
+		stateComponent.animationCurrentTime = 0
+		stateComponent.animationCurrentIndex = 1
+		stateComponent.animationUpdatePoint = controller.animationMap[1].updateTime	--check array length
+		stateComponent.self.components.sprite.spritesheetQuad = 
+			stateComponent.self.components.sprite.defaultQuad
 	end
 end
 
