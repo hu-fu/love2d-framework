@@ -1,17 +1,5 @@
 require 'misc'
-require 'quad'
-require 'entityType'
-require 'inputIdList'
-require 'database'
 require '/entity/GameEntity'
-require 'entityDatabase'
-require 'areaRenderer'
-require 'playerCamera'
-require 'areaMap'
-require 'events'
-require 'animationRepository'
-require 'spatialGrid'
-require 'actionArea'
 require '/debug/Debugger'
 
 function love.load()

@@ -46,7 +46,7 @@ setmetatable(ProjectileFactory, {
 
 function ProjectileFactory.new ()
 	local self = setmetatable ({}, ProjectileFactory)
-		self.PROJECTILE_COMPONENTS = require 'PROJECTILE_COMPONENT'
+		self.PROJECTILE_COMPONENTS = require '/projectile/PROJECTILE_COMPONENT'
 		
 		self.createComponentMethods = nil
 		self:setCreateComponentMethods()

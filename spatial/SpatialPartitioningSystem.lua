@@ -3,13 +3,6 @@
 -------------------------------------
 
 --[[
-How to get spriteboxes:
-	get hitboxes (sp entities) in area (area a bit larger than camera)
-	add methods to get the sprite object from the hitbox (by type)
-	return something like this: [TYPE] -> spritebox
-]]
-
---[[
 FILE MAP (CTRL+F):
 	spatialQueryMethods
 	registerSpatialEntityOnEntityMethods
@@ -36,12 +29,11 @@ require '/spatial/SpatialPartitioningObjects'
 require '/spatial/SpatialPartitioningQuery'
 
 SpatialPartitioningSystem.collisionMethods = require '/collision/CollisionMethods'
-SpatialPartitioningSystem.mapToQuadsConverter = require 'mapToQuadsConverter'
 
 SpatialPartitioningSystem.ENTITY_TYPES = require '/entity/ENTITY_TYPE'
 SpatialPartitioningSystem.ENTITY_ROLES = require '/entity/ENTITY_ROLE'
 SpatialPartitioningSystem.QUERY_TYPE = require '/spatial/SPATIAL_QUERY'
-SpatialPartitioningSystem.EVENT_OBJECT = require 'EVENT_OBJECT'
+SpatialPartitioningSystem.EVENT_OBJECT = require '/event/EVENT_OBJECT'
 
 local SYSTEM_ID = require '/system/SYSTEM_ID'
 
