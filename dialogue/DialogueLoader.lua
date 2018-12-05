@@ -8,11 +8,12 @@ local DialogueLoader = {}
 --Dependencies:
 ---------------
 
+require 'misc'
 require '/dialogue/DialogueObjects'
-DIALOGUE_METHODS.DIALOGUE = require '/dialogue/DIALOGUE'
-DIALOGUE_METHODS.DIALOGUE_ASSET = require '/dialogue/DIALOGUE_ASSET'
-DIALOGUE_METHODS.ACTOR = require '/dialogue/ACTOR'
-DIALOGUE_METHODS.SEGMENT_TYPE = require '/dialogue/SEGMENT_TYPE'
+DialogueLoader.DIALOGUE = require '/dialogue/DIALOGUE'
+DialogueLoader.DIALOGUE_ASSET = require '/dialogue/DIALOGUE_ASSET'
+DialogueLoader.ACTOR = require '/dialogue/ACTOR'
+DialogueLoader.SEGMENT_TYPE = require '/dialogue/SEGMENT_TYPE'
 local SYSTEM_ID = require '/system/SYSTEM_ID'
 
 -------------------
@@ -40,7 +41,7 @@ DialogueLoader.eventMethods = {
 	[1] = {
 		[1] = function(request)
 			--get dialogue player
-			local player = DialogueLoader:getDialoguePlayer(request.dialogueId)
+			local player = DialogueLoader:getDialoguePlayer(request.dialogueId, request.parentEntity)
 			
 			if player ~= nil then
 				request.callback(player)
@@ -49,7 +50,7 @@ DialogueLoader.eventMethods = {
 		
 		[2] = function(request)
 			--load dialogue
-			DialogueLoader:getDialoguePlayer(request.dialogueId, request.parentEntity)
+			DialogueLoader:loadDialogue(request.dialogueId)
 		end
 	}
 }
@@ -91,14 +92,14 @@ end
 function DialogueLoader:getController(dialogueId)
 	local asset = self.DIALOGUE_ASSET[dialogueId]
 	if asset ~= nil then
-		local path = self.assetsFolderPath .. asset.controllerPath
+		local path = self.controllerFolderPath .. asset.controllerPath
 		local controller = require(path)
 		return controller
 	end
 	return nil
 end
 
-function ActionLoader:loadDialogue(dialogueId)
+function DialogueLoader:loadDialogue(dialogueId)
 	if self.fileList[dialogueId] == nil then
 		local dialogueFile = self:getDialogueFile(dialogueId)
 		if dialogueFile ~= nil then
@@ -114,15 +115,15 @@ function ActionLoader:loadDialogue(dialogueId)
 	end
 end
 
-function ActionLoader:setDialogueFile(dialogueId, dialogueFile)
+function DialogueLoader:setDialogueFile(dialogueId, dialogueFile)
 	self.fileList[dialogueId] = dialogueFile
 end
 
-function ActionLoader:setControllerFile(dialogueId, controller)
+function DialogueLoader:setControllerFile(dialogueId, controller)
 	self.controllerList[dialogueId] = controller
 end
 
-function ActionLoader:getDialoguePlayer(dialogueId, parentEntity)
+function DialogueLoader:getDialoguePlayer(dialogueId, parentEntity)
 	self:loadDialogue(dialogueId)
 	local player = self.dialoguePlayerObjectPool:getCurrentAvailableDialoguePlayerObject()
 	
@@ -134,22 +135,27 @@ function ActionLoader:getDialoguePlayer(dialogueId, parentEntity)
 end
 
 function DialogueLoader:initPlayer(player, dialogueId, dialogueFile, controller, parentEntity)
+	self:resetPlayer(player)
+	
 	player.dialogueId = dialogueId
 	
 	if dialogueFile then
 		self:setThreadsOnPlayer(player, dialogueFile)
-		self:setSpecialLinesOnPlayer(player, dialogueFile)
-		self:setOptionStatusOnPlayer(player, dialogueFile)
+		self:setSelectedChoiceOnPlayer(player, dialogueFile)
 		self:setParentEntity(player, parentEntity)
 		self:setController(player, controller)
 	end
-	
-	player.currentLine = 1
-	player.currentThread = 1
 end
 
 function DialogueLoader:resetPlayer(player)
-	--not needed?
+	player.dialogueId = nil
+	player.parentEntity = nil
+	player.controller = nil
+	player.currentLine = 1
+	player.currentThread = 1
+	
+	resetTable(player.threads)
+	resetTable(player.selectedChoice)
 end
 
 function DialogueLoader:setThreadsOnPlayer(player, dialogueFile)
@@ -161,16 +167,6 @@ function DialogueLoader:setThreadsOnPlayer(player, dialogueFile)
 		end
 		
 		table.insert(player.threads[currentLine.thread], currentLine)
-	end
-end
-
-function DialogueLoader:setSpecialLinesOnPlayer(player, dialogueFile)
-	for i=1, #dialogueFile do
-		local currentLine = dialogueFile[i]
-		
-		if currentLine.id then
-			table.insert(player.specialLines, currentLine)
-		end
 	end
 end
 
@@ -196,18 +192,16 @@ function DialogueLoader:setController(player, controller)
 	end
 end
 
-function DialogueLoader:setReturnType(player, returnType)
-	if returnType then
-		player.returnType = returnType
-	end
+-- debug: --
+
+function DialogueLoader:testRoutine()
+	local player = self:getDialoguePlayer(1, nil)
+	
+	INFO_STR = 0
 end
 
-function DialogueLoader:getDialogueController(dialogueId)
-	--TODO
-end
-
----------------
---Init Methods:
----------------
+----------------
+--Return Module:
+----------------
 
 return DialogueLoader

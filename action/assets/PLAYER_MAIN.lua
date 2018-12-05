@@ -177,9 +177,11 @@ return {
 				timeFrequency = 0,
 				method = function(self, system, component)
 					
+					--[[
 					system:sendVisualEffectRequest(component, 1, 1, 1, component.componentTable.spritebox, 
 						component.componentTable.spritebox.x, component.componentTable.spritebox.y, 
 						component.componentTable.movement.rotation)
+					]]
 				end
 			},
 			{
@@ -200,8 +202,10 @@ return {
 					component.comboActivation = true
 					
 					--end visual effect emitter:
+					--[[
 					system:sendVisualEffectRequest(component, 2, 1, 1, nil, nil, nil, nil,
 						component.componentTable.spritebox.effectEmitter)
+					]]
 				end
 			}
 		}

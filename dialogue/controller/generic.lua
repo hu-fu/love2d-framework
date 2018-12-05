@@ -1,8 +1,6 @@
-local DIALOGUE = require '/dialogue/DIALOGUE'
-
 return {
 	header = {
-		id = DIALOGUE.GENERIC.id,
+		id = 1,
 		
 		method = function(self, system, player)
 			--script on start dialogue
@@ -19,7 +17,7 @@ return {
 				
 			end
 		}
-	}
+	},
 	
 	footer = {
 		method = function(self, system, player)

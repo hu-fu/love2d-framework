@@ -98,6 +98,10 @@ function DIALOGUE_METHODS:getCurrentLine(player)
 	return player.threads[player.currentThread][player.currentLine]
 end
 
+function DIALOGUE_METHODS:getLineByThreadAndNumber(player, lineThread, lineNumber)
+	return player.threads[lineThread][lineNumber]
+end
+
 function DIALOGUE_METHODS:getLineByNumber(player, lineNumber)
 	for threadId, thread in pairs(self.threads) do
 		for i=1, #thread do
@@ -110,10 +114,12 @@ function DIALOGUE_METHODS:getLineByNumber(player, lineNumber)
 	return nil
 end
 
-function DIALOGUE_METHODS:getLineById(player, id)
-	for lineId, line in ipairs(player.specialLines) do
-		if lineId == id then
-			return line
+function DIALOGUE_METHODS:getLineById(player, lineId)
+	for threadId, thread in pairs(self.threads) do
+		for i=1, #thread do
+			if thread[i].lineId and hread[i].lineId == lineId then
+				return thread[i]
+			end
 		end
 	end
 	
@@ -219,3 +225,5 @@ end
 function DIALOGUE_METHODS:runControllerFooter(player)
 	layer.controller.footer.method(player.controller, self, player)
 end
+
+return DIALOGUE_METHODS

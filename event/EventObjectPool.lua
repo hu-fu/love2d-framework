@@ -335,6 +335,15 @@ function EventObjectPool:setCreateEventObjectMethods()
 			}
 		end,
 		
+		[self.EVENT_TYPES.DIALOGUE] = function()
+			return {
+				requestType = nil,
+				
+				dialogueId = nil,
+				parentEntity = nil,
+			}
+		end,
+		
 	}
 end
 

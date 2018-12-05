@@ -66,6 +66,12 @@ function sortedPairs(t, sort)
 	end
 end
 
+function resetTable(t)
+	for k,v in pairs(t) do
+		t[k] = nil
+	end
+end
+
 function getAngle(aX, aY, bX, bY)
 	local xDiff = bX - aX
 	local yDiff = bY - aY

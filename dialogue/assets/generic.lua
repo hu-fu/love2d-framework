@@ -7,7 +7,7 @@ return {
 --Fine too:
 {line = 5, thread = 2, action = 'none', actorName = "Secondary Char", text = "Glad to hear that."},
 {line = 6, thread = 2, action = 'none', actorName = "Secondary Char", text = "This sure is some quality dialogue!"},
-{line = 7 thread = 2, action = 'jump_thread', nextThread = 4},
+{line = 7, thread = 2, action = 'jump_thread', nextThread = 4},
 
 --None of your business:
 {line = 8, thread = 3, action = 'none', actorName = "Secondary Char", text = "How rude!"},

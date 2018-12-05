@@ -317,6 +317,16 @@ function GameEntityBuilder:setCreateComponentMethods()
 			}
 		end,
 		
+		[self.ENTITY_COMPONENTS.DIALOGUE] = function()	
+			return {
+				componentTable = nil,
+				state = false,
+				
+				dialogueId = nil,
+				dialoguePlayer = nil
+			}
+		end,
+		
 		--...
 	}
 end
@@ -513,6 +523,15 @@ function GameEntityBuilder:setAddComponentToEntityMethods()
 			end
 		end,
 		
+		[self.ENTITY_COMPONENTS.DIALOGUE] = function(entity, component)	
+			if 
+				entity.components.main ~= nil
+			then
+				component.componentTable = entity.components
+				entity.components.dialogue = component
+			end
+		end,
+		
 		--...
 	}
 end
@@ -552,7 +571,8 @@ function GameEntity.new ()
 			item = nil,
 			inventory = nil,
 			combat = nil,
-			health = nil
+			health = nil,
+			dialogue = nil,
 		}
 		
 	return self

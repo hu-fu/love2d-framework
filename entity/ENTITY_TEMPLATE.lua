@@ -178,6 +178,11 @@ local ENTITY_TEMPLATE = {
 				healthPointsRegen = false,
 				healthPointsRegenMultiplier = 1,
 			},
+			
+			[ENTITY_COMPONENT.DIALOGUE] = {
+				state = true,
+				dialogueId = 1,
+			},
 		}
 	},
 	

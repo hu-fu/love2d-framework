@@ -492,6 +492,17 @@ EntityLoader.createEntityComponentMethods = {
 		component.healthPointsRegenMultiplier = templateComponent.healthPointsRegenMultiplier
 		component.healthPointsRegenTime = 0
 	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.DIALOGUE] = function(self, template, entityAsset, entity)
+		local component = entity.components.dialogue
+		local templateComponent = template.components[self.ENTITY_COMPONENT.HEALTH]
+		
+		component.dialogueId = template.dialogueId
+		
+		if entityAsset.dialogueId then
+			component.dialogueId = entityAsset.dialogueId
+		end
+	end,
 }
 
 function EntityLoader:getEntityById(entityId, sceneId, entityType)
