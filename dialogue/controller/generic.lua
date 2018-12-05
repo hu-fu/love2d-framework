@@ -1,11 +1,10 @@
 local DIALOGUE = require '/dialogue/DIALOGUE'
-local LINE_TYPE = require '/dialogue/LINE_TYPE'
 
 return {
 	header = {
 		id = DIALOGUE.GENERIC.id,
 		
-		method = function(self, system, player, component)
+		method = function(self, system, player)
 			--script on start dialogue
 		end
 	},
@@ -14,17 +13,16 @@ return {
 		--append custom behavior to lines
 		
 		{
-			line = 3,
 			lineId = "choice_1",
 			
-			method = function(self, system, player, component)
+			method = function(self, system, player)
 				
 			end
 		}
 	}
 	
 	footer = {
-		method = function(self, system, player, component)
+		method = function(self, system, player)
 			--script on end dialogue
 		end
 	}
