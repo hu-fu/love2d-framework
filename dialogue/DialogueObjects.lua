@@ -16,8 +16,8 @@ function DialoguePlayer.new (id)
 		self.id = id
 		self.dialogueId = dialogueId
 		
-		self.threads = {}			--all lines indexed by thread
-		self.specialLines = {}		--lines with id indexing
+		self.threads = {}				--all lines indexed by thread
+		self.specialLines = {}			--lines with id indexing
 		
 		self.selectedChoice = {}		--selected options indexed by options lines
 		

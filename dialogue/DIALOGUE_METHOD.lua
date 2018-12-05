@@ -14,6 +14,7 @@ function DIALOGUE_METHODS:startDialogue(system, player, component)
 end
 
 function DIALOGUE_METHODS:runDialogue(system, player, component)
+	--check position
 	--run line by action
 	--return line as RETURN TYPE! (string, box, ...)
 end
@@ -24,7 +25,7 @@ end
 
 function DIALOGUE_METHODS:selectChoice(player, line, choiceId)
 	self:saveChoice(player, line, choiceId)
-	
+	--advance dialogue
 end
 
 function DIALOGUE_METHODS:saveChoice(player, line, choiceId)
@@ -43,7 +44,7 @@ function DIALOGUE_METHODS:getAvailableChoices(player, line)
 			selected = false
 			
 			for j=1, #savedChoices do
-				if line.choice[i] == savedChoices then
+				if line.choice[i] == savedChoices[j] then
 					selected = true
 					break
 				end
