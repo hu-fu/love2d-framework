@@ -1,4 +1,4 @@
 return {
-	GENERIC = {id = 1, controllerFile = 'generic', assetFile = 'generic'},
-	--...
+	GENERIC = 1,
+	
 }
