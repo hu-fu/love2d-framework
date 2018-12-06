@@ -339,8 +339,11 @@ function EventObjectPool:setCreateEventObjectMethods()
 			return {
 				requestType = nil,
 				
+				player = nil,
 				dialogueId = nil,
 				parentEntity = nil,
+				lineNumber = nil,
+				choiceId = nil,
 			}
 		end,
 		

@@ -31,6 +31,7 @@ function testStateC:update(stateManager, dt)
 	self.systems[self.SYSTEM.GAME_RENDERER]:update()
 	self.systems[self.SYSTEM.SPATIAL_PARTITIONING]:runQueries()		--maybe it should be called at the start too?
 	self.systems[self.SYSTEM.COLLISION]:update()
+	self.systems[self.SYSTEM.DIALOGUE_LOADER]:update(dt)
 end
 
 function testStateC:draw(stateManager)
@@ -40,6 +41,7 @@ function testStateC:draw(stateManager)
 	
 	self:writeDebugSpatial()
 	self:writeDebugInfo(10, 500)
+	self:writeDialogueLines()
 	
 	love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 550)
 end
@@ -57,6 +59,11 @@ function testStateC:handleKeyHold(stateManager)
 end
 
 --DEBUG:
+
+function testStateC:writeDialogueLines()
+	self.systems[self.SYSTEM.DIALOGUE_LOADER]:printDialogueLines()
+end
+
 function testStateC:writeDebugInfo(x, y)
 	love.graphics.print(INFO_STR, x, y)
 end

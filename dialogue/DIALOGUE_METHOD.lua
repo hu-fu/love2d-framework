@@ -12,6 +12,7 @@ DIALOGUE_METHODS.SEGMENT_TYPE = require '/dialogue/SEGMENT_TYPE'
 DIALOGUE_METHODS.segmentObjectPool = DialogueSegmentObjectPool.new (50, false)
 
 function DIALOGUE_METHODS:startDialogue(player)
+	player.state = true
 	self:runControllerHeader(player)
 end
 
@@ -49,11 +50,17 @@ end
 
 function DIALOGUE_METHODS:endDialogue(player)
 	self:runControllerFooter(player)
+	player.state = false
 end
 
 function DIALOGUE_METHODS:selectChoice(player, line, choiceId)
 	self:saveChoice(player, line, choiceId)
-	
+	for i=1, #line.choice do
+		if line.choice[i].id == choiceId then
+			self:jumpThread(player, line.choice[i].jumpToThread)
+			break
+		end
+	end
 end
 
 function DIALOGUE_METHODS:saveChoice(player, line, choiceId)

@@ -13,6 +13,8 @@ setmetatable(DialoguePlayer, {
 
 function DialoguePlayer.new (id)
 	local self = setmetatable ({}, DialoguePlayer)
+		self.state = false
+		
 		self.id = id
 		self.dialogueId = nil
 		
@@ -24,6 +26,7 @@ function DialoguePlayer.new (id)
 		
 		self.currentLine = 1
 		self.currentThread = 1
+		self.currentSegment = nil
 	return self
 end
 
@@ -64,6 +67,7 @@ end
 
 function DialoguePlayerObjectPool:getCurrentAvailableDialoguePlayerObject()
 	--action type is optional, it's set to default if you don't pass it
+		--TODO: very important! get only if state = false
 	local current = self.objectList[self.currentIndex]
 	self:incrementCurrentIndex()
 	return current
@@ -151,10 +155,21 @@ function DialogueSegmentObjectPool:createDialogueSegmentObject()
 end
 
 function DialogueSegmentObjectPool:getCurrentAvailableDialogueSegmentObject()
-	--action type is optional, it's set to default if you don't pass it
+	--[[
 	local current = self.objectList[self.currentIndex]
 	self:incrementCurrentIndex()
 	return current
+	]]
+	
+	for i=1, #self.objectList do
+		local index = ((i + self.currentIndex) % #self.objectList) + 1
+		if not self.objectList[index].state then
+			self.currentIndex = index
+			return self.objectList[index]
+		end
+	end
+	
+	return nil
 end
 
 function DialogueSegmentObjectPool:resetCurrentIndex()
