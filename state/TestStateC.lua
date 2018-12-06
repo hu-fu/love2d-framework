@@ -61,7 +61,8 @@ end
 --DEBUG:
 
 function testStateC:writeDialogueLines()
-	self.systems[self.SYSTEM.DIALOGUE_LOADER]:printDialogueLines()
+	self.systems[self.SYSTEM.DIALOGUE_LOADER]:printDialogueLines(self.systems[self.SYSTEM.CAMERA].lens.x, 
+		self.systems[self.SYSTEM.CAMERA].lens.y)
 end
 
 function testStateC:writeDebugInfo(x, y)

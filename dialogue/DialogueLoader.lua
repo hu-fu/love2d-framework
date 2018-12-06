@@ -15,6 +15,7 @@ DialogueLoader.DIALOGUE_REQUEST = require '/dialogue/DIALOGUE_REQUEST'
 DialogueLoader.DIALOGUE_ASSET = require '/dialogue/DIALOGUE_ASSET'
 DialogueLoader.ACTOR = require '/dialogue/ACTOR'
 DialogueLoader.SEGMENT_TYPE = require '/dialogue/SEGMENT_TYPE'
+DialogueLoader.DIALOGUE_METHOD = require '/dialogue/DIALOGUE_METHOD'
 local SYSTEM_ID = require '/system/SYSTEM_ID'
 
 -------------------
@@ -56,6 +57,7 @@ DialogueLoader.eventMethods = {
 		
 		[3] = function(request)
 			--add request to stack
+			DialogueLoader:addRequestToStack(request)
 		end,
 	}
 }
@@ -224,8 +226,8 @@ end
 DialogueLoader.requestStack = {}
 DialogueLoader.activePlayers = {}
 
-DialogueLoader.autoPlaySpeed = 5.0
-DialogueLoader.autoPlayTimer = 0.0
+DialogueLoader.autoPlaySpeed = 1.0
+DialogueLoader.autoPlayTimer = 0
 
 DialogueLoader.resolveRequestMethods = {
 	[DialogueLoader.DIALOGUE_REQUEST.START_DIALOGUE_AUTO] = function(self, request)
@@ -233,11 +235,7 @@ DialogueLoader.resolveRequestMethods = {
 		
 		if player and player.parentEntity then
 			self:addPlayerToActivePlayers(player)
-			self.DIALOGUE_METHOD:startDialogue(player)
-			
-			--auto run
-			local segment = self.DIALOGUE_METHOD:runDialogueBySegment(self, player)
-			player.currentSegment = segment
+			self.DIALOGUE_METHOD:startDialogue(self, player)
 		end
 	end,
 	
@@ -251,7 +249,7 @@ DialogueLoader.resolveRequestMethods = {
 		end
 		
 		if player then
-			self.DIALOGUE_METHOD:endDialogue(player)
+			self.DIALOGUE_METHOD:endDialogue(self, player)
 			self:removePlayerFromActivePlayers(player)
 		end
 	end,
@@ -362,25 +360,31 @@ function DialogueLoader:updateActivePlayer(player)
 	local segment = self.DIALOGUE_METHOD:runDialogueBySegment(self, player)
 	player.currentSegment = segment
 	
-	if segment.type == self.SEGMENT_TYPE.CHOICE then
-		self:updateActivePlayer(player)		--skip choices
+	if segment.type == self.SEGMENT_TYPE.TEXT then
+		--render to screen
+	elseif segment.type == self.SEGMENT_TYPE.CHOICE then
+		self.DIALOGUE_METHOD:advanceDialogue(player)
+		self:updateActivePlayer(player)
 	elseif segment.type == self.SEGMENT_TYPE.END then
-		self.DIALOGUE_METHOD:endDialogue(player)
+		self.DIALOGUE_METHOD:endDialogue(self, player)
 		self:removePlayerFromActivePlayers(player)
+	else
+		self:updateActivePlayer(player)
 	end
 end
 
 -- * debug * --
 
-function DialogueLoader:printDialogueLines()
+function DialogueLoader:printDialogueLines(cameraX, cameraY)
 	for i=1, #self.activePlayers do
-		self:printDialogueLine(self.activePlayers[i])
+		self:printDialogueLine(self.activePlayers[i], cameraX, cameraY)
 	end
 end
 
-function DialogueLoader:printDialogueLine(player)
+function DialogueLoader:printDialogueLine(player, cameraX, cameraY)
 	if player.parentEntity and player.currentSegment then
-		print(player.currentSegment.text, player.parentEntity.x - 10, player.parentEntity.y - 10)
+		love.graphics.print(player.currentSegment.text, (player.parentEntity.x - 20) - cameraX,
+			(player.parentEntity.y - 20) - cameraY)
 	end
 end
 

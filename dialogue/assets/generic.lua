@@ -13,6 +13,6 @@ return {
 {line = 8, thread = 3, action = 'none', actorName = "Secondary Char", text = "How rude!"},
 {line = 9, thread = 3, action = 'none', actorName = "Secondary Char", text = "Do not talk to me or my wife's son ever again!"},
 
-{line = 10, thread = 4, action = 'none', actorName = "Secondary Char", text = "Good bye."},
-{line = 11, thread = 4, action = 'end'},
+{line = 11, thread = 4, action = 'none', actorName = "Secondary Char", text = "Good bye."},
+{line = 12, thread = 4, action = 'end'},
 }

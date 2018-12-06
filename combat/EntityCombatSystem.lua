@@ -29,6 +29,7 @@ EntityCombatSystem.HEALTH_REQUEST = require '/health/HEALTH_REQUEST'
 EntityCombatSystem.SOUND = require '/sound/SOUND'
 EntityCombatSystem.SOUND_TYPE = require '/sound/SOUND_TYPE'
 EntityCombatSystem.SOUND_REQUEST = require '/sound/SOUND_REQUEST'
+EntityCombatSystem.DIALOGUE_REQUEST = require '/dialogue/DIALOGUE_REQUEST'
 
 -------------------
 --System Variables:
@@ -43,6 +44,7 @@ EntityCombatSystem.projectileRequestPool = EventObjectPool.new(EntityCombatSyste
 EntityCombatSystem.visualEffectRequestPool = EventObjectPool.new(EntityCombatSystem.EVENT_TYPE.VISUAL_EFFECT, 100)
 EntityCombatSystem.healthRequestPool = EventObjectPool.new(EntityCombatSystem.EVENT_TYPE.ENTITY_HEALTH, 100)
 EntityCombatSystem.soundRequestPool = EventObjectPool.new(EntityCombatSystem.EVENT_TYPE.SOUND, 100)
+EntityCombatSystem.dialogueRequestPool = EventObjectPool.new(EntityCombatSystem.EVENT_TYPE.DIALOGUE, 100)
 
 EntityCombatSystem.combatComponentTable = {}
 EntityCombatSystem.requestStack = {}
@@ -118,6 +120,7 @@ function EntityCombatSystem:update(dt)
 	self.visualEffectRequestPool:resetCurrentIndex()
 	self.healthRequestPool:resetCurrentIndex()
 	self.soundRequestPool:resetCurrentIndex()
+	self.dialogueRequestPool:resetCurrentIndex()
 	
 	--INFO_STR = self.combatComponentTable[3].attackComboState[1] .. ', ' .. 
 	--	self.combatComponentTable[3].attackComboState[2] .. ', ' .. 
@@ -492,7 +495,7 @@ function EntityCombatSystem:sendHealthRequest(combatComponent, healthRequestType
 	effectRequest.effectId = effectId
 	
 	self.eventDispatcher:postEvent(6, 2, effectRequest)
-	self.projectileRequestPool:incrementCurrentIndex()
+	self.healthRequestPool:incrementCurrentIndex()
 end
 
 function EntityCombatSystem:sendSoundRequest(combatComponent, requestType, audioId, soundType, playerId,
@@ -516,6 +519,21 @@ function EntityCombatSystem:sendSoundRequest(combatComponent, requestType, audio
 				
 	self.eventDispatcher:postEvent(7, 3, soundRequest)
 	self.soundRequestPool:incrementCurrentIndex()
+end
+
+function EntityCombatSystem:sendDialogueRequest(combatComponent, dialogueRequestType, player, dialogueId, 
+	lineNumber, choiceId)
+	local dialogueRequest = self.dialogueRequestPool:getCurrentAvailableObject()
+	
+	dialogueRequest.requestType = dialogueRequestType
+	dialogueRequest.player = player
+	dialogueRequest.dialogueId = dialogueId
+	dialogueRequest.parentEntity = combatComponent
+	dialogueRequest.lineNumber = lineNumber
+	dialogueRequest.choiceId = choiceId
+	
+	self.eventDispatcher:postEvent(8, 3, dialogueRequest)
+	self.dialogueRequestPool:incrementCurrentIndex()
 end
 
 ----------------

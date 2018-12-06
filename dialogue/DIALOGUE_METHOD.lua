@@ -11,9 +11,10 @@ DIALOGUE_METHODS.SEGMENT_TYPE = require '/dialogue/SEGMENT_TYPE'
 
 DIALOGUE_METHODS.segmentObjectPool = DialogueSegmentObjectPool.new (50, false)
 
-function DIALOGUE_METHODS:startDialogue(player)
+function DIALOGUE_METHODS:startDialogue(system, player)
 	player.state = true
-	self:runControllerHeader(player)
+	self:runControllerHeader(system, player)
+	self:advanceDialogue(player)
 end
 
 function DIALOGUE_METHODS:runDialogueBySegment(system, player)
@@ -23,33 +24,19 @@ function DIALOGUE_METHODS:runDialogueBySegment(system, player)
 	local segment = self.getSegment[currentLine.action](self, system, player, currentLine)
 	
 	self:runControllerBody(player, currentLine)
-	self:advanceDialogue(player)
 	
-	if segment == nil then
-		self:runDialogueBySegment(system, player)
-	else
-		return segment
-	end
+	--INFO_STR = player.currentThread .. ', ' .. player.currentLine
+	
+	return segment
 end
 
 function DIALOGUE_METHODS:runDialogueByLine(system, player)
-	--returns a raw dialogue line - avoid using
+	--returns a raw dialogue line - avoid using - doesn't work
 	
-	local currentLine = self:getCurrentLine(player)
-	
-	self:runControllerBody(player, currentLine)
-	self:advanceDialogue(player)
-	
-	if currentLine.type == 'jump_thread' then
-		self:jumpThread(player, currentLine.nextThread)
-		self:runDialogueByLine(system, player)
-	else
-		return currentLine
-	end
 end
 
-function DIALOGUE_METHODS:endDialogue(player)
-	self:runControllerFooter(player)
+function DIALOGUE_METHODS:endDialogue(system, player)
+	self:runControllerFooter(system, player)
 	player.state = false
 end
 
@@ -160,11 +147,15 @@ end
 
 DIALOGUE_METHODS.getSegment = {
 	['none'] = function(self, system, player, currentLine)
+		self:advanceDialogue(player)
+		
 		local segment = self.segmentObjectPool:getCurrentAvailableDialogueSegmentObject()
 		
 		segment.type = self.SEGMENT_TYPE.TEXT
 		segment.line = currentLine
 		segment.text = currentLine.text
+		
+		return segment
 	end,
 	
 	['choice'] = function(self, system, player, currentLine)
@@ -173,7 +164,7 @@ DIALOGUE_METHODS.getSegment = {
 		segment.type = self.SEGMENT_TYPE.CHOICE
 		segment.line = currentLine
 		
-		if line.persistent then
+		if segment.line.persistent then
 			segment.options = self:getAvailableChoices(player, currentLine)
 		end
 		
@@ -182,6 +173,11 @@ DIALOGUE_METHODS.getSegment = {
 	
 	['jump_thread'] = function(self, system, player, currentLine)
 		self:jumpThread(player, currentLine.nextThread)
+		
+		local segment = self.segmentObjectPool:getCurrentAvailableDialogueSegmentObject()
+		segment.type = self.SEGMENT_TYPE.JUMP_LINE
+		
+		return segment
 	end,
 	
 	['start'] = function(self, system, player, currentLine)
@@ -212,8 +208,8 @@ function DIALOGUE_METHODS:createDialogueSegment(segmentType, currentLine)
 	segment.options = currentLine.options
 end
 
-function DIALOGUE_METHODS:runControllerHeader(player)
-	player.controller.header.method(player.controller, self, player)
+function DIALOGUE_METHODS:runControllerHeader(system, player)
+	player.controller.header.method(player.controller, system, player)
 end
 
 function DIALOGUE_METHODS:runControllerBody(player, currentLine)
@@ -229,8 +225,8 @@ function DIALOGUE_METHODS:runControllerBody(player, currentLine)
 	end
 end
 
-function DIALOGUE_METHODS:runControllerFooter(player)
-	layer.controller.footer.method(player.controller, self, player)
+function DIALOGUE_METHODS:runControllerFooter(system, player)
+	player.controller.footer.method(player.controller, system, player)
 end
 
 return DIALOGUE_METHODS
