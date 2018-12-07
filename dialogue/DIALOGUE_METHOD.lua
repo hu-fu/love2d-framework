@@ -154,6 +154,8 @@ DIALOGUE_METHODS.getSegment = {
 		segment.type = self.SEGMENT_TYPE.TEXT
 		segment.line = currentLine
 		segment.text = currentLine.text
+		segment.actorId = currentLine.actorId
+		segment.actorName = currentLine.actorName
 		
 		return segment
 	end,

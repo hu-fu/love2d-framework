@@ -283,6 +283,7 @@ DialogueLoader.resolveRequestMethods = {
 function DialogueLoader:update(dt)
 	self:resolveRequestStack()
 	self:autoPlayDialogue(dt)
+	self:removeInactivePlayers()
 end
 
 function DialogueLoader:addPlayerToActivePlayers(player)
@@ -351,7 +352,7 @@ function DialogueLoader:resetAutoPlayTimer()
 end
 
 function DialogueLoader:updateActivePlayers()
-	for i=1, #self.activePlayers do
+	for i=#self.activePlayers, 1, -1 do
 		self:updateActivePlayer(self.activePlayers[i])
 	end
 end
@@ -367,24 +368,36 @@ function DialogueLoader:updateActivePlayer(player)
 		self:updateActivePlayer(player)
 	elseif segment.type == self.SEGMENT_TYPE.END then
 		self.DIALOGUE_METHOD:endDialogue(self, player)
-		self:removePlayerFromActivePlayers(player)
 	else
 		self:updateActivePlayer(player)
 	end
 end
 
+function DialogueLoader:removeInactivePlayers()
+	for i=#self.activePlayers, 1 , -1 do
+		if not self.activePlayers[i].state then
+			table.remove(self.activePlayers, i)
+		end
+	end
+end
+
 -- * debug * --
+--NOTE: do not use this! Make a real text renderer (with portraits, entity swapping and everything!)
 
 function DialogueLoader:printDialogueLines(cameraX, cameraY)
+	love.graphics.setColor(200, 0, 0, 1)
+	
 	for i=1, #self.activePlayers do
 		self:printDialogueLine(self.activePlayers[i], cameraX, cameraY)
 	end
+	
+	love.graphics.setColor(1, 1, 1, 1)
 end
 
 function DialogueLoader:printDialogueLine(player, cameraX, cameraY)
 	if player.parentEntity and player.currentSegment then
-		love.graphics.print(player.currentSegment.text, (player.parentEntity.x - 20) - cameraX,
-			(player.parentEntity.y - 20) - cameraY)
+		love.graphics.printf(player.currentSegment.text, math.floor((player.parentEntity.x - 10) - cameraX),
+			math.floor((player.parentEntity.y - 30) - cameraY), 100, 'center')
 	end
 end
 

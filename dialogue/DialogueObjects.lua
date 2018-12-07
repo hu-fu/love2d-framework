@@ -116,6 +116,9 @@ function DialogueSegment.new ()
 		
 		self.text = ''
 		self.options = nil
+		
+		self.actorId = nil
+		self.actorName = nil
 	return self
 end
 
