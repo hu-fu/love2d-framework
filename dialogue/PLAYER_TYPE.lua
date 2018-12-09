@@ -1,0 +1,6 @@
+return {
+	REAL_TIME_TEXT_ONLY = 1,
+	REAL_TIME_PORTRAIT = 2,
+	GUI = 3,
+	
+}

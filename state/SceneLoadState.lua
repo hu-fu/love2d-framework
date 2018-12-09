@@ -75,6 +75,7 @@ function sceneLoadState:update(stateManager, dt)
 		self:initImageLoader()
 		self:initProjectiles()
 		self:initVisualEffects()
+		self:initDialogue()
 		self:initializeSceneState(stateManager)
 	end
 	
@@ -145,6 +146,7 @@ function sceneLoadState:initRenderer()
 	gameRenderer:addLayerToList(gameRenderer.layers.areaBackground)
 	gameRenderer:addLayerToList(gameRenderer.layers.projectile)
 	gameRenderer:addLayerToList(gameRenderer.layers.effect)
+	gameRenderer:addLayerToList(gameRenderer.layers.dialogue)
 end
 
 function sceneLoadState:initInput()
@@ -179,6 +181,10 @@ function sceneLoadState:initVisualEffects()
 	local effectSystem = self.systems[self.SYSTEM.VISUAL_EFFECT]
 	self.systems[self.SYSTEM.VISUAL_EFFECT]:initGlobalEmitter()
 	effectSystem:initGlobalEmitterOnSystems()
+end
+
+function sceneLoadState:initDialogue()
+	self.systems[self.SYSTEM.DIALOGUE]:setActivePlayersOnGameRenderer()
 end
 
 --DEBUG:

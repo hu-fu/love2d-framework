@@ -163,7 +163,9 @@ function EventObjectPool:setCreateEventObjectMethods()
 			return {
 				spritesheetTable = nil,
 				quadTable = nil,
-				imageTable = nil
+				imageTable = nil,
+				characterPortraits = nil,
+				
 			}
 		end,
 		
@@ -338,12 +340,16 @@ function EventObjectPool:setCreateEventObjectMethods()
 		[self.EVENT_TYPES.DIALOGUE] = function()
 			return {
 				requestType = nil,
+				activePlayers = nil,
 				
 				player = nil,
 				dialogueId = nil,
+				playerType = nil,
 				parentEntity = nil,
 				lineNumber = nil,
 				choiceId = nil,
+				
+				responseCallback = nil,
 			}
 		end,
 		

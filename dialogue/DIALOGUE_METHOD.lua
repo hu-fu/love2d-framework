@@ -25,8 +25,6 @@ function DIALOGUE_METHODS:runDialogueBySegment(system, player)
 	
 	self:runControllerBody(player, currentLine)
 	
-	--INFO_STR = player.currentThread .. ', ' .. player.currentLine
-	
 	return segment
 end
 
@@ -156,6 +154,9 @@ DIALOGUE_METHODS.getSegment = {
 		segment.text = currentLine.text
 		segment.actorId = currentLine.actorId
 		segment.actorName = currentLine.actorName
+		segment.targetEntityId = currentLine.targetEntityId
+		
+		player.updateTime = currentLine.activeTime
 		
 		return segment
 	end,

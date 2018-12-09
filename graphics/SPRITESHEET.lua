@@ -4,5 +4,7 @@ return {
 	TEST_FLOOR = 3,
 	TEST_ITEM = 4,
 	TEST_PROJECTILE = 5,
-	TEST_EFFECT = 6
+	TEST_EFFECT = 6,
+	TEST_DIAGONAL = 7,
+	
 }

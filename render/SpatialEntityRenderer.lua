@@ -34,7 +34,18 @@ SpatialEntityRenderer.drawEntityMethods = {
 	end,
 	
 	[SpatialEntityRenderer.ENTITY_TYPES.GENERIC_WALL] = function(canvas, parentEntity)
+		local spritebox = parentEntity.componentTable.spritebox
 		
+		love.graphics.draw(SpatialEntityRenderer.spritesheetTable[spritebox.spritesheetId], 
+			SpatialEntityRenderer.quadTable[spritebox.spritesheetId][spritebox.quad], 
+			math.floor(spritebox.x - canvas.x), math.floor(spritebox.y - canvas.y))
+		
+		--draw hitbox (debug):
+		local hitbox = parentEntity.componentTable.hitbox
+		if hitbox then
+			love.graphics.rectangle('line', math.floor(hitbox.x - canvas.x), 
+				math.floor(hitbox.y - canvas.y), hitbox.w, hitbox.h)
+		end
 	end,
 	
 	[SpatialEntityRenderer.ENTITY_TYPES.GENERIC_PROJECTILE] = function(canvas, parentEntity)

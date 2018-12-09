@@ -14,6 +14,9 @@ setmetatable(DialoguePlayer, {
 function DialoguePlayer.new (id)
 	local self = setmetatable ({}, DialoguePlayer)
 		self.state = false
+		self.type = 1
+		self.time = 0
+		self.updateTime = 0
 		
 		self.id = id
 		self.dialogueId = nil

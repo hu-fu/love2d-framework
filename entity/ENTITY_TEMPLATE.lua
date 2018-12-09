@@ -308,6 +308,43 @@ local ENTITY_TEMPLATE = {
 		}
 	},
 	
+	[ENTITY_TEMPLATE_TYPE.GENERIC_TEST_5] = {
+		entityType = ENTITY_TYPE.GENERIC_ENTITY,
+		
+		components = {
+			[ENTITY_COMPONENT.MAIN] = {
+				id = 0
+			},
+			
+			[ENTITY_COMPONENT.SCENE] = {
+				defaultRole = 4,
+				role = 4
+			},
+			
+			[ENTITY_COMPONENT.SPRITEBOX] = {
+				x = 0,
+				y = 0,
+				w = 144,
+				h = 144,
+				direction = 1,
+				defaultSpritesheetId = 7,
+				spritesheetId = 7,
+				quad = 1,
+				aniRepoId = 1
+			},
+			
+			[ENTITY_COMPONENT.HITBOX] = {
+				xDeviation = 0,
+				yDeviation = 0,
+				w = 144,
+				h = 144,
+				collisionType = 4,
+				mapCollisionType = 4
+			},
+			
+		}
+	},
+	
 	--...
 }
 

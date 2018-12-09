@@ -266,6 +266,12 @@ SystemInitializer.initializeSystemMethods = {
 		self.systemTable[self.SYSTEM_ID.DIALOGUE_LOADER] = system
 	end,
 	
+	[SystemInitializer.SYSTEM_ID.DIALOGUE] = function(self)
+		local system = require '/dialogue/DialogueSystem'
+		system:init()
+		self.systemTable[self.SYSTEM_ID.DIALOGUE] = system
+	end,
+	
 	--...
 }
 

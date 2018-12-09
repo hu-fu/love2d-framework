@@ -20,6 +20,7 @@ function testStateC:update(stateManager, dt)
 	self.systems[self.SYSTEM.ENTITY_EVENT]:update(dt)
 	self.systems[self.SYSTEM.COMBAT]:update(dt)
 	self.systems[self.SYSTEM.ITEM]:update()
+	self.systems[self.SYSTEM.COLLISION]:update()
 	self.systems[self.SYSTEM.CAMERA]:update(dt)
 	self.systems[self.SYSTEM.TARGETING]:update()
 	self.systems[self.SYSTEM.PROJECTILE]:update(dt)
@@ -30,8 +31,7 @@ function testStateC:update(stateManager, dt)
 	self.systems[self.SYSTEM.SPATIAL_UPDATE]:update(dt)
 	self.systems[self.SYSTEM.GAME_RENDERER]:update()
 	self.systems[self.SYSTEM.SPATIAL_PARTITIONING]:runQueries()		--maybe it should be called at the start too?
-	self.systems[self.SYSTEM.COLLISION]:update()
-	self.systems[self.SYSTEM.DIALOGUE_LOADER]:update(dt)
+	self.systems[self.SYSTEM.DIALOGUE]:update(dt)
 end
 
 function testStateC:draw(stateManager)
@@ -41,7 +41,6 @@ function testStateC:draw(stateManager)
 	
 	self:writeDebugSpatial()
 	self:writeDebugInfo(10, 500)
-	self:writeDialogueLines()
 	
 	love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 550)
 end
@@ -60,18 +59,13 @@ end
 
 --DEBUG:
 
-function testStateC:writeDialogueLines()
-	self.systems[self.SYSTEM.DIALOGUE_LOADER]:printDialogueLines(self.systems[self.SYSTEM.CAMERA].lens.x, 
-		self.systems[self.SYSTEM.CAMERA].lens.y)
-end
-
 function testStateC:writeDebugInfo(x, y)
 	love.graphics.print(INFO_STR, x, y)
 end
 
 function testStateC:writeDebugSpatial()
 	local spatialSys = self.systems[self.SYSTEM.SPATIAL_PARTITIONING]
-	local role = 10
+	local role = 4
 	
 	if spatialSys.area then
 		--spatialSys.area.grid.subGrids[1]:draw(self.systems[self.SYSTEM.CAMERA].lens.x, 

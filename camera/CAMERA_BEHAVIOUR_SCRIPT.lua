@@ -28,9 +28,6 @@ local SCRIPT = {
 					- (cameraSystem.lens.w/2) + (self.variables.entity.components.hitbox.w/2)
 				cameraSystem.lens.y = self.variables.entity.components.hitbox.y
 					- (cameraSystem.lens.h/2) + (self.variables.entity.components.hitbox.h/2)
-				
-				cameraSystem.lens.x = cameraSystem.lens.x
-				cameraSystem.lens.y = cameraSystem.lens.y
 			end
 		end,
 		

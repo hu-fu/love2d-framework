@@ -374,7 +374,7 @@ SpatialPartitioningSystem.defaultGetEntitiesInAreaForRendering = {
 	[1] = function(spatialRequest)
 		local topLeftX, topLeftY = 0, 0
 		local bottomRightX, bottomRightY = 0, 0
-		local subGrids = {1,2,3}
+		local subGrids = {1,2,3}	--TODO: find an alternative to this (a system constant obviously)
 		local entityRoles = spatialRequest.roles
 		local area = SpatialPartitioningSystem.area
 		
@@ -451,7 +451,7 @@ SpatialPartitioningSystem.defaultRegisterSpatialEntityMethods = {
 			local xOverlap, yOverlap = true, true
 			
 			spatialEntity.entityRole = entityRole
-			spatialEntity.entityType = SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_WALL
+			spatialEntity.entityType = SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_WALL	--I just don't know
 			spatialEntity.spatialLevel = gridLevel
 			spatialEntity.spatialIndexX = topLeftX
 			spatialEntity.spatialIndexY = topLeftY
@@ -581,7 +581,10 @@ SpatialPartitioningSystem.defaultUnregisterSpatialEntityMethods = {
 	},
 	
 	[SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_WALL] = {
-		--not used
+		[SpatialPartitioningSystem.ENTITY_ROLES.OBSTACLE] = function(entity, grid)
+			SpatialPartitioningSystem.defaultUnregisterSpatialEntityMethods[SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_ENTITY]
+				[SpatialPartitioningSystem.ENTITY_ROLES.PLAYER](entity, grid)
+		end,
 	},
 	
 	[SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_PROJECTILE] = {
@@ -875,6 +878,10 @@ SpatialPartitioningSystem.defaultUpdatePositionMethods = {
 		--fail safe removal -> 100 iterations @ 53fps avg (moving), 0.015% time (anonymous func)
 		--this -> 200 iterations at 58fps avg
 		
+	end,
+	
+	[SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_WALL] = function(spatialEntity, grid)
+		SpatialPartitioningSystem.defaultUpdatePositionMethods[SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_ENTITY](spatialEntity, grid)
 	end,
 	
 	[SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_PROJECTILE] = function(spatialEntity, grid)

@@ -285,6 +285,10 @@ EntityLoader.createEntityComponentMethods = {
 			component.w = entityAsset.spriteW
 			component.h = entityAsset.spriteH
 		end
+		
+		if entityAsset.quad then
+			component.quad = entityAsset.quad
+		end
 	end,
 	
 	[EntityLoader.ENTITY_COMPONENT.HITBOX] = function(self, template, entityAsset, entity)
@@ -298,6 +302,11 @@ EntityLoader.createEntityComponentMethods = {
 		component.h = templateComponent.h
 		component.collisionType = templateComponent.collisionType
 		component.mapCollisionType = templateComponent.mapCollisionType
+		
+		if entityAsset.collisionType and entityAsset.mapCollisionType then
+			component.collisionType = entityAsset.collisionType
+			component.mapCollisionType = entityAsset.mapCollisionType
+		end
 	end,
 	
 	[EntityLoader.ENTITY_COMPONENT.TRANSPORT] = function(self, template, entityAsset, entity)
@@ -788,6 +797,7 @@ function EntityLoader:setEntityDbOnAllSystems()
 	self.setEntityDbOnSystemMethods[SYSTEM_ID.COMBAT](self, request)
 	self.setEntityDbOnSystemMethods[SYSTEM_ID.HEALTH](self, request)
 	self.setEntityDbOnSystemMethods[SYSTEM_ID.SOUND](self, request)
+	self.setEntityDbOnSystemMethods[SYSTEM_ID.GAME_RENDERER](self, request)
 	self.initEntityRequestPool:incrementCurrentIndex()
 end
 
@@ -850,6 +860,10 @@ EntityLoader.setEntityDbOnSystemMethods = {
 	
 	[SYSTEM_ID.SOUND] = function(entityLoader, request)
 		entityLoader.eventDispatcher:postEvent(17, 2, request)
+	end,
+	
+	[SYSTEM_ID.GAME_RENDERER] = function(entityLoader, request)
+		entityLoader.eventDispatcher:postEvent(18, 7, request)
 	end,
 	
 	--...

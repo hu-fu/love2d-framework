@@ -521,18 +521,19 @@ function EntityCombatSystem:sendSoundRequest(combatComponent, requestType, audio
 	self.soundRequestPool:incrementCurrentIndex()
 end
 
-function EntityCombatSystem:sendDialogueRequest(combatComponent, dialogueRequestType, player, dialogueId, 
-	lineNumber, choiceId)
+function EntityCombatSystem:sendDialogueRequest(combatComponent, dialogueRequestType, player,
+	playerType, dialogueId, lineNumber, choiceId)
 	local dialogueRequest = self.dialogueRequestPool:getCurrentAvailableObject()
 	
 	dialogueRequest.requestType = dialogueRequestType
 	dialogueRequest.player = player
+	dialogueRequest.playerType = playerType
 	dialogueRequest.dialogueId = dialogueId
 	dialogueRequest.parentEntity = combatComponent
 	dialogueRequest.lineNumber = lineNumber
 	dialogueRequest.choiceId = choiceId
 	
-	self.eventDispatcher:postEvent(8, 3, dialogueRequest)
+	self.eventDispatcher:postEvent(8, 1, dialogueRequest)
 	self.dialogueRequestPool:incrementCurrentIndex()
 end
 

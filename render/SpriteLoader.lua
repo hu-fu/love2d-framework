@@ -101,6 +101,7 @@ function SpriteLoader:preloadSprites()
 	self:loadSprites(self.SPRITESHEET.TEST_ITEM)
 	self:loadSprites(self.SPRITESHEET.TEST_PROJECTILE)
 	self:loadSprites(self.SPRITESHEET.TEST_EFFECT)
+	self:loadSprites(self.SPRITESHEET.TEST_DIAGONAL)
 end
 
 function SpriteLoader:init()

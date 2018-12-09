@@ -127,7 +127,7 @@ return {
 				timeFrequency = 0,
 				method = function(self, system, component)
 					--system:sendHealthRequest(component, 2, -90, nil, nil)
-					system:sendDialogueRequest(component, 1, nil, 1, nil, nil)
+					--system:sendDialogueRequest(component, 1, nil, 1, 1, nil, nil)
 				end
 			},
 			{

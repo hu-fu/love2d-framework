@@ -64,6 +64,21 @@ GameRenderer.eventMethods = {
 			GameRenderer:setGlobalEmitter(request.globalEmitter)
 		end,
 		
+		[7] = function(request)
+			--init entity list
+			GameRenderer:setEntityList(request.entityDb)
+		end,
+		
+		[8] = function(request)
+			--init dialogue players
+			GameRenderer:setActivePlayers(request.activePlayers)
+		end,
+		
+		[9] = function(request)
+			--init portrait graphics
+			GameRenderer:setPortraits(request.portraits)
+		end,
+		
 		--...
 	}
 }
@@ -78,6 +93,7 @@ function GameRenderer:initializeLayers()
 	self.layers.areaBackground = require '/render/BackgroundImageLayer'
 	self.layers.projectile = require '/render/ProjectileLayer'
 	self.layers.effect = require '/render/EffectLayer'
+	self.layers.dialogue = require '/render/DialogueLayer'
 	--add more layers
 end
 
@@ -116,6 +132,18 @@ end
 
 function GameRenderer:setGlobalEmitter(emitter)
 	self.layers.effect:setGlobalEmitter(emitter)
+end
+
+function GameRenderer:setEntityList(entityDb)
+	self.layers.dialogue:setEntityList(entityDb)
+end
+
+function GameRenderer:setActivePlayers(activePlayers)
+	self.layers.dialogue:setActivePlayers(activePlayers)
+end
+
+function GameRenderer:setPortraits(portraits)
+	self.layers.dialogue:setPortraits(portraits)
 end
 
 function GameRenderer:update()

@@ -127,8 +127,8 @@ CollisionSystem.collisionDetectionMethods = {
 					entityA.x, entityA.y, entityA.x + entityA.w, entityA.y + entityA.h, entityB.x, entityB.y,
 					entityB.x + entityB.w, entityB.y + entityB.h)
 				
-				CollisionSystem.collisionResponseMethods[CollisionSystem.ENTITY_TYPES.GENERIC_ENTITY]
-					[entityA.collisionType](entityA, CollisionSystem.COLLISION_RESPONSE_TYPES.FIXED, mtvX*-1, mtvY*-1)
+				CollisionSystem.collisionResponseMethods[CollisionSystem.ENTITY_TYPES.GENERIC_WALL]
+					[entityB.collisionType](entityA, entityB, mtvX*-1, mtvY*-1)
 			end
 		end,
 		
@@ -149,12 +149,16 @@ CollisionSystem.collisionDetectionMethods = {
 		end,
 		
 		[CollisionSystem.ENTITY_TYPES.GENERIC_WALL] = function(entityA, entityB)
-			
+			--wall x wall
 		end,
 		
 		[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE] = function(entityA, entityB)
-			CollisionSystem.collisionDetectionMethods[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE]
-			[CollisionSystem.ENTITY_TYPES.GENERIC_WALL](entityB, entityA)
+			if CollisionSystem.collisionMethods:pointToRectDetection(entityB.x, entityB.y, entityA.x, 
+				entityA.y, entityA.x + entityA.w, entityA.y + entityA.h) then
+				
+				CollisionSystem.collisionResponseMethods[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE](entityA, 
+					entityB)
+			end
 		end
 	},
 	
@@ -165,7 +169,8 @@ CollisionSystem.collisionDetectionMethods = {
 		end,
 		
 		[CollisionSystem.ENTITY_TYPES.GENERIC_WALL] = function(entityA, entityB)
-			--deprecated entity type
+			CollisionSystem.collisionDetectionMethods[CollisionSystem.ENTITY_TYPES.GENERIC_WALL]
+			[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE](entityB, entityA)
 		end,
 	}
 }
@@ -186,8 +191,6 @@ CollisionSystem.collisionResponseMethods = {
 			
 			spriteBoxRow.x = spriteBoxRow.x + mtvX
 			spriteBoxRow.y = spriteBoxRow.y + mtvY
-			
-			--scholars argue that it is profitable to spatially reindex the entity here, but I don't agree
 		end,
 		
 		[CollisionSystem.COLLISION_RESPONSE_TYPES.FIXED] = function(entity, pairCollisionType, mtvX, mtvY)
@@ -197,10 +200,60 @@ CollisionSystem.collisionResponseMethods = {
 		[CollisionSystem.COLLISION_RESPONSE_TYPES.NONE] = function(entity, pairCollisionType, mtvX, mtvY)
 			--do nothing
 		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_TOP_LEFT] = function(entity, pairCollisionType, mtvX, mtvY)
+			
+		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_TOP_RIGHT] = function(entity, pairCollisionType, mtvX, mtvY)
+			
+		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_BOTTOM_LEFT] = function(entity, pairCollisionType, mtvX, mtvY)
+			
+		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_BOTTOM_RIGHT] = function(entity, pairCollisionType, mtvX, mtvY)
+			
+		end,
 	},
 	
 	[CollisionSystem.ENTITY_TYPES.GENERIC_WALL] = {
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.PUSH] = function(entity, obstacle, mtvX, mtvY)
+			--not available, pushable walls are generic entities
+			CollisionSystem.collisionResponseMethods[CollisionSystem.ENTITY_TYPES.GENERIC_WALL]
+				[CollisionSystem.COLLISION_RESPONSE_TYPES.FIXED](entity, obstacle, mtvX, mtvY)
+		end,
 		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.FIXED] = function(entity, obstacle, mtvX, mtvY)
+			local spriteBoxRow = entity.componentTable.spritebox
+			
+			entity.x = entity.x + mtvX
+			entity.y = entity.y + mtvY
+			
+			spriteBoxRow.x = spriteBoxRow.x + mtvX
+			spriteBoxRow.y = spriteBoxRow.y + mtvY
+		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.NONE] = function(entity, obstacle, mtvX, mtvY)
+			--do nothing
+		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_TOP_LEFT] = function(entity, obstacle, mtvX, mtvY)
+			
+		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_TOP_RIGHT] = function(entity, obstacle, mtvX, mtvY)
+			
+		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_BOTTOM_LEFT] = function(entity, obstacle, mtvX, mtvY)
+			
+		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_BOTTOM_RIGHT] = function(entity, obstacle, mtvX, mtvY)
+			
+		end,
 	},
 	
 	[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE] = function(entity, projectile)

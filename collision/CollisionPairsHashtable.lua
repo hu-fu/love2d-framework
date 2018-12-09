@@ -5,7 +5,6 @@
 --hashtable impementation for collision pairs storage
 --best if you use several instances of this, each for a specific collision type
 --everything works. write some sort of guide to using this. (reset, loop, reset)
---this is just a hashtable not a 'manager'. change the name
 --suggestion: change the chainedPairHash method of table traversal to something less shit
 
 CollisionPairsHashtable = {}
