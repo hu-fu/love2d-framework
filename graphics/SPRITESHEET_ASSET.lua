@@ -8,4 +8,5 @@ return {
 	[SPRITESHEET.TEST_PROJECTILE] = {id=5, spritesheetPath='/projectile/default.png', quadPath='/projectile/default'},
 	[SPRITESHEET.TEST_EFFECT] = {id=6, spritesheetPath='/effect/default.png', quadPath='/effect/default'},
 	[SPRITESHEET.TEST_DIAGONAL] = {id=7, spritesheetPath='/test/diagonal_obstacle.png', quadPath='/test/diagonal_obstacle'},
+	[SPRITESHEET.TEST_DIAGONAL_TWO] = {id=7, spritesheetPath='/test/diagonal_obstacle_two.png', quadPath='/test/diagonal_obstacle_two'},
 }

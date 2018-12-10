@@ -123,7 +123,7 @@ CollisionSystem.collisionDetectionMethods = {
 				entityA.x + entityA.w, entityA.y + entityA.h, entityB.x, entityB.y,
 				entityB.x + entityB.w, entityB.y + entityB.h) then
 				
-				local mtvX, mtvY = CollisionSystem.collisionMethods:rectToRectResolution(
+				local mtvX, mtvY = CollisionSystem.collisionMethods:getRectToRectPenetrationValues(
 					entityA.x, entityA.y, entityA.x + entityA.w, entityA.y + entityA.h, entityB.x, entityB.y,
 					entityB.x + entityB.w, entityB.y + entityB.h)
 				
@@ -228,6 +228,8 @@ CollisionSystem.collisionResponseMethods = {
 		[CollisionSystem.COLLISION_RESPONSE_TYPES.FIXED] = function(entity, obstacle, mtvX, mtvY)
 			local spriteBoxRow = entity.componentTable.spritebox
 			
+			if math.abs(mtvX) <= math.abs(mtvY) then mtvY = 0 else mtvX = 0 end
+	
 			entity.x = entity.x + mtvX
 			entity.y = entity.y + mtvY
 			
@@ -241,6 +243,31 @@ CollisionSystem.collisionResponseMethods = {
 		
 		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_TOP_LEFT] = function(entity, obstacle, mtvX, mtvY)
 			
+			local spriteBoxRow = entity.componentTable.spritebox
+			
+			if CollisionSystem.collisionMethods:pointToRectDetection(entity.x, entity.y, obstacle.x, 
+				obstacle.y, obstacle.x + obstacle.w, obstacle.y + obstacle.h) then
+				
+				local referencePoint = (obstacle.m*entity.x) + obstacle.b
+				
+				if entity.y < referencePoint then
+					--above line
+					
+					local entityPosition = (((obstacle.b)*-1) + entity.y)/obstacle.m
+					
+					--set new hb, sb position to entityPosition
+				else
+					--out, do nothing
+				end
+			else
+				if math.abs(mtvX) <= math.abs(mtvY) then mtvY = 0 else mtvX = 0 end
+				
+				entity.x = entity.x + mtvX
+				entity.y = entity.y + mtvY
+				
+				spriteBoxRow.x = spriteBoxRow.x + mtvX
+				spriteBoxRow.y = spriteBoxRow.y + mtvY
+			end
 		end,
 		
 		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_TOP_RIGHT] = function(entity, obstacle, mtvX, mtvY)

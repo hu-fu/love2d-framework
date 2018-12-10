@@ -303,6 +303,11 @@ EntityLoader.createEntityComponentMethods = {
 		component.collisionType = templateComponent.collisionType
 		component.mapCollisionType = templateComponent.mapCollisionType
 		
+		if entityAsset.hitboxW and entityAsset.hitboxH then
+			component.w = entityAsset.hitboxW
+			component.h = entityAsset.hitboxH
+		end
+		
 		if entityAsset.collisionType and entityAsset.mapCollisionType then
 			component.collisionType = entityAsset.collisionType
 			component.mapCollisionType = entityAsset.mapCollisionType

@@ -87,6 +87,8 @@ function GameEntityBuilder:setCreateComponentMethods()
 				h = 0,
 				collisionType = 0,
 				mapCollisionType = 0,
+				m = nil,	--slope
+				b = nil,	--y intercept
 				spatialEntity = nil
 			}
 		end,

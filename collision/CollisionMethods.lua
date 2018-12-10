@@ -85,4 +85,30 @@ function CollisionMethods:rectToRectResolution(aX, aY, aRight, aBottom, bX, bY, 
 	return mtvX, mtvY
 end
 
+function CollisionMethods:getRectToRectPenetrationValues(aX, aY, aRight, aBottom, bX, bY, bRight, bBottom)
+	local mtvX, mtvY = 0, 0
+	
+	if aX <= bX then
+		mtvX = aRight - bX
+	else
+		mtvX = aX - bRight
+	end
+	
+	if aY <= bY then
+		mtvY = aBottom - bY
+	else
+		mtvY = aY - bBottom
+	end
+	
+	return mtvX, mtvY
+end
+
+function CollisionMethods:getLineSlope(aX, aY, bX, bY)
+	return (bY - aY)/(bX - aX)
+end
+
+function CollisionMethods:getLineLineYIntercept(slope, x, y)
+	return y - (slope*x)
+end
+
 return CollisionMethods

@@ -29,6 +29,7 @@ require '/spatial/SpatialPartitioningObjects'
 require '/spatial/SpatialPartitioningQuery'
 
 SpatialPartitioningSystem.collisionMethods = require '/collision/CollisionMethods'
+SpatialPartitioningSystem.COLLISION_RESPONSE_TYPES = require '/collision/COLLISION_RESPONSE_TYPE'
 
 SpatialPartitioningSystem.ENTITY_TYPES = require '/entity/ENTITY_TYPE'
 SpatialPartitioningSystem.ENTITY_ROLES = require '/entity/ENTITY_ROLE'
@@ -457,6 +458,31 @@ SpatialPartitioningSystem.defaultRegisterSpatialEntityMethods = {
 			spatialEntity.spatialIndexY = topLeftY
 			spatialEntity.xOverlap = xOverlap
 			spatialEntity.yOverlap = yOverlap
+			
+			--if collision type diagonal, set m and b:
+			if spatialEntity.parentEntity.collisionType == 
+				SpatialPartitioningSystem.COLLISION_RESPONSE_TYPES.HALF_TOP_LEFT then
+				
+				spatialEntity.parentEntity.m = 
+					SpatialPartitioningSystem.collisionMethods:getLineSlope(spatialEntity.parentEntity.x, 
+						(spatialEntity.parentEntity.y + spatialEntity.parentEntity.h), 
+						(spatialEntity.parentEntity.x + spatialEntity.parentEntity.w),
+						spatialEntity.parentEntity.y)
+				spatialEntity.parentEntity.b = 
+					SpatialPartitioningSystem.collisionMethods:getLineLineYIntercept(spatialEntity.parentEntity.m, 
+						(spatialEntity.parentEntity.x + spatialEntity.parentEntity.w), 
+						spatialEntity.parentEntity.y)
+				
+			elseif spatialEntity.parentEntity.collisionType == 
+				SpatialPartitioningSystem.COLLISION_RESPONSE_TYPES.HALF_BOTTOM_LEFT then
+
+			elseif spatialEntity.parentEntity.collisionType == 
+				SpatialPartitioningSystem.COLLISION_RESPONSE_TYPES.HALF_TOP_RIGHT then
+				
+			elseif spatialEntity.parentEntity.collisionType == 
+				SpatialPartitioningSystem.COLLISION_RESPONSE_TYPES.HALF_BOTTOM_RIGHT then
+				
+			end
 			
 			subGrid.entityTables[spatialEntity.entityRole]:registerEntityInArea(spatialEntity, topLeftX, topLeftY, 
 				bottomRightX, bottomRightY)

@@ -69,8 +69,13 @@ return {
 				spriteW = 320, spriteH = 320},
 			
 			--diagonal objects
-			{id = 101, role = 4, template = 5, x = 200, y = 200, spritesheetId = 7, 
-				spriteW = 144, spriteH = 144, quad = 1, collisionType = 4, mapCollisionType = 4},
+			{id = 101, role = 4, template = 5, x = 200, y = 200, spritesheetId = 8, 
+				spriteW = 220, spriteH = 105, hitboxW = 220, hitboxH = 105,
+				quad = 1, collisionType = 4, mapCollisionType = 4},
+				
+			{id = 101, role = 4, template = 5, x = 200, y = 400, spritesheetId = 7, 
+				spriteW = 144, spriteH = 144, hitboxW = 144, hitboxH = 144,
+				quad = 1, collisionType = 4, mapCollisionType = 4},
 			
 			--event
 			--{id = 201, role = 8, template = 3, x = 200, y = 200, spritesheetId = 1, 
