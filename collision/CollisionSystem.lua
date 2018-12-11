@@ -253,9 +253,14 @@ CollisionSystem.collisionResponseMethods = {
 				if entity.y < referencePoint then
 					--above line
 					
-					local entityPosition = (((obstacle.b)*-1) + entity.y)/obstacle.m
+					local entityPositionX = ((obstacle.b*-1) + referencePoint)/obstacle.m
+					local entityPositionY = (obstacle.m*entityPositionX) + obstacle.b
 					
-					--set new hb, sb position to entityPosition
+					--set new hb, hb position to entityPosition
+					entity.x = entityPositionX
+					entity.y = entityPositionY
+					spriteBoxRow.x = entityPositionX - entity.xDeviation
+					spriteBoxRow.y = entityPositionY - entity.yDeviation
 				else
 					--out, do nothing
 				end
