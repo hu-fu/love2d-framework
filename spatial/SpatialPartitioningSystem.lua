@@ -461,7 +461,10 @@ SpatialPartitioningSystem.defaultRegisterSpatialEntityMethods = {
 			
 			--if collision type diagonal, set m and b:
 			if spatialEntity.parentEntity.collisionType == 
-				SpatialPartitioningSystem.COLLISION_RESPONSE_TYPES.HALF_TOP_LEFT then
+				SpatialPartitioningSystem.COLLISION_RESPONSE_TYPES.HALF_TOP_LEFT or 
+				spatialEntity.parentEntity.collisionType == 
+				SpatialPartitioningSystem.COLLISION_RESPONSE_TYPES.HALF_BOTTOM_RIGHT 
+				then
 				
 				spatialEntity.parentEntity.m = 
 					SpatialPartitioningSystem.collisionMethods:getLineSlope(spatialEntity.parentEntity.x, 
@@ -474,14 +477,17 @@ SpatialPartitioningSystem.defaultRegisterSpatialEntityMethods = {
 						spatialEntity.parentEntity.y)
 				
 			elseif spatialEntity.parentEntity.collisionType == 
-				SpatialPartitioningSystem.COLLISION_RESPONSE_TYPES.HALF_BOTTOM_LEFT then
-
-			elseif spatialEntity.parentEntity.collisionType == 
+				SpatialPartitioningSystem.COLLISION_RESPONSE_TYPES.HALF_BOTTOM_LEFT or 
+				spatialEntity.parentEntity.collisionType == 
 				SpatialPartitioningSystem.COLLISION_RESPONSE_TYPES.HALF_TOP_RIGHT then
 				
-			elseif spatialEntity.parentEntity.collisionType == 
-				SpatialPartitioningSystem.COLLISION_RESPONSE_TYPES.HALF_BOTTOM_RIGHT then
-				
+				spatialEntity.parentEntity.m = 
+					SpatialPartitioningSystem.collisionMethods:getLineSlope(spatialEntity.parentEntity.x, 
+						spatialEntity.parentEntity.y, (spatialEntity.parentEntity.x + spatialEntity.parentEntity.w),
+						(spatialEntity.parentEntity.y + spatialEntity.parentEntity.h))
+				spatialEntity.parentEntity.b = 
+					SpatialPartitioningSystem.collisionMethods:getLineLineYIntercept(spatialEntity.parentEntity.m, 
+						spatialEntity.parentEntity.x, spatialEntity.parentEntity.y)
 			end
 			
 			subGrid.entityTables[spatialEntity.entityRole]:registerEntityInArea(spatialEntity, topLeftX, topLeftY, 

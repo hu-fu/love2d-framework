@@ -136,8 +136,8 @@ CollisionSystem.collisionDetectionMethods = {
 			if CollisionSystem.collisionMethods:pointToRectDetection(entityB.x, entityB.y, entityA.x, 
 				entityA.y, entityA.x + entityA.w, entityA.y + entityA.h) then
 				
-				CollisionSystem.collisionResponseMethods[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE](entityA, 
-					entityB)
+				CollisionSystem.collisionResponseMethods[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE]
+					[entityA.collisionType](entityA, entityB)
 			end
 		end
 	},
@@ -153,11 +153,13 @@ CollisionSystem.collisionDetectionMethods = {
 		end,
 		
 		[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE] = function(entityA, entityB)
+			--HERE!
+			
 			if CollisionSystem.collisionMethods:pointToRectDetection(entityB.x, entityB.y, entityA.x, 
 				entityA.y, entityA.x + entityA.w, entityA.y + entityA.h) then
 				
-				CollisionSystem.collisionResponseMethods[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE](entityA, 
-					entityB)
+				CollisionSystem.collisionResponseMethods[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE]
+					[entityA.collisionType](entityA, entityB)
 			end
 		end
 	},
@@ -277,28 +279,169 @@ CollisionSystem.collisionResponseMethods = {
 		
 		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_TOP_RIGHT] = function(entity, obstacle, mtvX, mtvY)
 			
+			local spriteBoxRow = entity.componentTable.spritebox
+			
+			if CollisionSystem.collisionMethods:pointToRectDetection(entity.x + entity.w, entity.y, obstacle.x, 
+				obstacle.y, obstacle.x + obstacle.w, obstacle.y + obstacle.h) then
+				
+				local referencePoint = (obstacle.m*(entity.x + entity.w)) + obstacle.b
+				
+				if entity.y < referencePoint then
+					--above line
+					
+					local entityPositionX = ((obstacle.b*-1) + referencePoint)/obstacle.m
+					local entityPositionY = (obstacle.m*entityPositionX) + obstacle.b
+					
+					--set new hb, hb position to entityPosition
+					entity.x = entityPositionX - entity.w
+					entity.y = entityPositionY
+					spriteBoxRow.x = (entityPositionX - entity.w) - entity.xDeviation
+					spriteBoxRow.y = entityPositionY - entity.yDeviation
+				else
+					--out, do nothing
+				end
+			else
+				if math.abs(mtvX) <= math.abs(mtvY) then mtvY = 0 else mtvX = 0 end
+				
+				entity.x = entity.x + mtvX
+				entity.y = entity.y + mtvY
+				
+				spriteBoxRow.x = spriteBoxRow.x + mtvX
+				spriteBoxRow.y = spriteBoxRow.y + mtvY
+			end
 		end,
 		
 		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_BOTTOM_LEFT] = function(entity, obstacle, mtvX, mtvY)
 			
+			local spriteBoxRow = entity.componentTable.spritebox
+			
+			if CollisionSystem.collisionMethods:pointToRectDetection(entity.x, entity.y + entity.h, obstacle.x, 
+				obstacle.y, obstacle.x + obstacle.w, obstacle.y + obstacle.h) then
+				
+				local referencePoint = (obstacle.m*entity.x) + obstacle.b
+				
+				if (entity.y + entity.h) > referencePoint then
+					--below line
+					
+					local entityPositionX = ((obstacle.b*-1) + referencePoint)/obstacle.m
+					local entityPositionY = ((obstacle.m*entityPositionX) + obstacle.b)
+					
+					entity.x = entityPositionX
+					entity.y = entityPositionY - entity.h
+					spriteBoxRow.x = entityPositionX - entity.xDeviation
+					spriteBoxRow.y = (entityPositionY - entity.h) - entity.yDeviation
+				else
+					--out, do nothing
+				end
+			else
+				if math.abs(mtvX) <= math.abs(mtvY) then mtvY = 0 else mtvX = 0 end
+				
+				entity.x = entity.x + mtvX
+				entity.y = entity.y + mtvY
+				
+				spriteBoxRow.x = spriteBoxRow.x + mtvX
+				spriteBoxRow.y = spriteBoxRow.y + mtvY
+			end
 		end,
 		
 		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_BOTTOM_RIGHT] = function(entity, obstacle, mtvX, mtvY)
 			
+			local spriteBoxRow = entity.componentTable.spritebox
+			
+			if CollisionSystem.collisionMethods:pointToRectDetection(entity.x + entity.w, entity.y + entity.h,
+				obstacle.x, obstacle.y, obstacle.x + obstacle.w, obstacle.y + obstacle.h) then
+				
+				local referencePoint = (obstacle.m*(entity.x + entity.w)) + obstacle.b
+				
+				if (entity.y + entity.h) > referencePoint then
+					--below line
+					
+					local entityPositionX = ((obstacle.b*-1) + referencePoint)/obstacle.m
+					local entityPositionY = ((obstacle.m*entityPositionX) + obstacle.b)
+					
+					entity.x = entityPositionX - entity.w
+					entity.y = entityPositionY - entity.h
+					spriteBoxRow.x = (entityPositionX - entity.w) - entity.xDeviation
+					spriteBoxRow.y = (entityPositionY - entity.h) - entity.yDeviation
+				else
+					--out, do nothing
+				end
+			else
+				if math.abs(mtvX) <= math.abs(mtvY) then mtvY = 0 else mtvX = 0 end
+				
+				entity.x = entity.x + mtvX
+				entity.y = entity.y + mtvY
+				
+				spriteBoxRow.x = spriteBoxRow.x + mtvX
+				spriteBoxRow.y = spriteBoxRow.y + mtvY
+			end
 		end,
 	},
 	
-	[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE] = function(entity, projectile)
-		--entity got hit by projectile, alert the presses:
-		local projectileSystemRequest = CollisionSystem.projectileRequestPool:getCurrentAvailableObject()
-		projectileSystemRequest.requestType = CollisionSystem.PROJECTILE_REQUEST.END_PROJECTILE
-		projectileSystemRequest.projectileObject = projectile.self
-		projectileSystemRequest.entityObject = entity
-		projectileSystemRequest.destructionType = CollisionSystem:getRequestDestructionType(entity)
-		CollisionSystem.eventDispatcher:postEvent(3, 1, projectileSystemRequest)
-		CollisionSystem.projectileRequestPool:incrementCurrentIndex()
-	end
+	[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE] = {
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.PUSH] = function(entity, projectile)
+			CollisionSystem:sendProjectileRequest(entity, projectile)
+		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.FIXED] = function(entity, projectile)
+			CollisionSystem:sendProjectileRequest(entity, projectile)
+		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.NONE] = function(entity, projectile)
+			CollisionSystem:sendProjectileRequest(entity, projectile)
+		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_TOP_LEFT] = function(entity, projectile)
+			local referencePoint = (entity.m*projectile.x) + entity.b
+			
+			if projectile.y < referencePoint then
+				CollisionSystem:sendProjectileRequest(entity, projectile)
+			else
+				--out, do nothing
+			end
+		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_TOP_RIGHT] = function(entity, projectile)
+			local referencePoint = (entity.m*projectile.x) + entity.b
+			
+			if projectile.y < referencePoint then
+				CollisionSystem:sendProjectileRequest(entity, projectile)
+			else
+				--out, do nothing
+			end
+		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_BOTTOM_LEFT] = function(entity, projectile)
+			local referencePoint = (entity.m*projectile.x) + entity.b
+			
+			if projectile.y > referencePoint then
+				CollisionSystem:sendProjectileRequest(entity, projectile)
+			else
+				--out, do nothing
+			end
+		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.HALF_BOTTOM_RIGHT] = function(entity, projectile)
+			local referencePoint = (entity.m*projectile.x) + entity.b
+			
+			if projectile.y > referencePoint then
+				CollisionSystem:sendProjectileRequest(entity, projectile)
+			else
+				--out, do nothing
+			end
+		end,
+	}
 }
+
+function CollisionSystem:sendProjectileRequest(entity, projectile)
+	local projectileSystemRequest = self.projectileRequestPool:getCurrentAvailableObject()
+	projectileSystemRequest.requestType = self.PROJECTILE_REQUEST.END_PROJECTILE
+	projectileSystemRequest.projectileObject = projectile.self
+	projectileSystemRequest.entityObject = entity
+	projectileSystemRequest.destructionType = self:getRequestDestructionType(entity)
+	self.eventDispatcher:postEvent(3, 1, projectileSystemRequest)
+	self.projectileRequestPool:incrementCurrentIndex()
+end
 
 function CollisionSystem:getRequestDestructionType(entity)
 	if entity.componentTable.actionState then
