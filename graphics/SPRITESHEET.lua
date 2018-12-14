@@ -7,4 +7,6 @@ return {
 	TEST_EFFECT = 6,
 	TEST_DIAGONAL = 7,
 	TEST_DIAGONAL_TWO = 8,
+	HOLE = 9,
+	
 }

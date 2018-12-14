@@ -65,7 +65,7 @@ end
 
 function testStateC:writeDebugSpatial()
 	local spatialSys = self.systems[self.SYSTEM.SPATIAL_PARTITIONING]
-	local role = 4
+	local role = 12
 	
 	if spatialSys.area then
 		--spatialSys.area.grid.subGrids[1]:draw(self.systems[self.SYSTEM.CAMERA].lens.x, 

@@ -1,7 +1,7 @@
 require '/render/RendererLayer'
 require '/event/EventObjectPool'
 
-local ProjectileLayer = RendererLayer.new(0, 0, 12, nil)
+local ProjectileLayer = RendererLayer.new(0, 0, 11, nil)
 
 ProjectileLayer.projectileRenderer = require '/render/ProjectileRenderer'
 ProjectileLayer.projectileList = nil

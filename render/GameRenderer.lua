@@ -94,7 +94,8 @@ function GameRenderer:initializeLayers()
 	self.layers.projectile = require '/render/ProjectileLayer'
 	self.layers.effect = require '/render/EffectLayer'
 	self.layers.dialogue = require '/render/DialogueLayer'
-	--add more layers
+	self.layers.foregroundSpatialEntity = require '/render/ForegroundSpatialEntityLayer'
+	--add more layers (areaForeground)
 end
 
 function GameRenderer:init()

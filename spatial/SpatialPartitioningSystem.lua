@@ -372,10 +372,12 @@ SpatialPartitioningSystem.registerSpatialEntityOnEntityMethods = {
 
 SpatialPartitioningSystem.defaultGetEntitiesInAreaForRendering = {
 	
+	SUBGRIDS = {1,2,3},		--change this to a system var
+	
 	[1] = function(spatialRequest)
 		local topLeftX, topLeftY = 0, 0
 		local bottomRightX, bottomRightY = 0, 0
-		local subGrids = {1,2,3}	--TODO: find an alternative to this (a system constant obviously)
+		local subGrids = SpatialPartitioningSystem.defaultGetEntitiesInAreaForRendering.SUBGRIDS
 		local entityRoles = spatialRequest.roles
 		local area = SpatialPartitioningSystem.area
 		
@@ -388,7 +390,7 @@ SpatialPartitioningSystem.defaultGetEntitiesInAreaForRendering = {
 			for j=1, #entityRoles do
 				local entityTable = subGrid.entityTables[entityRoles[j]].entityTable
 				
-				for k=topLeftY, bottomRightY do
+				for k=bottomRightY, topLeftY, -1 do
 					for l=topLeftX, bottomRightX do
 						for m=1, #entityTable[k][l] do
 							spatialRequest.spatialEntityHashtable:addEntity(entityTable[k][l][m])
@@ -517,6 +519,11 @@ SpatialPartitioningSystem.defaultRegisterSpatialEntityMethods = {
 			
 			subGrid.entityTables[spatialEntity.entityRole]:registerEntityInArea(spatialEntity, topLeftX, topLeftY, 
 				bottomRightX, bottomRightY)
+		end,
+		
+		[SpatialPartitioningSystem.ENTITY_ROLES.FOREGROUND_OBJECT] = function(spatialEntity, grid, entityRole)
+			SpatialPartitioningSystem.defaultRegisterSpatialEntityMethods[SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_ENTITY]
+				[SpatialPartitioningSystem.ENTITY_ROLES.BACKGROUND_OBJECT](spatialEntity, grid, entityRole)
 		end,
 		
 		[SpatialPartitioningSystem.ENTITY_ROLES.ENTITY_EVENT] = function(spatialEntity, grid, entityRole)
@@ -1132,7 +1139,7 @@ function SpatialPartitioningSystem:getEntitiesInAreaByRoles(grid, hashtable, rol
 	local subGrids = 3	--this has to go
 	local entityRoles = roles
 	local area = SpatialPartitioningSystem.area
-		
+	
 	for i=1, subGrids do
 		local subGrid = area.grid.subGrids[i]
 		topLeftX, topLeftY = area.grid:getSubGridIndex(subGrid, areaX, areaY)

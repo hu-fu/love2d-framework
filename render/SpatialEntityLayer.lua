@@ -7,7 +7,7 @@ require '/event/EventObjectPool'
 local SpatialEntityLayer = RendererLayer.new(0, 0, 10, nil)
 
 SpatialEntityLayer.entityRenderer = require '/render/SpatialEntityRenderer'
-SpatialEntityLayer.spatialEntityHashtable = SpatialEntityHashtableSimple.new()
+SpatialEntityLayer.spatialEntityHashtable = SpatialEntityDepthHashtable.new()
 
 SpatialEntityLayer.EVENT_TYPES = require '/event/EVENT_TYPE'
 SpatialEntityLayer.QUERY_TYPES = require '/spatial/SPATIAL_QUERY'

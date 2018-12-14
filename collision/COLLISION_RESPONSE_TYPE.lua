@@ -6,5 +6,6 @@ return {
 	HALF_TOP_RIGHT = 5,
 	HALF_BOTTOM_LEFT = 6,
 	HALF_BOTTOM_RIGHT = 7,
+	HOLE = 8,
 	
 }

@@ -82,6 +82,15 @@ return {
 				spriteW = 144, spriteH = 144, hitboxW = 144, hitboxH = 144,
 				quad = 3, collisionType = 7, mapCollisionType = 7},
 			
+			--hole
+			{id = 102, role = 4, template = 5, x = 10, y = 10, spritesheetId = 9, 
+				spriteW = 144, spriteH = 144, hitboxW = 144, hitboxH = 144,
+				quad = 1, collisionType = 8, mapCollisionType = 8},
+			
+			--foreground
+			{id = 103, role = 12, template = 2, x = 164, y = 10, spritesheetId = 9, 
+				spriteW = 144, spriteH = 144, quad = 1},
+			
 			--[[
 			{id = 101, role = 4, template = 5, x = 200, y = 200, spritesheetId = 7, 
 				spriteW = 144, spriteH = 144, hitboxW = 144, hitboxH = 144,

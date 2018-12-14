@@ -211,3 +211,81 @@ end
 function SpatialEntityHashtableSimple:sortEntities()
 	--?
 end
+
+--------------------------------
+--Spatial Entity Depth Hashtable
+--------------------------------
+--sorts by y values / includes collision
+--I haven't tested this completely, it seems to work
+
+SpatialEntityDepthHashtable = {}
+SpatialEntityDepthHashtable.__index = SpatialEntityDepthHashtable
+
+setmetatable(SpatialEntityDepthHashtable, {
+	__call = function(cls, ...)
+		return cls.new(...)
+	end,
+	})
+
+function SpatialEntityDepthHashtable.new ()
+	local self = setmetatable ({}, SpatialEntityDepthHashtable)
+		self.entityTable = {}
+		self.indexTable = {}
+	return self
+end
+
+function SpatialEntityDepthHashtable:getHash(spatialEntity)
+	return math.ceil(spatialEntity.parentEntity.y + spatialEntity.parentEntity.h)
+end
+
+function SpatialEntityDepthHashtable:addEntity(spatialEntity)
+	local currentHash = self:getHash(spatialEntity)
+	
+	while self.entityTable[currentHash] ~= nil do
+		if self.entityTable[currentHash] == spatialEntity then
+			return false
+		end
+		
+		currentHash = currentHash + 1
+	end
+	
+	self.entityTable[currentHash] = spatialEntity
+	self:addEntityIndex(currentHash)
+end
+
+function SpatialEntityDepthHashtable:addEntityIndex(hash)
+	local currentIndex = 1
+	
+	for i=1, #self.indexTable do
+		if hash < self.indexTable[i] then
+			break
+		else
+			currentIndex = currentIndex + 1
+		end
+	end
+	
+	table.insert(self.indexTable, currentIndex, hash)
+end
+
+function SpatialEntityDepthHashtable:reset()
+	for i=#self.indexTable, 1, -1 do
+		self.entityTable[self.indexTable[i]] = nil
+		table.remove(self.indexTable)
+	end
+end
+
+function SpatialEntityDepthHashtable:getCurrentEntity()
+	local entity = false
+	if #self.indexTable > 0 then
+		entity = self.entityTable[self.indexTable[#self.indexTable]]
+	end
+	return entity
+end
+
+function SpatialEntityDepthHashtable:getLength()
+	return #self.indexTable
+end
+
+function SpatialEntityDepthHashtable:sortEntities()
+	--?
+end

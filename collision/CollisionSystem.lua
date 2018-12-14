@@ -56,7 +56,7 @@ function CollisionSystem:setUpdaterOnSpatialUpdaterSystem()
 	local updaterSystemRequest = self.spatialUpdaterRequestPool:getCurrentAvailableObject()
 	updaterSystemRequest.updaterObj = self.collisionPairsUpdater
 	self.eventDispatcher:postEvent(2, 2, updaterSystemRequest)
-	self.spatialUpdaterRequestPool:incrementCurrentIndex()
+	--self.spatialUpdaterRequestPool:incrementCurrentIndex()
 end
 
 function CollisionSystem:init()
@@ -92,6 +92,7 @@ function CollisionSystem:detectCollisions(pairsHashTable)
 end
 
 function CollisionSystem:detectCollision(spatialEntityA, spatialEntityB)
+	--BUG: due to spatial system delays some entities may be already unregistered (prog crashes)
 	self.collisionDetectionMethods[spatialEntityA.entityType]
 		[spatialEntityB.entityType](spatialEntityA.parentEntity, spatialEntityB.parentEntity)
 end
@@ -376,6 +377,11 @@ CollisionSystem.collisionResponseMethods = {
 				spriteBoxRow.y = spriteBoxRow.y + mtvY
 			end
 		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.HOLE] = function(entity, obstacle, mtvX, mtvY)
+			CollisionSystem.collisionResponseMethods[CollisionSystem.ENTITY_TYPES.GENERIC_WALL]
+				[CollisionSystem.COLLISION_RESPONSE_TYPES.FIXED](entity, obstacle, mtvX, mtvY)
+		end,
 	},
 	
 	[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE] = {
@@ -429,6 +435,10 @@ CollisionSystem.collisionResponseMethods = {
 			else
 				--out, do nothing
 			end
+		end,
+		
+		[CollisionSystem.COLLISION_RESPONSE_TYPES.HOLE] = function(entity, projectile)
+			--do nothing
 		end,
 	}
 }

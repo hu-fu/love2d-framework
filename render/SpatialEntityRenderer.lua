@@ -49,9 +49,7 @@ SpatialEntityRenderer.drawEntityMethods = {
 	end,
 	
 	[SpatialEntityRenderer.ENTITY_TYPES.GENERIC_PROJECTILE] = function(canvas, parentEntity)
-		--this should be a spatial entity
-		--don't forget the projectile offsets
-		--im gonna do a special layer for this and there's nothing you can do about it
+		
 	end,
 	
 	[SpatialEntityRenderer.ENTITY_TYPES.VISUAL_EFFECT] = function(canvas, parentEntity)
