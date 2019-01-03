@@ -115,11 +115,13 @@ function GameEntityBuilder:setCreateComponentMethods()
 			}
 		end,
 		
-		[self.ENTITY_COMPONENTS.PLAYER_INPUT] = function()	
+		[self.ENTITY_COMPONENTS.INPUT] = function()	
 			return {
 				componentTable = nil,
 				state = false,
-				controllerId = nil
+				defaultControllerId = nil,
+				controllerId = nil,
+				playerInputState = false,
 			}
 		end,
 		
@@ -395,13 +397,13 @@ function GameEntityBuilder:setAddComponentToEntityMethods()
 			end
 		end,
 		
-		[self.ENTITY_COMPONENTS.PLAYER_INPUT] = function(entity, component)	
+		[self.ENTITY_COMPONENTS.INPUT] = function(entity, component)	
 			if 
 				entity.components.main ~= nil and
 				entity.components.actionState ~= nil
 			then
 				component.componentTable = entity.components
-				entity.components.playerInput = component
+				entity.components.input = component
 			end
 		end,
 		
@@ -562,7 +564,7 @@ function GameEntity.new ()
 			hitbox = nil,
 			transport = nil,
 			actionState = nil,
-			playerInput = nil,
+			input = nil,
 			movement = nil,
 			targeting = nil,
 			action = nil,

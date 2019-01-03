@@ -19,20 +19,20 @@ local ENTITY_TEMPLATE = {
 			[ENTITY_COMPONENT.SPRITEBOX] = {
 				x = 0,
 				y = 0,
-				w = 75,
-				h = 75,
+				w = 50,
+				h = 50,
 				direction = 5,
-				defaultSpritesheetId = 2,
-				spritesheetId = 2,
-				quad = 6,
+				defaultSpritesheetId = 11,
+				spritesheetId = 11,
+				quad = 5,
 				aniRepoId = 1
 			},
 			
 			[ENTITY_COMPONENT.HITBOX] = {
-				xDeviation = 20,
-				yDeviation = 40,
-				w = 35,
-				h = 35,
+				xDeviation = 15,
+				yDeviation = 25,
+				w = 20,
+				h = 20,
 				collisionType = 1,
 				mapCollisionType = 3
 			},
@@ -42,14 +42,16 @@ local ENTITY_TEMPLATE = {
 				defaultState = 1
 			},
 			
-			[ENTITY_COMPONENT.PLAYER_INPUT] = {
+			[ENTITY_COMPONENT.INPUT] = {
 				state = true,
-				controllerId = 'generic'
+				defaultControllerId = 1,
+				controllerId = 1,
+				playerInputState = false,
 			},
 			
 			[ENTITY_COMPONENT.IDLE] = {
 				state = false,
-				actionSetId = 1,
+				actionSetId = 4,
 				actionId = 2,
 				action = nil,
 				currentTime = 0,
@@ -60,16 +62,16 @@ local ENTITY_TEMPLATE = {
 			},
 			
 			[ENTITY_COMPONENT.MOVEMENT] = {
-				velocity = 400,
+				velocity = 300,
 				direction = 5,
-				spritesheetId = 1,
+				spritesheetId = 11,
 				defaultQuad = 9,
 				totalTime = 30,
 				currentTime = 0,
 				frequency = 10,
 				updatePoint = 0,
 				movementRepoId = 1,
-				animationSetId = 1,
+				animationSetId = 2,
 				animationId = 2
 			},
 			
@@ -91,7 +93,7 @@ local ENTITY_TEMPLATE = {
 			[ENTITY_COMPONENT.SPAWN] = {
 				state = false,
 				scriptId = 1,
-				actionSetId = 1,
+				actionSetId = 4,
 				actionId = 1,
 				action = nil,
 				currentTime = 0,
@@ -105,7 +107,7 @@ local ENTITY_TEMPLATE = {
 			[ENTITY_COMPONENT.DESPAWN] = {
 				state = false,
 				scriptId = 1,
-				actionSetId = 1,
+				actionSetId = 4,
 				actionId = 3,
 				action = nil,
 				currentTime = 0,
@@ -132,7 +134,7 @@ local ENTITY_TEMPLATE = {
 				activatedBy = {},
 				childRoles = {},
 				
-				actionSetId = 1,
+				actionSetId = 4,
 				actionId = 4,
 				action = nil,
 				currentTime = 0,
@@ -144,7 +146,7 @@ local ENTITY_TEMPLATE = {
 			
 			[ENTITY_COMPONENT.COMBAT] = {
 				state = false,
-				actionSetId = 1,
+				actionSetId = 4,
 				action = nil,
 				currentTime = 0,
 				updatePoint = 0,

@@ -1,6 +1,7 @@
 ----------------------------------
 --Entity Player Controller System:
 ----------------------------------
+--DEPRECATED!
 
 local PlayerEntityControllerSystem = {}
 

@@ -1,3 +1,0 @@
-return {
-	GENERIC = 'generic'
-}

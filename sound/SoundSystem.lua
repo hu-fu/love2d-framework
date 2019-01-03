@@ -112,7 +112,7 @@ function SoundSystem:setSoundListener(entityDb)
 	--assign listener as the player controlled entity
 	
 	local dbTable = entityDb:getComponentTable(self.ENTITY_TYPE.GENERIC_ENTITY, 
-		self.ENTITY_COMPONENT.PLAYER_INPUT)
+		self.ENTITY_COMPONENT.INPUT)
 	local entity = nil
 	
 	for i=1, #dbTable do

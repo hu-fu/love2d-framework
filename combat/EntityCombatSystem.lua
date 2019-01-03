@@ -189,15 +189,9 @@ function EntityCombatSystem:sendEndStateRequest(combatComponent)
 	local eventObj = self.entityInputRequestPool:getCurrentAvailableObject()
 	
 	eventObj.actionId = self.ENTITY_ACTION.END_COMBAT
-	eventObj.stateComponent = combatComponent.componentTable.state
+	eventObj.inputComponent = combatComponent.componentTable.input
 	
-	if combatComponent.componentTable.playerInput and 
-		combatComponent.componentTable.playerInput.state then
-		self.eventDispatcher:postEvent(3, 4, eventObj)
-	else
-		--send to ai controller
-	end
-	
+	self.eventDispatcher:postEvent(3, 4, eventObj)
 	self.entityInputRequestPool:incrementCurrentIndex()
 end
 

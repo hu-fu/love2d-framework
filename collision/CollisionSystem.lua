@@ -92,7 +92,6 @@ function CollisionSystem:detectCollisions(pairsHashTable)
 end
 
 function CollisionSystem:detectCollision(spatialEntityA, spatialEntityB)
-	--BUG: due to spatial system delays some entities may be already unregistered (prog crashes)
 	self.collisionDetectionMethods[spatialEntityA.entityType]
 		[spatialEntityB.entityType](spatialEntityA.parentEntity, spatialEntityB.parentEntity)
 end
@@ -140,6 +139,10 @@ CollisionSystem.collisionDetectionMethods = {
 				CollisionSystem.collisionResponseMethods[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE]
 					[entityA.collisionType](entityA, entityB)
 			end
+		end,
+		
+		[CollisionSystem.ENTITY_TYPES.UNDEFINED] = function(entityA, entityB)
+			--do nothing
 		end
 	},
 	
@@ -162,6 +165,10 @@ CollisionSystem.collisionDetectionMethods = {
 				CollisionSystem.collisionResponseMethods[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE]
 					[entityA.collisionType](entityA, entityB)
 			end
+		end,
+		
+		[CollisionSystem.ENTITY_TYPES.UNDEFINED] = function(entityA, entityB)
+			--do nothing
 		end
 	},
 	
@@ -175,6 +182,16 @@ CollisionSystem.collisionDetectionMethods = {
 			CollisionSystem.collisionDetectionMethods[CollisionSystem.ENTITY_TYPES.GENERIC_WALL]
 			[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE](entityB, entityA)
 		end,
+		
+		[CollisionSystem.ENTITY_TYPES.UNDEFINED] = function(entityA, entityB)
+			--do nothing
+		end
+	},
+	
+	[CollisionSystem.ENTITY_TYPES.UNDEFINED] = {
+		[CollisionSystem.ENTITY_TYPES.UNDEFINED] = function(entityA, entityB)
+			--do nothing
+		end
 	}
 }
 
@@ -471,6 +488,7 @@ end
 CollisionSystem:setDefaultTableValues(CollisionSystem.collisionDetectionMethods)
 CollisionSystem:setDefaultTableValues(CollisionSystem.collisionDetectionMethods[CollisionSystem.ENTITY_TYPES.GENERIC_ENTITY])
 CollisionSystem:setDefaultTableValues(CollisionSystem.collisionDetectionMethods[CollisionSystem.ENTITY_TYPES.GENERIC_PROJECTILE])
+CollisionSystem:setDefaultTableValues(CollisionSystem.collisionDetectionMethods[CollisionSystem.ENTITY_TYPES.UNDEFINED])
 CollisionSystem:setDefaultTableValues(CollisionSystem.collisionResponseMethods)
 
 return CollisionSystem

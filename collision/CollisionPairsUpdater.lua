@@ -43,11 +43,6 @@ CollisionPairsUpdater.updateAreaQueue = {
 	UPDATE_AREA.NORMAL, UPDATE_AREA.NORMAL, UPDATE_AREA.NORMAL, UPDATE_AREA.NORMAL, UPDATE_AREA.MEDIUM
 }
 
---BUG: crash when the obstacleFriendProjectile/hostile collisions are retrieved in sequent frames
-	--the problem is that the spatial collision update query runs first than the projectile spatial
-	--unregistration query, due to the spatial req stack running as LIFO
-	--can be solved by calling the spatial query update system right after the projectile system
-	--can also add a simple check if the entities exist in the system before colliding them
 CollisionPairsUpdater.updateCollisionTypeQueue = {
 	{
 		CollisionPairsUpdater.COLLISION_TYPE.playerHostile,

@@ -46,10 +46,10 @@ SystemInitializer.initializeSystemMethods = {
 		self.systemTable[self.SYSTEM_ID.IDLE] = system
 	end,
 	
-	[SystemInitializer.SYSTEM_ID.PLAYER_ENTITY_CONTROLLER] = function(self)
-		local system = require '/controller/PlayerEntityControllerSystem'
+	[SystemInitializer.SYSTEM_ID.ENTITY_CONTROLLER] = function(self)
+		local system = require '/controller/EntityControllerSystem'
 		system:init()
-		self.systemTable[self.SYSTEM_ID.PLAYER_ENTITY_CONTROLLER] = system
+		self.systemTable[self.SYSTEM_ID.ENTITY_CONTROLLER] = system
 	end,
 	
 	[SystemInitializer.SYSTEM_ID.ENTITY_MOVEMENT] = function(self)

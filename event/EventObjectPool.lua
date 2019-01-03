@@ -230,6 +230,7 @@ function EventObjectPool:setCreateEventObjectMethods()
 				--input sent to entity controllers via external systems
 				actionId = nil,
 				stateComponent = nil,
+				inputComponent = nil,
 				variables = nil
 				--more variables, maybe a request system like the spatial requests
 			}

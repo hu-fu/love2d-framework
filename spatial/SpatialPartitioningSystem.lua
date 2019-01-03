@@ -132,15 +132,16 @@ function SpatialPartitioningSystem:resetAreaCurrentEntityId(areaSpatialObject)
 end
 
 function SpatialPartitioningSystem:createSpatialEntity()
-	local entityRole = nil
+	local entityRole = self.ENTITY_ROLES.UNDEFINED		--BUG: crash @start if this isn't nil. WHY???
+	local entityType = self.ENTITY_TYPES.UNDEFINED		--BUG: crash @start if this isn't nil. WHY???
 	local spatialLevel = -1
 	local spatialIndexX, spatialIndexY = -1, -1
 	local xOverlap = false
 	local yOverlap = false
 	local id = 0
 	
-	local spatialEntityObject = SpatialEntity.new(id, nil, entityRole, spatialLevel, spatialIndexX, 
-		spatialIndexY, xOverlap, yOverlap)
+	local spatialEntityObject = SpatialEntity.new(id, nil, entityRole, entityType, spatialLevel, 
+		spatialIndexX, spatialIndexY, xOverlap, yOverlap)
 	
 	return spatialEntityObject
 end
@@ -154,8 +155,8 @@ function SpatialPartitioningSystem:updateSpatialEntity(entity, spatialIndexX, sp
 end
 
 function SpatialPartitioningSystem:resetSpatialEntity(spatialEntity)
-	spatialEntity.entityRole = nil
-	spatialEntity.entityType = nil
+	spatialEntity.entityRole = self.ENTITY_ROLES.UNDEFINED
+	spatialEntity.entityType = self.ENTITY_TYPES.UNDEFINED
 	spatialEntity.spatialLevel = -1
 	spatialEntity.spatialIndexX = -1
 	spatialEntity.spatialIndexY = -1
@@ -327,6 +328,10 @@ SpatialPartitioningSystem.getEntityListFromEntityTypeMethods = {
 }
 
 SpatialPartitioningSystem.registerSpatialEntityOnEntityMethods = {
+	[SpatialPartitioningSystem.ENTITY_TYPES.UNDEFINED] = function(entity, spatialEntity)
+	
+	end,
+	
 	[SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_ENTITY] = function(entity, spatialEntity)
 		if entity.components then
 			--for main entities:
@@ -407,6 +412,12 @@ SpatialPartitioningSystem.getSpriteboxFromSpatialEntityMethods = {
 }
 
 SpatialPartitioningSystem.defaultRegisterSpatialEntityMethods = {
+	
+	[SpatialPartitioningSystem.ENTITY_TYPES.UNDEFINED] = {
+		[SpatialPartitioningSystem.ENTITY_ROLES.UNDEFINED] = function(spatialEntity, grid, entityRole)
+			
+		end,
+	},
 	
 	[SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_ENTITY] = {
 		[SpatialPartitioningSystem.ENTITY_ROLES.UNDEFINED] = function(spatialEntity, grid, entityRole)
@@ -590,6 +601,12 @@ SpatialPartitioningSystem.defaultRegisterSpatialEntityMethods = {
 }
 
 SpatialPartitioningSystem.defaultUnregisterSpatialEntityMethods = {
+	[SpatialPartitioningSystem.ENTITY_TYPES.UNDEFINED] = {
+		[SpatialPartitioningSystem.ENTITY_ROLES.UNDEFINED] = function(entity, grid)
+		
+		end,
+	},
+	
 	[SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_ENTITY] = {
 		[SpatialPartitioningSystem.ENTITY_ROLES.PLAYER] = function(entity, grid)
 			local spatialEntity = entity.spatialEntity
@@ -617,12 +634,20 @@ SpatialPartitioningSystem.defaultUnregisterSpatialEntityMethods = {
 			SpatialPartitioningSystem.defaultUnregisterSpatialEntityMethods[SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_ENTITY]
 				[SpatialPartitioningSystem.ENTITY_ROLES.PLAYER](entity, grid)
 		end,
+		
+		[SpatialPartitioningSystem.ENTITY_ROLES.UNDEFINED] = function(entity, grid)
+		
+		end,
 	},
 	
 	[SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_WALL] = {
 		[SpatialPartitioningSystem.ENTITY_ROLES.OBSTACLE] = function(entity, grid)
 			SpatialPartitioningSystem.defaultUnregisterSpatialEntityMethods[SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_ENTITY]
 				[SpatialPartitioningSystem.ENTITY_ROLES.PLAYER](entity, grid)
+		end,
+		
+		[SpatialPartitioningSystem.ENTITY_ROLES.UNDEFINED] = function(entity, grid)
+		
 		end,
 	},
 	
@@ -645,6 +670,10 @@ SpatialPartitioningSystem.defaultUnregisterSpatialEntityMethods = {
 			
 			SpatialPartitioningSystem:resetSpatialEntity(spatialEntity)
 		end,
+		
+		[SpatialPartitioningSystem.ENTITY_ROLES.UNDEFINED] = function(entity, grid)
+		
+		end,
 	},
 	
 	[SpatialPartitioningSystem.ENTITY_TYPES.VISUAL_EFFECT] = {
@@ -652,10 +681,18 @@ SpatialPartitioningSystem.defaultUnregisterSpatialEntityMethods = {
 			SpatialPartitioningSystem.defaultUnregisterSpatialEntityMethods[SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_ENTITY]
 				[SpatialPartitioningSystem.ENTITY_ROLES.PLAYER](entity, grid)
 		end,
+		
+		[SpatialPartitioningSystem.ENTITY_ROLES.UNDEFINED] = function(entity, grid)
+		
+		end,
 	}
 }
 
 SpatialPartitioningSystem.defaultUpdatePositionMethods = {
+	[SpatialPartitioningSystem.ENTITY_TYPES.UNDEFINED] = function(spatialEntity, grid)
+	
+	end,
+	
 	[SpatialPartitioningSystem.ENTITY_TYPES.GENERIC_ENTITY] = function(spatialEntity, grid)
 		
 		local subGrid = grid.subGrids[spatialEntity.spatialLevel]

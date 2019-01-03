@@ -10,4 +10,6 @@ return {
 	[SPRITESHEET.TEST_DIAGONAL] = {id=7, spritesheetPath='/test/diagonal_obstacle.png', quadPath='/test/diagonal_obstacle'},
 	[SPRITESHEET.TEST_DIAGONAL_TWO] = {id=7, spritesheetPath='/test/diagonal_obstacle_two.png', quadPath='/test/diagonal_obstacle_two'},
 	[SPRITESHEET.HOLE] = {id=7, spritesheetPath='/test/hole.png', quadPath='/test/hole'},
+	[SPRITESHEET.GENERIC_ENTITY_B] = {id=7, spritesheetPath='/entity/player b.png', quadPath='/entity/player b'},
+	[SPRITESHEET.GENERIC_ENTITY_C] = {id=7, spritesheetPath='/entity/player c.png', quadPath='/entity/player c'},
 }

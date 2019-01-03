@@ -325,11 +325,17 @@ EntityLoader.createEntityComponentMethods = {
 		component.defaultState = templateComponent.defaultState
 	end,
 	
-	[EntityLoader.ENTITY_COMPONENT.PLAYER_INPUT] = function(self, template, entityAsset, entity)
-		local component = entity.components.playerInput
-		local templateComponent = template.components[self.ENTITY_COMPONENT.PLAYER_INPUT]
-		component.state = entityAsset.inputState
+	[EntityLoader.ENTITY_COMPONENT.INPUT] = function(self, template, entityAsset, entity)
+		local component = entity.components.input
+		local templateComponent = template.components[self.ENTITY_COMPONENT.INPUT]
+		component.state = templateComponent.state
+		component.defaultControllerId = templateComponent.defaultControllerId
 		component.controllerId = templateComponent.controllerId
+		component.playerInputState = templateComponent.playerInputState
+		
+		if entityAsset.playerInputState then
+			component.playerInputState = entityAsset.playerInputState
+		end
 	end,
 	
 	[EntityLoader.ENTITY_COMPONENT.IDLE] = function(self, template, entityAsset, entity)
@@ -717,7 +723,7 @@ EntityLoader.modifyEntityComponentMethods = {
 	
 	end,
 	
-	[EntityLoader.ENTITY_COMPONENT.PLAYER_INPUT] = function(entity, entityMod)
+	[EntityLoader.ENTITY_COMPONENT.INPUT] = function(entity, entityMod)
 	
 	end,
 	
@@ -767,7 +773,7 @@ EntityLoader.indexEntityComponentMethods = {
 	
 	end,
 	
-	[EntityLoader.ENTITY_COMPONENT.PLAYER_INPUT] = function(entity, entityDb)
+	[EntityLoader.ENTITY_COMPONENT.INPUT] = function(entity, entityDb)
 	
 	end,
 	
@@ -789,7 +795,7 @@ function EntityLoader:setEntityDbOnAllSystems()
 	request.entityDb = self.entityDatabaseStack:getCurrent()
 	self.setEntityDbOnSystemMethods[SYSTEM_ID.CAMERA](self, request)
 	self.setEntityDbOnSystemMethods[SYSTEM_ID.SPATIAL_PARTITIONING](self, request)
-	self.setEntityDbOnSystemMethods[SYSTEM_ID.PLAYER_ENTITY_CONTROLLER](self, request)
+	self.setEntityDbOnSystemMethods[SYSTEM_ID.ENTITY_CONTROLLER](self, request)
 	self.setEntityDbOnSystemMethods[SYSTEM_ID.ENTITY_MOVEMENT](self, request)
 	self.setEntityDbOnSystemMethods[SYSTEM_ID.ENTITY_ANIMATION](self, request)
 	self.setEntityDbOnSystemMethods[SYSTEM_ID.IDLE](self, request)
@@ -815,7 +821,7 @@ EntityLoader.setEntityDbOnSystemMethods = {
 		entityLoader.eventDispatcher:postEvent(3, 3, request)
 	end,
 	
-	[SYSTEM_ID.PLAYER_ENTITY_CONTROLLER] = function(entityLoader, request)
+	[SYSTEM_ID.ENTITY_CONTROLLER] = function(entityLoader, request)
 		entityLoader.eventDispatcher:postEvent(5, 1, request)
 	end,
 	
