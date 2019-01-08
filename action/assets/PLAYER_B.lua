@@ -55,7 +55,7 @@ return {
 		id = 1,
 		animationSetId = 0,
 		animationId = 0,
-		totalTime = 0.3,
+		totalTime = 0.1,
 		replay = false,
 		
 		variables = {
@@ -68,7 +68,7 @@ return {
 				callTime = 0.0,
 				timeFrequency = 0,
 				method = function(self, system, component)
-					
+					--create a cool explosion or something
 				end
 			}
 		}
@@ -160,7 +160,7 @@ return {
 				id = 1,
 				callType = CALL_TYPE.THREAD_START,
 				callTime = 0.2,
-				timeFrequency = 0.15,
+				timeFrequency = 0.10,
 				method = function(self, system, component)
 					
 					--shoot bullets pew pew pew

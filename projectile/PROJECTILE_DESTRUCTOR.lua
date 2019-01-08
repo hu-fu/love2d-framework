@@ -12,7 +12,8 @@ local PROJECTILE_DESTRUCTOR = {
 		end,
 		
 		[PROJECTILE_DESTRUCTION_TYPES.ENTITY_COLLISION] = function(projectileSystem, projectileObject, entityObject)
-			
+			--test: send health request
+			projectileSystem:sendHealthRequest(entityObject.componentTable.health, 2, -10, nil, nil)
 		end,
 	},
 	

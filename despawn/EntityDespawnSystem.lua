@@ -18,6 +18,7 @@ EntityDespawnSystem.ENTITY_DESPAWN_TYPE = require '/despawn/ENTITY_DESPAWN_TYPE'
 EntityDespawnSystem.ENTITY_DESPAWN = require '/despawn/ENTITY_DESPAWN'
 EntityDespawnSystem.DESPAWN_REQUEST = require '/despawn/DESPAWN_REQUEST'
 EntityDespawnSystem.ENTITY_ACTION = require '/entity state/ENTITY_ACTION'
+EntityDespawnSystem.QUERY_TYPES = require '/spatial/SPATIAL_QUERY'
 
 -------------------
 --System Variables:
@@ -25,9 +26,15 @@ EntityDespawnSystem.ENTITY_ACTION = require '/entity state/ENTITY_ACTION'
 
 EntityDespawnSystem.id = SYSTEM_ID.ENTITY_DESPAWN
 
-EntityDespawnSystem.animationRequestPool = EventObjectPool.new(EntityDespawnSystem.EVENT_TYPE.ANIMATION, 100)
-EntityDespawnSystem.actionLoaderRequestPool = EventObjectPool.new(EntityDespawnSystem.EVENT_TYPE.ACTION, 100)
+EntityDespawnSystem.animationRequestPool = EventObjectPool.new(EntityDespawnSystem.EVENT_TYPE.ANIMATION, 25)
+EntityDespawnSystem.actionLoaderRequestPool = EventObjectPool.new(EntityDespawnSystem.EVENT_TYPE.ACTION, 25)
 EntityDespawnSystem.entityInputRequestPool = EventObjectPool.new(EntityDespawnSystem.EVENT_TYPE.ENTITY_INPUT, 100)
+EntityDespawnSystem.targetingRequestPool = EventObjectPool.new(EntityDespawnSystem.EVENT_TYPE.TARGETING, 25)
+
+function EntityDespawnSystem:spatialQueryDefaultCallbackMethod() return function () end end
+EntityDespawnSystem.spatialSystemRequestPool = EventObjectPool.new(EntityDespawnSystem.EVENT_TYPE.SPATIAL_REQUEST, 25)
+EntityDespawnSystem.unregisterEntitySpatialQueryPool = SpatialQueryPool.new(25, EntityDespawnSystem.QUERY_TYPES.UNREGISTER_ENTITY, 
+	SpatialQueryBuilder.new(), EntityDespawnSystem:spatialQueryDefaultCallbackMethod())
 
 EntityDespawnSystem.despawnComponentTable = {}
 EntityDespawnSystem.requestStack = {}
@@ -82,6 +89,9 @@ function EntityDespawnSystem:update(dt)
 	self.animationRequestPool:resetCurrentIndex()
 	self.actionLoaderRequestPool:resetCurrentIndex()
 	self.entityInputRequestPool:resetCurrentIndex()
+	self.spatialSystemRequestPool:resetCurrentIndex()
+	self.unregisterEntitySpatialQueryPool:resetCurrentIndex()
+	self.targetingRequestPool:resetCurrentIndex()
 end
 
 function EntityDespawnSystem:addRequestToStack(request)
@@ -124,7 +134,7 @@ end
 function EntityDespawnSystem:getActionRequestCallbackMethod()
 	return function (component, actionObject)
 		if actionObject then
-			self:setActionOnComponent(component, actionObject) 
+			self:setActionOnComponent(component, actionObject)
 			self.ACTION_METHODS:resetAction(component)
 			self:startAnimation(component)
 		else
@@ -195,6 +205,35 @@ end
 
 function EntityDespawnSystem:stopAnimation(despawnComponent)
 	--not needed
+end
+
+function EntityDespawnSystem:disableEntity(despawnComponent)
+	--removes entity from all systems (wip)
+	self:unregisterEntityInSpatialSystem(despawnComponent)
+	self:disableEntityInTargetingSystem(despawnComponent)
+end
+
+function EntityDespawnSystem:unregisterEntityInSpatialSystem(component)
+	local queryObj = self.unregisterEntitySpatialQueryPool:getCurrentAvailableObjectDefault()
+	
+	queryObj.entityType = self.ENTITY_TYPE.GENERIC_ENTITY
+	queryObj.entityRole = component.componentTable.scene.role
+	queryObj.entity = component.componentTable.hitbox
+	
+	local spatialSystemRequest = self.spatialSystemRequestPool:getCurrentAvailableObject()
+	spatialSystemRequest.spatialQuery = queryObj
+	self.eventDispatcher:postEvent(3, 1, spatialSystemRequest)
+	
+	self.unregisterEntitySpatialQueryPool:incrementCurrentIndex()
+	self.spatialSystemRequestPool:incrementCurrentIndex()
+end
+
+function EntityDespawnSystem:disableEntityInTargetingSystem(component)
+	local targetingSystemRequest = self.targetingRequestPool:getCurrentAvailableObject()
+	targetingSystemRequest.requestType = 4
+	targetingSystemRequest.targetHitbox = component.componentTable.hitbox
+	self.eventDispatcher:postEvent(4, 2, targetingSystemRequest)
+	self.targetingRequestPool:incrementCurrentIndex()
 end
 
 ----------------

@@ -25,7 +25,8 @@ function Projectile.new ()
 			scene = nil,
 			spatial = nil,
 			sprite = nil,
-			target = nil
+			target = nil,
+			destruction = nil,
 		}
 		
 	return self
@@ -60,6 +61,7 @@ function ProjectileFactory:createProjectile()
 	projectile.components.spatial = self:createComponent(projectile, self.PROJECTILE_COMPONENTS.SPATIAL)
 	projectile.components.sprite = self:createComponent(projectile, self.PROJECTILE_COMPONENTS.SPRITE)
 	projectile.components.target = self:createComponent(projectile, self.PROJECTILE_COMPONENTS.TARGET)
+	projectile.components.destruction = self:createComponent(projectile, self.PROJECTILE_COMPONENTS.DESTRUCTION)
 	return projectile
 end
 
@@ -128,7 +130,15 @@ function ProjectileFactory:setCreateComponentMethods()
 				targetRef = nil
 				--...
 			}
-		end
+		end,
+		
+		[self.PROJECTILE_COMPONENTS.DESTRUCTION] = function(projectile)
+			return {
+				self = projectile,
+				damage = 0,
+				--...
+			}
+		end,
 	}
 end
 

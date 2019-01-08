@@ -12,6 +12,7 @@ local SYSTEM_ID = require '/system/SYSTEM_ID'
 EntityControllerSystem.ENTITY_CONTROLLER = require '/controller/ENTITY_CONTROLLER'
 EntityControllerSystem.ENTITY_TYPE = require '/entity/ENTITY_TYPE'
 EntityControllerSystem.ENTITY_COMPONENT = require '/entity/ENTITY_COMPONENT'
+EntityControllerSystem.EVENT_TYPE = require '/event/EVENT_TYPE'
 
 -------------------
 --System Variables:
@@ -22,13 +23,17 @@ EntityControllerSystem.id = SYSTEM_ID.ENTITY_CONTROLLER
 EntityControllerSystem.inputComponentTable = {}
 EntityControllerSystem.activePlayerInputComponent = nil
 
-EntityControllerSystem.entityControllers = {
-	[EntityControllerSystem.ENTITY_CONTROLLER.PLAYER_GENERIC] = require '/controller/PlayerEntityControllerGeneric',
-	--...
-}
-
 EntityControllerSystem.playerInputStack = {}
 EntityControllerSystem.gameInputStack = {}
+
+EntityControllerSystem.movementRequestPool = EventObjectPool.new(EntityControllerSystem.EVENT_TYPE.MOVEMENT, 25)
+EntityControllerSystem.idleRequestPool = EventObjectPool.new(EntityControllerSystem.EVENT_TYPE.IDLE, 25)
+EntityControllerSystem.targetingRequestPool = EventObjectPool.new(EntityControllerSystem.EVENT_TYPE.TARGETING, 25)
+EntityControllerSystem.spawnRequestPool = EventObjectPool.new(EntityControllerSystem.EVENT_TYPE.ENTITY_SPAWN, 25)
+EntityControllerSystem.despawnRequestPool = EventObjectPool.new(EntityControllerSystem.EVENT_TYPE.ENTITY_DESPAWN, 25)
+EntityControllerSystem.interactionRequestPool = EventObjectPool.new(EntityControllerSystem.EVENT_TYPE.INTERACTION, 25)
+EntityControllerSystem.entityEventRequestPool = EventObjectPool.new(EntityControllerSystem.EVENT_TYPE.ENTITY_EVENT, 25)
+EntityControllerSystem.entityCombatRequestPool = EventObjectPool.new(EntityControllerSystem.EVENT_TYPE.ENTITY_COMBAT, 25)
 
 ----------------
 --Event Methods:
@@ -62,6 +67,12 @@ EntityControllerSystem.eventMethods = {
 function EntityControllerSystem:setInputComponentTable(entityDb)
 	self.inputComponentTable = entityDb:getComponentTable(self.ENTITY_TYPE.GENERIC_ENTITY, 
 		self.ENTITY_COMPONENT.INPUT)
+	
+	for i=1, #self.inputComponentTable do
+		if not self.inputComponentTable[i].controlle then
+			self.inputComponentTable[i].controller = self.ENTITY_CONTROLLER[self.inputComponentTable[i].controllerId]()
+		end
+	end
 end
 
 function EntityControllerSystem:init()
@@ -75,11 +86,8 @@ end
 function EntityControllerSystem:update()
 	self:resolvePlayerInputRequestStack()
 	self:resolveGameInputRequestStack()
-	
-	--TEMP (update method for current player controller - it isn't supposed to go in here or maybe even exist):
-	self.entityControllers[self.activePlayerInputComponent.controllerId]:resolveState(self, 
-		self.activePlayerInputComponent)
-	self.entityControllers[self.activePlayerInputComponent.controllerId]:reset()
+	self:resolveEntityOutputs()
+	self:reset()
 end
 
 function EntityControllerSystem:resolvePlayerInputRequestStack()
@@ -93,6 +101,14 @@ function EntityControllerSystem:resolveGameInputRequestStack()
 	for i=#self.gameInputStack, 1, -1 do
 		self:resolveGameInput(self.gameInputStack[i])
 		self:removeGameInputFromStack()
+	end
+end
+
+function EntityControllerSystem:resolveEntityOutputs()
+	for i=1, #self.inputComponentTable do
+		if self.inputComponentTable[i].controller.output then
+			self.inputComponentTable[i].controller:resolveOutputs(self, self.inputComponentTable[i])
+		end
 	end
 end
 
@@ -114,15 +130,14 @@ end
 
 function EntityControllerSystem:resolvePlayerInput(request)
 	if self.activePlayerInputComponent and self.activePlayerInputComponent.state then
-		local controller = self.entityControllers[self.activePlayerInputComponent.controllerId]
-		controller:resolvePlayerInput(self, request.inputId, self.activePlayerInputComponent)	--TEMP
+		self.activePlayerInputComponent.controller:resolvePlayerInput(request, 
+			self.activePlayerInputComponent)
 	end
 end
 
 function EntityControllerSystem:resolveGameInput(request)
 	if request.inputComponent.state then
-		local controller = self.entityControllers[request.inputComponent.controllerId]
-		controller:resolveEntityInput(self, request, request.inputComponent.componentTable.state)	--TEMP
+		request.inputComponent.controller:resolveGameInput(self, request, request.inputComponent)
 	end
 end
 
@@ -142,6 +157,50 @@ function EntityControllerSystem:setActivePlayerEntity(inputComponent)
 	
 	self.activePlayerInputComponent = inputComponent
 	self.activePlayerInputComponent.playerInputState = true
+end
+
+function EntityControllerSystem:changeEntityController(inputComponent, controllerId)
+	inputComponent.controller = self.ENTITY_CONTROLLER[controllerId]
+end
+
+function EntityControllerSystem:resetEntityController(inputComponent)
+	inputComponent.controller = self.ENTITY_CONTROLLER[inputComponent.defaultControllerId]
+end
+
+function EntityControllerSystem:sendMovementActionRequest(requestType, movementComponent)
+	
+end
+
+function EntityControllerSystem:sendIdleActionRequest(requestType, idleComponent)
+	
+end
+
+function EntityControllerSystem:requestEventAction(requestType, eventComponent)
+	
+end
+
+function EntityControllerSystem:sendTargetingActionRequest(requestType, targetingComponent)
+	
+end
+
+function EntityControllerSystem:sendCombatActionRequest(requestType, combatComponent)
+	
+end
+
+function EntityControllerSystem:sendSpawnActionRequest(requestType, spawnComponent)
+	
+end
+
+function EntityControllerSystem:sendDespawnActionRequest(requestType, despawnComponent)
+	
+end
+
+function EntityControllerSystem:sendHealthActionRequest(requestType, healthComponent)
+	
+end
+
+function EntityControllerSystem:reset()
+	--reset all event pools
 end
 
 ----------------

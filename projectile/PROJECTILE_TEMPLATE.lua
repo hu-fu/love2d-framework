@@ -13,6 +13,7 @@ local PROJECTILE_TEMPLATE = {
 		spritesheetQuad = 1,
 		spriteOffsetX = -12,
 		spriteOffsetY = -12,
+		damage = 10,
 		controller = PROJECTILE_CONTROLLER_TYPES.GENERIC,
 		destructor = PROJECTILE_DESTRUCTOR_TYPES.GENERIC,
 	}

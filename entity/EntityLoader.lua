@@ -511,6 +511,10 @@ EntityLoader.createEntityComponentMethods = {
 		component.healthPointsRegen = templateComponent.healthPointsRegen
 		component.healthPointsRegenMultiplier = templateComponent.healthPointsRegenMultiplier
 		component.healthPointsRegenTime = 0
+		
+		component.immunity = templateComponent.immunity
+		component.immunityActive = templateComponent.immunityActive
+		component.immunityTime = 0
 	end,
 	
 	[EntityLoader.ENTITY_COMPONENT.DIALOGUE] = function(self, template, entityAsset, entity)

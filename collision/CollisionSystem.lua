@@ -471,6 +471,7 @@ function CollisionSystem:sendProjectileRequest(entity, projectile)
 end
 
 function CollisionSystem:getRequestDestructionType(entity)
+	--I don't like this one bit (does the job for now)
 	if entity.componentTable.actionState then
 		return self.PROJECTILE_DESTRUCTION_TYPE.ENTITY_COLLISION
 	else

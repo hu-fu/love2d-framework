@@ -228,6 +228,7 @@ function EventObjectPool:setCreateEventObjectMethods()
 		[self.EVENT_TYPES.ENTITY_INPUT] = function()
 			return {
 				--input sent to entity controllers via external systems
+				inputId = nil,
 				actionId = nil,
 				stateComponent = nil,
 				inputComponent = nil,

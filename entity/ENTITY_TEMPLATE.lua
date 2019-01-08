@@ -30,7 +30,7 @@ local ENTITY_TEMPLATE = {
 			
 			[ENTITY_COMPONENT.HITBOX] = {
 				xDeviation = 15,
-				yDeviation = 25,
+				yDeviation = 26,
 				w = 20,
 				h = 20,
 				collisionType = 1,
@@ -44,8 +44,8 @@ local ENTITY_TEMPLATE = {
 			
 			[ENTITY_COMPONENT.INPUT] = {
 				state = true,
-				defaultControllerId = 1,
-				controllerId = 1,
+				defaultControllerId = 'player_generic',
+				controllerId = 'player_generic',
 				playerInputState = false,
 			},
 			
@@ -179,6 +179,10 @@ local ENTITY_TEMPLATE = {
 				
 				healthPointsRegen = false,
 				healthPointsRegenMultiplier = 1,
+				
+				immunity = false,
+				immunityActive = false,
+				immunityTime = 0,
 			},
 			
 			[ENTITY_COMPONENT.DIALOGUE] = {

@@ -43,6 +43,7 @@ ProjectileSystem.animationTable = {}				--[id] = anim obj
 ProjectileSystem.requestStack = {}
 
 ProjectileSystem.initEntityRequestPool = EventObjectPool.new(ProjectileSystem.EVENT_TYPE.INIT_ENTITY, 2)
+ProjectileSystem.healthRequestPool = EventObjectPool.new(ProjectileSystem.EVENT_TYPE.ENTITY_HEALTH, 25)
 
 function ProjectileSystem:spatialQueryDefaultCallbackMethod() return function () end end
 ProjectileSystem.spatialSystemRequestPool = EventObjectPool.new(ProjectileSystem.EVENT_TYPE.SPATIAL_REQUEST, 100)
@@ -166,6 +167,8 @@ function ProjectileSystem:update(dt)
 	self.spatialSystemRequestPool:resetCurrentIndex()
 	self.registerProjectileSpatialQueryPool:resetCurrentIndex()
 	self.unregisterProjectileSpatialQueryPool:resetCurrentIndex()
+	self.healthRequestPool:resetCurrentIndex()
+	self.initEntityRequestPool:resetCurrentIndex()
 end
 
 function ProjectileSystem:addRequestToStack(request)
@@ -261,6 +264,7 @@ function ProjectileSystem:initProjectile(senderType, senderRef, role, x, y, dire
 		projectile.components.sprite.spriteOffsetX = template.spriteOffsetX
 		projectile.components.sprite.spriteOffsetY = template.spriteOffsetY
 		projectile.components.sprite.defaultQuad = template.spritesheetQuad
+		projectile.components.destruction.damage = template.damage
 		projectile.controller = template.controller
 		projectile.destructor = template.destructor
 		projectile.animation = template.animation
@@ -396,6 +400,19 @@ function ProjectileSystem:unregisterProjectileOnSpatialSystem(projectile)
 	
 	self.unregisterProjectileSpatialQueryPool:incrementCurrentIndex()
 	self.spatialSystemRequestPool:incrementCurrentIndex()
+end
+
+function ProjectileSystem:sendHealthRequest(healthComponent, requestType, value, effectState, effectId)
+	local request = self.healthRequestPool:getCurrentAvailableObject()
+	
+	request.requestType = requestType
+	request.healthComponent = healthComponent
+	request.value = value
+	request.effectState = effectState
+	request.effectId = effectId
+	
+	self.eventDispatcher:postEvent(3, 2, request)
+	self.healthRequestPool:incrementCurrentIndex()
 end
 
 ----------------

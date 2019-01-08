@@ -4,7 +4,7 @@ return {
 	['id'] = 1,
 	
 	['variables'] = {
-		totalTime = 1,
+		totalTime = 5,
 		replay = true,
 		--...
 	},

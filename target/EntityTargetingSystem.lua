@@ -124,7 +124,11 @@ EntityTargetingSystem.resolveRequestMethods = {
 	[EntityTargetingSystem.TARGETING_REQUEST.SET_TARGET] = function(self, request)
 		self:activateState(request.targetingComponent)
 		self:setTargetOnComponent(request.targetingComponent, request.targetHitbox)
-	end
+	end,
+	
+	[EntityTargetingSystem.TARGETING_REQUEST.REMOVE_TARGET] = function(self, request)
+		self:removeTarget(request.targetHitbox)
+	end,
 }
 
 function EntityTargetingSystem:runState(targetingComponent)
@@ -194,6 +198,21 @@ function EntityTargetingSystem:searchNewTarget(targetingComponent)
 	local spatialQuery = self:createSpatialQuery(targetingComponent, x, y, areaX, areaY, areaW, areaH,
 		targetingComponent.areaRadius, targetRoles, nResults)
 	self:sendSpatialQuery(spatialQuery)
+end
+
+function EntityTargetingSystem:removeTarget(targetHitbox)
+	for i=1, #self.targetingComponentTable do
+		local component = self.targetingComponentTable[i]
+		
+		if component.state and component.targetHitbox == targetHitbox then
+			
+			if component.auto then
+				self:searchNewTarget(component)
+			else
+				self:resetState(component)
+			end
+		end
+	end
 end
 
 function EntityTargetingSystem:createSpatialQuery(targetingComponent, x, y, areaX, areaY, areaW, 

@@ -121,6 +121,7 @@ function GameEntityBuilder:setCreateComponentMethods()
 				state = false,
 				defaultControllerId = nil,
 				controllerId = nil,
+				controller = nil,
 				playerInputState = false,
 			}
 		end,
@@ -315,6 +316,10 @@ function GameEntityBuilder:setCreateComponentMethods()
 				healthPointsRegen = false,
 				healthPointsRegenMultiplier = 0,
 				healthPointsRegenTime = 0,
+				
+				immunity = false,
+				immunityActive = false,
+				immunityTime = 0,
 				
 				effects = false,
 				activeScripts = {},

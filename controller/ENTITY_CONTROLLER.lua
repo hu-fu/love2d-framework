@@ -1,4 +1,8 @@
 return {
-	PLAYER_GENERIC = 1,
+	['player_generic'] = function()
+		require '/controller/entity controller/GenericPlayerController'
+		return GenericPlayerController.new()
+	end,
+	
 	--...
 }

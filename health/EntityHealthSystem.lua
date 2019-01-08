@@ -24,7 +24,7 @@ EntityHealthSystem.DESPAWN_REQUEST = require '/despawn/DESPAWN_REQUEST'
 
 EntityHealthSystem.id = SYSTEM_ID.HEALTH
 
-EntityHealthSystem.despawnRequestPool = EventObjectPool.new(EntityHealthSystem.EVENT_TYPE.ENTITY_DESPAWN, 100)
+EntityHealthSystem.despawnRequestPool = EventObjectPool.new(EntityHealthSystem.EVENT_TYPE.ENTITY_DESPAWN, 50)
 
 EntityHealthSystem.healthComponentTable = {}
 EntityHealthSystem.requestStack = {}
@@ -117,12 +117,13 @@ function EntityHealthSystem:modifyHealthPoints(component, value)
 	
 	if component.healthPointsScript then
 		local script = self:getHealthPoolScript(component.healthPointsScript)
+		finalValue = script.getValue(self, script, component, value)
 		currentP = self:getPercentage(component.healthPoints, component.maxHealthPoints)
 		finalP = self:getPercentage(component.healthPoints + finalValue, component.maxHealthPoints)
-		self:runHealthPoolScript(script, component, currentP, finalP)
+		self:runHealthPoolScript(script, component, finalValue, currentP, finalP)
+	else
+		component.healthPoints = component.healthPoints + finalValue
 	end
-	
-	component.healthPoints = component.healthPoints + finalValue
 	
 	if component.healthPoints > component.maxHealthPoints then
 		component.healthPoints = component.maxHealthPoints
@@ -131,7 +132,9 @@ function EntityHealthSystem:modifyHealthPoints(component, value)
 	end
 end
 
-function EntityHealthSystem:runHealthPoolScript(script, component, currentPercentage, finalPercentage)
+function EntityHealthSystem:runHealthPoolScript(script, component, value, currentPercentage, finalPercentage)
+	script.modifyHealthPoints(self, script, component, value)
+	
 	if currentPercentage > finalPercentage then
 		--pool value decreases
 		
