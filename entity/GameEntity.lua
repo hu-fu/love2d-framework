@@ -132,6 +132,8 @@ function GameEntityBuilder:setCreateComponentMethods()
 				state = false,
 				
 				--action variables:
+				defaultActionSetId = 0,
+				defaultActionId = 0,
 				actionSetId = 0,
 				actionId = 0,
 				action = nil,
@@ -156,6 +158,7 @@ function GameEntityBuilder:setCreateComponentMethods()
 				rotation = 0,
 				direction = 0,
 				defaultAnimationSetId = 0,
+				defaultAnimationId = 0,
 				animationSetId = 0,
 				animationId = 0
 			}

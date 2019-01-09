@@ -153,6 +153,11 @@ return {
 			cancel = true,
 			cancelTime = 999.7,
 			staminaCost = 20,
+			walk = true,
+			walkAnimationSetId = 2,
+			walkAnimationId = 2,
+			idleActionSetId = 2,
+			idleActionId = 2,
 		},
 		
 		methods = {
@@ -160,7 +165,7 @@ return {
 				id = 1,
 				callType = CALL_TYPE.THREAD_START,
 				callTime = 0.2,
-				timeFrequency = 0.10,
+				timeFrequency = 0.1,
 				method = function(self, system, component)
 					
 					--shoot bullets pew pew pew

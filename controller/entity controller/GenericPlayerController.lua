@@ -175,7 +175,15 @@ function GenericPlayerController:setGameInputMappingMethods()
 		end,
 		
 		[self.ENTITY_ACTION.END_COMBAT] = function(self, request, inputComponent)
-			self:addOutput(self.OUTPUT_ACTION.IDLE)
+			local movementComponent = inputComponent.componentTable.movement
+			movementComponent.animationSetId = movementComponent.defaultAnimationSetId
+			movementComponent.animationId = movementComponent.defaultAnimationId
+			
+			inputComponent.componentTable.actionState.state = self.ENTITY_STATE.FREE
+			
+			if not movementComponent.state then
+				self:addOutput(self.OUTPUT_ACTION.IDLE)
+			end
 		end,
 	}
 end
@@ -191,6 +199,7 @@ function GenericPlayerController:setEntityOutputMappingMethods()
 		end,
 		
 		[self.OUTPUT_ACTION.MOVEMENT] = function(self, controllerSystem, stateComponent)
+			
 			if self:isActionAllowed(stateComponent.state, self.ENTITY_ACTION.MOVE) then
 				
 				if self.movementInputMapper:getCurrentMovementRotation() then
@@ -212,6 +221,34 @@ function GenericPlayerController:setEntityOutputMappingMethods()
 						stateComponent.componentTable.movement)
 					controllerSystem:sendIdleActionRequest(self.IDLE_REQUEST.START_IDLE, 
 						stateComponent.componentTable.idle)
+				end
+			elseif stateComponent.state == self.ENTITY_STATE.COMBAT then
+				
+				if not stateComponent.componentTable.combat.action or 
+					stateComponent.componentTable.combat.action.variables.walk then
+					
+					if self.movementInputMapper:getCurrentMovementRotation() then
+						--if there is direction(rotation) to movement, then move
+						
+						local movementComponent = stateComponent.componentTable.movement
+						movementComponent.rotation = self.movementInputMapper:getCurrentMovementRotation()
+						
+						if not stateComponent.componentTable.movement.state then
+							--if state is stopped then initiate action
+							controllerSystem:sendMovementActionRequest(self.MOVEMENT_REQUEST.START_MOVEMENT, 
+								movementComponent)
+						end
+					else
+						--if there isn't direction(rotation) to movement, then stop
+						controllerSystem:sendMovementActionRequest(self.MOVEMENT_REQUEST.STOP_MOVEMENT, 
+							stateComponent.componentTable.movement)
+						controllerSystem:sendIdleActionRequest(self.IDLE_REQUEST.START_IDLE, 
+							stateComponent.componentTable.idle)
+					end
+				else
+					--not allowed
+					controllerSystem:sendMovementActionRequest(self.MOVEMENT_REQUEST.STOP_MOVEMENT, 
+						stateComponent.componentTable.movement)
 				end
 			else
 				if stateComponent.componentTable.movement.state then
@@ -257,9 +294,11 @@ function GenericPlayerController:setEntityOutputMappingMethods()
 		
 		[self.OUTPUT_ACTION.IDLE] = function(self, controllerSystem, stateComponent)
 			--only send START_IDLE requests here
-			stateComponent.state = self.ENTITY_STATE.FREE
-			controllerSystem:sendIdleActionRequest(self.IDLE_REQUEST.START_IDLE, 
-				stateComponent.componentTable.idle)
+			
+			if not stateComponent.componentTable.movement.state then
+				controllerSystem:sendIdleActionRequest(self.IDLE_REQUEST.START_IDLE, 
+					stateComponent.componentTable.idle)
+			end
 		end,
 	}
 end

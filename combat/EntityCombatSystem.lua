@@ -201,13 +201,20 @@ end
 
 function EntityCombatSystem:startAnimation(combatComponent)
 	if combatComponent.action then
-		local animationRequest = self.animationRequestPool:getCurrentAvailableObject()
-		animationRequest.animationSetId = combatComponent.action.animationSetId
-		animationRequest.animationId = combatComponent.action.animationId
-		animationRequest.spritebox = combatComponent.componentTable.spritebox
-		
-		self.eventDispatcher:postEvent(2, 2, animationRequest)
-		self.animationRequestPool:incrementCurrentIndex()
+		if combatComponent.action.variables.walk and combatComponent.action.variables.walkAnimationSetId then
+			--walking animation is changed into custom attacking animation
+			local spriteComponent = combatComponent.componentTable.spritebox
+			spriteComponent.animationSetId = combatComponent.action.variables.walkAnimationSetId
+			spriteComponent.animationId = combatComponent.action.variables.walkAnimationId
+		else
+			local animationRequest = self.animationRequestPool:getCurrentAvailableObject()
+			animationRequest.animationSetId = combatComponent.action.animationSetId
+			animationRequest.animationId = combatComponent.action.animationId
+			animationRequest.spritebox = combatComponent.componentTable.spritebox
+			
+			self.eventDispatcher:postEvent(2, 2, animationRequest)
+			self.animationRequestPool:incrementCurrentIndex()
+		end
 	end
 end
 

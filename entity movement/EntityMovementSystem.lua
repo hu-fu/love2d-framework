@@ -176,6 +176,11 @@ function EntityMovementSystem:stopAnimation(movementComponent)
 	--not even needed rofl
 end
 
+function EntityMovementSystem:resetToDefaultAnimation(movementComponent)
+	movementComponent.animationSetId = movementComponent.defaultAnimationSetId
+	movementComponent.animationId = movementComponent.defaultAnimationId
+end
+
 ----------------
 --Return module:
 ----------------

@@ -342,6 +342,8 @@ EntityLoader.createEntityComponentMethods = {
 		local component = entity.components.idle
 		local templateComponent = template.components[self.ENTITY_COMPONENT.IDLE]
 		component.state = templateComponent.state
+		component.defaultActionSetId = templateComponent.defaultActionSetId
+		component.defaultActionId = templateComponent.defaultActionId
 		component.actionSetId = templateComponent.actionSetId
 		component.actionId = templateComponent.actionId
 		component.action = templateComponent.action
@@ -366,6 +368,8 @@ EntityLoader.createEntityComponentMethods = {
 		component.movementRepoId = templateComponent.movementRepoId
 		component.animationSetId = templateComponent.animationSetId
 		component.animationId = templateComponent.animationId
+		component.defaultAnimationSetId = templateComponent.defaultAnimationSetId
+		component.defaultAnimationId = templateComponent.defaultAnimationId
 	end,
 	
 	[EntityLoader.ENTITY_COMPONENT.TARGETING] = function(self, template, entityAsset, entity)

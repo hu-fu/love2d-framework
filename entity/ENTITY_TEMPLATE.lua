@@ -51,6 +51,8 @@ local ENTITY_TEMPLATE = {
 			
 			[ENTITY_COMPONENT.IDLE] = {
 				state = false,
+				defaultActionSetId = 0,
+				defaultActionId = 0,
 				actionSetId = 4,
 				actionId = 2,
 				action = nil,
@@ -71,6 +73,8 @@ local ENTITY_TEMPLATE = {
 				frequency = 10,
 				updatePoint = 0,
 				movementRepoId = 1,
+				defaultAnimationSetId = 2,
+				defaultAnimationId = 2,
 				animationSetId = 2,
 				animationId = 2
 			},
