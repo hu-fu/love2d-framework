@@ -76,7 +76,7 @@ return {
 	
 	[ACTIONS.ACTION_ID[SET_ID].INTERACT_TEST] = {
 		id = 1,
-		animationSetId = 11,
+		animationSetId = 2,
 		animationId = 1,
 		totalTime = 1.2,
 		replay = false,
@@ -108,7 +108,7 @@ return {
 	
 	[ACTIONS.ACTION_ID[SET_ID].COMBAT_TEST] = {
 		id = 5,
-		animationSetId = 11,
+		animationSetId = 2,
 		animationId = 3,
 		totalTime = 0.3,
 		replay = false,
@@ -143,7 +143,7 @@ return {
 	
 	[ACTIONS.ACTION_ID[SET_ID].COMBAT_RANGED] = {
 		id = 6,
-		animationSetId = 11,
+		animationSetId = 2,
 		animationId = 3,
 		totalTime = 999.9,
 		replay = false,
@@ -214,7 +214,7 @@ return {
 	
 	[ACTIONS.ACTION_ID[SET_ID].KNOCKBACK_TEST] = {
 		id = 7,
-		animationSetId = 11,
+		animationSetId = 2,
 		animationId = 4,
 		totalTime = 0.3,
 		replay = false,

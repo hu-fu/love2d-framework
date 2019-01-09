@@ -63,9 +63,12 @@ return {
 		spritesheetId = 11,
 		totalTime = 0.1,
 		frameUpdates = {
-			
+			{
+				updateTime = 0.1,
+				frameIndex = 1
+			},
 		},
-		replay = false,
+		replay = true,
 		
 		quads = {
 			UP = {1},			--{quad number, ...}
@@ -84,7 +87,10 @@ return {
 		spritesheetId = 11,
 		totalTime = 0.1,
 		frameUpdates = {
-			
+			{
+				updateTime = 0.1,
+				frameIndex = 1
+			},
 		},
 		replay = true,
 		

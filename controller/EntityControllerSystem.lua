@@ -168,11 +168,19 @@ function EntityControllerSystem:resetEntityController(inputComponent)
 end
 
 function EntityControllerSystem:sendMovementActionRequest(requestType, movementComponent)
-	
+	local movementSystemRequest = self.movementRequestPool:getCurrentAvailableObject()
+	movementSystemRequest.requestType = requestType
+	movementSystemRequest.movementComponent = movementComponent
+	self.eventDispatcher:postEvent(1, 2, movementSystemRequest)
+	self.movementRequestPool:incrementCurrentIndex()
 end
 
 function EntityControllerSystem:sendIdleActionRequest(requestType, idleComponent)
-	
+	local idleSystemRequest = self.idleRequestPool:getCurrentAvailableObject()
+	idleSystemRequest.requestType = requestType
+	idleSystemRequest.idleComponent = idleComponent
+	self.eventDispatcher:postEvent(2, 2, idleSystemRequest)
+	self.idleRequestPool:incrementCurrentIndex()
 end
 
 function EntityControllerSystem:requestEventAction(requestType, eventComponent)
@@ -180,11 +188,19 @@ function EntityControllerSystem:requestEventAction(requestType, eventComponent)
 end
 
 function EntityControllerSystem:sendTargetingActionRequest(requestType, targetingComponent)
-	
+	local targetingSystemRequest = self.targetingRequestPool:getCurrentAvailableObject()
+	targetingSystemRequest.requestType = requestType
+	targetingSystemRequest.targetingComponent = targetingComponent
+	self.eventDispatcher:postEvent(3, 2, targetingSystemRequest)
+	self.targetingRequestPool:incrementCurrentIndex()
 end
 
 function EntityControllerSystem:sendCombatActionRequest(requestType, combatComponent)
-	
+	local combatSystemRequest = self.entityCombatRequestPool:getCurrentAvailableObject()
+	combatSystemRequest.requestType = requestType
+	combatSystemRequest.combatComponent = combatComponent
+	self.eventDispatcher:postEvent(7, 2, combatSystemRequest)
+	self.entityCombatRequestPool:incrementCurrentIndex()
 end
 
 function EntityControllerSystem:sendSpawnActionRequest(requestType, spawnComponent)
@@ -200,7 +216,14 @@ function EntityControllerSystem:sendHealthActionRequest(requestType, healthCompo
 end
 
 function EntityControllerSystem:reset()
-	--reset all event pools
+	self.movementRequestPool:resetCurrentIndex()
+	self.idleRequestPool:resetCurrentIndex()
+	self.targetingRequestPool:resetCurrentIndex()
+	self.spawnRequestPool:resetCurrentIndex()
+	self.despawnRequestPool:resetCurrentIndex()
+	self.interactionRequestPool:resetCurrentIndex()
+	self.entityEventRequestPool:resetCurrentIndex()
+	self.entityCombatRequestPool:resetCurrentIndex()
 end
 
 ----------------

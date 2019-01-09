@@ -15,13 +15,13 @@ simulationInputChannel.databaseQueryPool = DatabaseQueryPool.new(10, simulationI
 
 simulationInputChannel.inputAction = require '/input/PLAYER_SIMULATION_INPUT_ACTION'
 
-simulationInputChannel:setDefaultKeyMapping('up', simulationInputChannel.inputAction.MOVE_UP, simulationInputChannel.inputAction.NONE, 
+simulationInputChannel:setDefaultKeyMapping('up', simulationInputChannel.inputAction.MOVE_UP, simulationInputChannel.inputAction.END_MOVE_UP, 
 	simulationInputChannel.inputAction.MOVE_UP)
-simulationInputChannel:setDefaultKeyMapping('left', simulationInputChannel.inputAction.MOVE_LEFT, simulationInputChannel.inputAction.NONE, 
+simulationInputChannel:setDefaultKeyMapping('left', simulationInputChannel.inputAction.MOVE_LEFT, simulationInputChannel.inputAction.END_MOVE_LEFT, 
 	simulationInputChannel.inputAction.MOVE_LEFT)
-simulationInputChannel:setDefaultKeyMapping('down', simulationInputChannel.inputAction.MOVE_DOWN, simulationInputChannel.inputAction.NONE, 
+simulationInputChannel:setDefaultKeyMapping('down', simulationInputChannel.inputAction.MOVE_DOWN, simulationInputChannel.inputAction.END_MOVE_DOWN, 
 	simulationInputChannel.inputAction.MOVE_DOWN)
-simulationInputChannel:setDefaultKeyMapping('right', simulationInputChannel.inputAction.MOVE_RIGHT, simulationInputChannel.inputAction.NONE, 
+simulationInputChannel:setDefaultKeyMapping('right', simulationInputChannel.inputAction.MOVE_RIGHT, simulationInputChannel.inputAction.END_MOVE_RIGHT, 
 	simulationInputChannel.inputAction.MOVE_RIGHT)
 simulationInputChannel:setDefaultKeyMapping('a', simulationInputChannel.inputAction.SET_TARGETING_STATE, simulationInputChannel.inputAction.NONE, 
 	simulationInputChannel.inputAction.NONE)
@@ -102,6 +102,22 @@ simulationInputChannel.sendRequestMethods = {
 	end,
 	
 	[simulationInputChannel.inputAction.MOVE_RIGHT] = function(inputSystem, self, input)
+		self:sendEntityControlRequest(inputSystem, input)
+	end,
+	
+	[simulationInputChannel.inputAction.END_MOVE_UP] = function(inputSystem, self, input)
+		self:sendEntityControlRequest(inputSystem, input)
+	end,
+	
+	[simulationInputChannel.inputAction.END_MOVE_LEFT] = function(inputSystem, self, input)
+		self:sendEntityControlRequest(inputSystem, input)
+	end,
+	
+	[simulationInputChannel.inputAction.END_MOVE_DOWN] = function(inputSystem, self, input)
+		self:sendEntityControlRequest(inputSystem, input)
+	end,
+	
+	[simulationInputChannel.inputAction.END_MOVE_RIGHT] = function(inputSystem, self, input)
 		self:sendEntityControlRequest(inputSystem, input)
 	end,
 	

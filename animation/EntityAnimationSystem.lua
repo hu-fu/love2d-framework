@@ -93,11 +93,6 @@ end
 ---------------
 
 function EntityAnimationSystem:update(dt)
-	--???? get spriteboxes on space and animate them (dt, spriteboxList) ??
-	--called on main loop, decide later
-	--maybe a thing denoting if the entity needs an animation player or something
-	--test version:
-	
 	for i=1, #self.spriteComponentTable do
 		if self.spriteComponentTable[i].animationPlayer and 
 			self.spriteComponentTable[i].animationPlayer.animation then

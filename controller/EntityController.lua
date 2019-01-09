@@ -27,7 +27,8 @@ function EntityController.new ()
 		self.INTERACTION_ID = require '/interaction/INTERACTION'
 		self.INTERACTION_TYPE = require '/interaction/INTERACTION_TYPE'
 		self.ENTITY_ROLE = require '/entity/ENTITY_ROLE'
-
+		self.entityStateActionMap = require '/entity state/EntityStateActionMap'
+		
 		self.movementInputMapper = nil
 		self.targetingInputMapper = nil
 		self.spawnInputMapper = nil
@@ -68,6 +69,22 @@ function GameEntityBuilder:setPlayerInputMappingMethods()
 		end,
 		
 		[self.INPUT_ACTION.MOVE_RIGHT] = function(self, inputComponent)
+			
+		end,
+		
+		[self.INPUT_ACTION.END_MOVE_UP] = function(self, inputComponent)
+			
+		end,
+		
+		[self.INPUT_ACTION.END_MOVE_LEFT] = function(self, inputComponent)
+			
+		end,
+		
+		[self.INPUT_ACTION.END_MOVE_DOWN] = function(self, inputComponent)
+			
+		end,
+		
+		[self.INPUT_ACTION.END_MOVE_RIGHT] = function(self, inputComponent)
 			
 		end,
 		
@@ -173,6 +190,10 @@ function GameEntityBuilder:setEntityOutputMappingMethods()
 }
 end
 
+function EntityController:isActionAllowed(stateId, actionId)
+	return self.entityStateActionMap.actionMap[stateId][actionId]
+end
+
 function EntityController:resolvePlayerInput(request, inputComponent)
 	self.playerInputMappingMethods[request.actionId](self, inputComponent)
 end
@@ -192,11 +213,19 @@ end
 
 function EntityController:addOutput(outputId)
 	self.output = true
+	
+	--allow only one output of each type
+	for i=1, #self.outputList do
+		if self.outputList[i] == outputId then
+			return nil
+		end
+	end
+	
 	table.insert(self.outputList, outputId)
 end
 
 function EntityController:resolveOutput(controllerSystem, outputId, component)
-	self.entityOutputMappingMethods[outputId](self, controllerSystem, component.componentTable.state)
+	self.entityOutputMappingMethods[outputId](self, controllerSystem, component.componentTable.actionState)
 end
 
 function EntityController:setEntityState(stateComponent, state)

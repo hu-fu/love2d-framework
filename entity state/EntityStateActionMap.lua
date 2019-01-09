@@ -39,6 +39,7 @@ EntityStateActionMap.actionMap = {
 		[EntityStateActionMap.ENTITY_ACTION.SPECIAL_ATTACK] = true,
 		[EntityStateActionMap.ENTITY_ACTION.START_COMBAT] = true,
 		[EntityStateActionMap.ENTITY_ACTION.END_COMBAT] = true,
+		[EntityStateActionMap.ENTITY_ACTION.COMBAT] = true,
 	},
 	
 	[EntityStateActionMap.ENTITY_STATE.SPAWN] = {
@@ -69,6 +70,7 @@ EntityStateActionMap.actionMap = {
 		[EntityStateActionMap.ENTITY_ACTION.SPECIAL_ATTACK] = false,
 		[EntityStateActionMap.ENTITY_ACTION.START_COMBAT] = false,
 		[EntityStateActionMap.ENTITY_ACTION.END_COMBAT] = false,
+		[EntityStateActionMap.ENTITY_ACTION.COMBAT] = false,
 	},
 	
 	[EntityStateActionMap.ENTITY_STATE.DESPAWN] = {
@@ -99,6 +101,7 @@ EntityStateActionMap.actionMap = {
 		[EntityStateActionMap.ENTITY_ACTION.SPECIAL_ATTACK] = false,
 		[EntityStateActionMap.ENTITY_ACTION.START_COMBAT] = false,
 		[EntityStateActionMap.ENTITY_ACTION.END_COMBAT] = false,
+		[EntityStateActionMap.ENTITY_ACTION.COMBAT] = false,
 	},
 	
 	[EntityStateActionMap.ENTITY_STATE.EVENT] = {
@@ -129,6 +132,7 @@ EntityStateActionMap.actionMap = {
 		[EntityStateActionMap.ENTITY_ACTION.SPECIAL_ATTACK] = false,
 		[EntityStateActionMap.ENTITY_ACTION.START_COMBAT] = false,
 		[EntityStateActionMap.ENTITY_ACTION.END_COMBAT] = false,
+		[EntityStateActionMap.ENTITY_ACTION.COMBAT] = false,
 	},
 	
 	[EntityStateActionMap.ENTITY_STATE.COMBAT] = {
@@ -159,6 +163,7 @@ EntityStateActionMap.actionMap = {
 		[EntityStateActionMap.ENTITY_ACTION.SPECIAL_ATTACK] = true,
 		[EntityStateActionMap.ENTITY_ACTION.START_COMBAT] = true,
 		[EntityStateActionMap.ENTITY_ACTION.END_COMBAT] = true,
+		[EntityStateActionMap.ENTITY_ACTION.COMBAT] = true,
 	}
 }
 

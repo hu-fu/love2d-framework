@@ -5,5 +5,6 @@ return {
 	TARGETING = 4,
 	EVENT = 5,
 	COMBAT = 6,
+	IDLE = 7,
 	--...
 }
