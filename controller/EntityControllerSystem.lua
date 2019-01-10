@@ -69,7 +69,7 @@ function EntityControllerSystem:setInputComponentTable(entityDb)
 		self.ENTITY_COMPONENT.INPUT)
 	
 	for i=1, #self.inputComponentTable do
-		if not self.inputComponentTable[i].controlle then
+		if not self.inputComponentTable[i].controller then
 			self.inputComponentTable[i].controller = self.ENTITY_CONTROLLER[self.inputComponentTable[i].controllerId]()
 		end
 	end

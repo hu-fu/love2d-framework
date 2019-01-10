@@ -1,7 +1,7 @@
 ----------------
 --global mapper:
 ----------------
---THE FINAL SOLUTION!!
+--THE """"FINAL"""" SOLUTION!!
 
 PlayerGlobalInputMapper = {}
 PlayerGlobalInputMapper.__index = PlayerGlobalInputMapper
@@ -74,6 +74,8 @@ function PlayerGlobalInputMapper:setGetStateByStateMethods()
 				return self.ENTITY_STATE.FREE
 			elseif controller.combatInputMapper.restrictCombat then
 				return self.ENTITY_STATE.COMBAT_RESTRICTED
+			else
+				return self.ENTITY_STATE.COMBAT_FREE
 			end
 		end,
 		
@@ -82,6 +84,8 @@ function PlayerGlobalInputMapper:setGetStateByStateMethods()
 				return self.ENTITY_STATE.FREE
 			elseif controller.combatInputMapper.freeCombat then
 				return self.ENTITY_STATE.COMBAT_FREE
+			else
+				return self.ENTITY_STATE.COMBAT_RESTRICTED
 			end
 		end,
 	}
@@ -119,11 +123,11 @@ function PlayerGlobalInputMapper:setGetOuputByStateMethods()
 		end,
 		
 		[self.ENTITY_STATE.COMBAT_FREE] = function(self, controller, inputComponent)
-			if controller.combatInputMapper.COMBAT_REQUEST then
+			if controller.combatInputMapper.request then
 				controller:addOutput(self.OUTPUT_ACTION.COMBAT)
 			end
 			
-			self:getMovementOutput(controller, inputComponent)
+			self:getMovementCombatOutput(controller, inputComponent)
 			self:getTargetingOutput(controller, inputComponent)
 		end,
 		
@@ -139,21 +143,39 @@ function PlayerGlobalInputMapper:getMovementOutput(controller, inputComponent)
 	if controller.movementInputMapper:getCurrentMovementRotation() then
 		
 		local movementComponent = inputComponent.componentTable.movement
-		movementComponent.rotation = self.movementInputMapper:getCurrentMovementRotation()
+		movementComponent.rotation = controller.movementInputMapper:getCurrentMovementRotation()
 		
-		if not stateComponent.componentTable.movement.state then
-			--if state is stopped then initiate action
+		if not movementComponent.state then
 			controller:addOutput(self.OUTPUT_ACTION.START_MOVEMENT)
 			controller:addOutput(self.OUTPUT_ACTION.STOP_IDLE)
 		end
-	else
+	elseif inputComponent.componentTable.movement.state then
 		controller:addOutput(self.OUTPUT_ACTION.STOP_MOVEMENT)
 		controller:addOutput(self.OUTPUT_ACTION.START_IDLE)
 	end
 end
 
+function PlayerGlobalInputMapper:getMovementCombatOutput(controller, inputComponent)
+	combatComponent = inputComponent.componentTable.combat
+	
+	if controller.movementInputMapper:getCurrentMovementRotation() then
+		
+		local movementComponent = inputComponent.componentTable.movement
+		movementComponent.rotation = controller.movementInputMapper:getCurrentMovementRotation()
+		
+		if not movementComponent.state then
+			controller:addOutput(self.OUTPUT_ACTION.START_MOVEMENT_COMBAT)
+			controller:addOutput(self.OUTPUT_ACTION.STOP_IDLE)
+		end
+	
+	elseif inputComponent.componentTable.movement.state then
+		controller:addOutput(self.OUTPUT_ACTION.STOP_MOVEMENT)
+		controller:addOutput(self.OUTPUT_ACTION.START_IDLE_COMBAT)
+	end
+end
+
 function PlayerGlobalInputMapper:getTargetingOutput(controller, inputComponent)
-	if self.targetingInputMapper.setState or self.targetingInputMapper.getTarget then
+	if controller.targetingInputMapper.setState or controller.targetingInputMapper.getTarget then
 		controller:addOutput(self.OUTPUT_ACTION.TARGETING)
 	end
 end

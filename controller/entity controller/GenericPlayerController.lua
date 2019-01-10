@@ -199,19 +199,57 @@ function GenericPlayerController:setEntityOutputMappingMethods()
 		end,
 		
 		[self.OUTPUT_ACTION.COMBAT] = function(self, controllerSystem, stateComponent)
-			
+			--INFO_STR = tostring(stateComponent.state)
+			controllerSystem:sendCombatActionRequest(self.combatInputMapper.request, 
+				stateComponent.componentTable.combat)
 		end,
 		
 		[self.OUTPUT_ACTION.IDLE] = function(self, controllerSystem, stateComponent)
 			
 		end,
 		
+		[self.OUTPUT_ACTION.START_MOVEMENT] = function(self, controllerSystem, stateComponent)
+			controllerSystem:sendMovementActionRequest(self.MOVEMENT_REQUEST.START_MOVEMENT, 
+				stateComponent.componentTable.movement)
+		end,
+		
+		[self.OUTPUT_ACTION.START_IDLE] = function(self, controllerSystem, stateComponent)
+			controllerSystem:sendIdleActionRequest(self.IDLE_REQUEST.START_IDLE, 
+				stateComponent.componentTable.idle)
+		end,
+		
 		[self.OUTPUT_ACTION.STOP_MOVEMENT] = function(self, controllerSystem, stateComponent)
-			
+			controllerSystem:sendMovementActionRequest(self.MOVEMENT_REQUEST.STOP_MOVEMENT, 
+				stateComponent.componentTable.movement)
 		end,
 		
 		[self.OUTPUT_ACTION.STOP_IDLE] = function(self, controllerSystem, stateComponent)
-			
+			controllerSystem:sendIdleActionRequest(self.IDLE_REQUEST.STOP_IDLE, 
+				stateComponent.componentTable.idle)
+		end,
+		
+		[self.OUTPUT_ACTION.START_MOVEMENT_COMBAT] = function(self, controllerSystem, stateComponent)
+			if stateComponent.componentTable.combat.action then
+				controllerSystem:sendMovementActionRequest(self.MOVEMENT_REQUEST.START_MOVEMENT_CUSTOM, 
+					stateComponent.componentTable.movement, 
+					stateComponent.componentTable.combat.action.variables.walkAnimationSetId,
+					stateComponent.componentTable.combat.action.variables.walkAnimationId)
+			else
+				controllerSystem:sendMovementActionRequest(self.MOVEMENT_REQUEST.START_MOVEMENT, 
+					stateComponent.componentTable.movement)
+			end
+		end,
+		
+		[self.OUTPUT_ACTION.START_IDLE_COMBAT] = function(self, controllerSystem, stateComponent)
+			if stateComponent.componentTable.combat.action then
+				controllerSystem:sendIdleActionRequest(self.IDLE_REQUEST.START_IDLE_CUSTOM, 
+					stateComponent.componentTable.idle, 
+					stateComponent.componentTable.combat.action.variables.idleActionSetId,
+					stateComponent.componentTable.combat.action.variables.idleActionId)
+			else
+				controllerSystem:sendIdleActionRequest(self.IDLE_REQUEST.START_IDLE, 
+					stateComponent.componentTable.idle)
+			end
 		end,
 	}
 end
@@ -229,7 +267,8 @@ function GenericPlayerController:resolveGameInput(controllerSystem, request, inp
 end
 
 function GenericPlayerController:resolveOutputs(controllerSystem, component)
-	--this runs every frame, set some additional checks here
+	--this runs every frame, set some additional checks here 
+		--(if entity is moving without rotation then stop it for example)
 	
 	self.globalInputMapper:getOutputs(self, component.componentTable.input)
 	

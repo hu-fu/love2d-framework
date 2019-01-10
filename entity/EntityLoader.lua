@@ -336,6 +336,11 @@ EntityLoader.createEntityComponentMethods = {
 		if entityAsset.playerInputState then
 			component.playerInputState = entityAsset.playerInputState
 		end
+		
+		if entityAsset.controllerId then
+			component.defaultControllerId = entityAsset.controllerId
+			component.controllerId = entityAsset.controllerId
+		end
 	end,
 	
 	[EntityLoader.ENTITY_COMPONENT.IDLE] = function(self, template, entityAsset, entity)

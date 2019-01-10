@@ -50,7 +50,7 @@ function EntityController.new ()
 	return self
 end
 
-function GameEntityBuilder:setPlayerInputMappingMethods()
+function EntityController:setPlayerInputMappingMethods()
 	self.playerInputMappingMethods = {
 		[self.INPUT_ACTION.NONE] = function(self, inputComponent)
 			
@@ -122,7 +122,7 @@ function GameEntityBuilder:setPlayerInputMappingMethods()
 	}
 end
 
-function GameEntityBuilder:setGameInputMappingMethods()
+function EntityController:setGameInputMappingMethods()
 	self.gameInputMappingMethods = {
 		[self.ENTITY_ACTION.START_SPAWN] = function(self, inputComponent)
 			
@@ -162,7 +162,7 @@ function GameEntityBuilder:setGameInputMappingMethods()
 	}
 end
 
-function GameEntityBuilder:setEntityOutputMappingMethods()
+function EntityController:setEntityOutputMappingMethods()
 	self.entityOutputMappingMethods = {
 		[self.OUTPUT_ACTION.SPAWN] = function(self, controllerSystem, stateComponent)
 			
