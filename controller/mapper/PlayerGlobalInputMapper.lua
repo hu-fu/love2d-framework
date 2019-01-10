@@ -1,0 +1,159 @@
+----------------
+--global mapper:
+----------------
+--THE FINAL SOLUTION!!
+
+PlayerGlobalInputMapper = {}
+PlayerGlobalInputMapper.__index = PlayerGlobalInputMapper
+
+setmetatable(PlayerGlobalInputMapper, {
+	__call = function(cls, ...)
+		return cls.new(...)
+	end,
+	})
+
+function PlayerGlobalInputMapper.new ()
+	local self = setmetatable ({}, PlayerGlobalInputMapper)
+		self.ENTITY_STATE = require '/entity state/ENTITY_STATE'
+		self.OUTPUT_ACTION = require '/controller/OUTPUT_ACTION'
+		
+		self.getOutputByStateMethods = {}
+		self.getStateByStateMethods = {}
+		
+		self:setGetOuputByStateMethods()
+		self:setGetStateByStateMethods()
+	return self
+end
+
+function PlayerGlobalInputMapper:getOutputs(controller, inputComponent)
+	local stateComponent = inputComponent.componentTable.actionState
+	local newState = self.getStateByStateMethods[stateComponent.state](self, controller, inputComponent)
+	
+	stateComponent.state = newState
+	
+	self.getOutputByStateMethods[stateComponent.state](self, controller, inputComponent)
+end
+
+function PlayerGlobalInputMapper:setGetStateByStateMethods()
+	self.getStateByStateMethods = {
+		[self.ENTITY_STATE.FREE] = function(self, controller, inputComponent)
+			if controller.spawnInputMapper.startSpawn then
+				return self.ENTITY_STATE.SPAWN
+			elseif controller.spawnInputMapper.startDespawn then
+				return self.ENTITY_STATE.DESPAWN
+			elseif controller.combatInputMapper.request then
+				return self.ENTITY_STATE.COMBAT_FREE
+			elseif controller.eventInputMapper.startEvent or controller.eventInputMapper.eventRequest then
+				return self.ENTITY_STATE.EVENT
+			else
+				return self.ENTITY_STATE.FREE
+			end
+		end,
+		
+		[self.ENTITY_STATE.SPAWN] = function(self, controller, inputComponent)
+			if controller.spawnInputMapper.endSpawn then
+				return self.ENTITY_STATE.FREE
+			else
+				return self.ENTITY_STATE.SPAWN
+			end
+		end,
+		
+		[self.ENTITY_STATE.DESPAWN] = function(self, controller, inputComponent)
+			--entity is removed so no point in setting anything here
+			return self.ENTITY_STATE.DESPAWN
+		end,
+		
+		[self.ENTITY_STATE.EVENT] = function(self, controller, inputComponent)
+			if controller.eventInputMapper.endEvent then
+				return self.ENTITY_STATE.FREE
+			end
+		end,
+		
+		[self.ENTITY_STATE.COMBAT_FREE] = function(self, controller, inputComponent)
+			if controller.combatInputMapper.request == controller.COMBAT_REQUEST.END_COMBAT then
+				return self.ENTITY_STATE.FREE
+			elseif controller.combatInputMapper.restrictCombat then
+				return self.ENTITY_STATE.COMBAT_RESTRICTED
+			end
+		end,
+		
+		[self.ENTITY_STATE.COMBAT_RESTRICTED] = function(self, controller, inputComponent)
+			if controller.combatInputMapper.request == controller.COMBAT_REQUEST.END_COMBAT then
+				return self.ENTITY_STATE.FREE
+			elseif controller.combatInputMapper.freeCombat then
+				return self.ENTITY_STATE.COMBAT_FREE
+			end
+		end,
+	}
+end
+
+function PlayerGlobalInputMapper:setGetOuputByStateMethods()
+	self.getOutputByStateMethods = {
+		[self.ENTITY_STATE.FREE] = function(self, controller, inputComponent)
+			self:getMovementOutput(controller, inputComponent)
+			self:getTargetingOutput(controller, inputComponent)
+		end,
+		
+		[self.ENTITY_STATE.SPAWN] = function(self, controller, inputComponent)
+			if controller.spawnInputMapper.startSpawn then
+				controller:addOutput(self.OUTPUT_ACTION.SPAWN)
+				controller:addOutput(self.OUTPUT_ACTION.STOP_MOVEMENT)
+			end
+		end,
+		
+		[self.ENTITY_STATE.DESPAWN] = function(self, controller, inputComponent)
+			if controller.spawnInputMapper.startDespawn then
+				controller:addOutput(self.OUTPUT_ACTION.DESPAWN)
+				controller:addOutput(self.OUTPUT_ACTION.STOP_MOVEMENT)
+			end
+		end,
+		
+		[self.ENTITY_STATE.EVENT] = function(self, controller, inputComponent)
+			if controller.eventInputMapper.interactionRequest then
+				controller:addOutput(self.OUTPUT_ACTION.EVENT)
+				controller:addOutput(self.OUTPUT_ACTION.STOP_MOVEMENT)
+			elseif controller.eventInputMapper.startEvent then
+				controller:addOutput(self.OUTPUT_ACTION.EVENT)
+				controller:addOutput(self.OUTPUT_ACTION.STOP_MOVEMENT)
+			end
+		end,
+		
+		[self.ENTITY_STATE.COMBAT_FREE] = function(self, controller, inputComponent)
+			if controller.combatInputMapper.COMBAT_REQUEST then
+				controller:addOutput(self.OUTPUT_ACTION.COMBAT)
+			end
+			
+			self:getMovementOutput(controller, inputComponent)
+			self:getTargetingOutput(controller, inputComponent)
+		end,
+		
+		[self.ENTITY_STATE.COMBAT_RESTRICTED] = function(self, controller, inputComponent)
+			if controller.combatInputMapper.restrictCombat then
+				controller:addOutput(self.OUTPUT_ACTION.STOP_MOVEMENT)
+			end
+		end,
+	}
+end
+
+function PlayerGlobalInputMapper:getMovementOutput(controller, inputComponent)
+	if controller.movementInputMapper:getCurrentMovementRotation() then
+		
+		local movementComponent = inputComponent.componentTable.movement
+		movementComponent.rotation = self.movementInputMapper:getCurrentMovementRotation()
+		
+		if not stateComponent.componentTable.movement.state then
+			--if state is stopped then initiate action
+			controller:addOutput(self.OUTPUT_ACTION.START_MOVEMENT)
+			controller:addOutput(self.OUTPUT_ACTION.STOP_IDLE)
+		end
+	else
+		controller:addOutput(self.OUTPUT_ACTION.STOP_MOVEMENT)
+		controller:addOutput(self.OUTPUT_ACTION.START_IDLE)
+	end
+end
+
+function PlayerGlobalInputMapper:getTargetingOutput(controller, inputComponent)
+	if self.targetingInputMapper.setState or self.targetingInputMapper.getTarget then
+		controller:addOutput(self.OUTPUT_ACTION.TARGETING)
+	end
+end

@@ -6,5 +6,7 @@ return {
 	EVENT = 5,
 	COMBAT = 6,
 	IDLE = 7,
+	STOP_MOVEMENT = 8,
+	STOP_IDLE = 9,
 	--...
 }

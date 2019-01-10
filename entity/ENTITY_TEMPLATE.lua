@@ -51,8 +51,8 @@ local ENTITY_TEMPLATE = {
 			
 			[ENTITY_COMPONENT.IDLE] = {
 				state = false,
-				defaultActionSetId = 0,
-				defaultActionId = 0,
+				defaultActionSetId = 4,
+				defaultActionId = 2,
 				actionSetId = 4,
 				actionId = 2,
 				action = nil,

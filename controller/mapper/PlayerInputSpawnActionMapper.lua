@@ -14,6 +14,7 @@ setmetatable(SpawnActionMapper, {
 function SpawnActionMapper.new ()
 	local self = setmetatable ({}, SpawnActionMapper)
 		
+		self.input = false
 		self.startSpawn = false
 		self.endSpawn = false
 		self.startDespawn = false
@@ -22,6 +23,7 @@ function SpawnActionMapper.new ()
 end
 
 function SpawnActionMapper:setStartSpawn()
+	self.input = true
 	self.startSpawn = true
 	self.endSpawn = false
 	self.startDespawn = false
@@ -29,6 +31,7 @@ function SpawnActionMapper:setStartSpawn()
 end
 
 function SpawnActionMapper:setStartDespawn()
+	self.input = true
 	self.startSpawn = false
 	self.endSpawn = false
 	self.startDespawn = true
@@ -36,6 +39,7 @@ function SpawnActionMapper:setStartDespawn()
 end
 
 function SpawnActionMapper:setEndSpawn()
+	self.input = true
 	self.startSpawn = false
 	self.endSpawn = true
 	self.startDespawn = false
@@ -43,6 +47,7 @@ function SpawnActionMapper:setEndSpawn()
 end
 
 function SpawnActionMapper:setEndDespawn()
+	self.input = true
 	self.startSpawn = false
 	self.endSpawn = false
 	self.startDespawn = false
@@ -50,6 +55,7 @@ function SpawnActionMapper:setEndDespawn()
 end
 
 function SpawnActionMapper:resetMapping()
+	self.input = false
 	self.startSpawn = false
 	self.endSpawn = false
 	self.startDespawn = false

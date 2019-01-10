@@ -105,6 +105,18 @@ EntityIdleSystem.resolveRequestMethods = {
 	
 	[EntityIdleSystem.IDLE_REQUEST.STOP_IDLE] = function(self, request)
 		self:stopIdle(request.idleComponent)
+	end,
+	
+	[EntityIdleSystem.IDLE_REQUEST.START_IDLE_CUSTOM] = function(self, request)
+		if request.actionSetId then
+			self:startIdleCustom(request.idleComponent, request.actionSetId, request.actionId)
+		else
+			self:startIdle(request.idleComponent)
+		end
+	end,
+	
+	[EntityIdleSystem.IDLE_REQUEST.STOP_IDLE_CUSTOM] = function(self, request)
+		self:stopIdle(request.idleComponent)
 	end
 }
 
@@ -134,15 +146,20 @@ function EntityIdleSystem:setActionOnComponent(component, actionObject)
 	component.action = actionObject
 end
 
+function EntityIdleSystem:startIdleCustom(idleComponent, actionSetId, actionId)
+	idleComponent.state = true
+	idleComponent.actionSetId = actionSetId
+	idleComponent.actionId = actionId
+	
+	self:getAction(idleComponent.actionSetId, idleComponent.actionId, idleComponent)
+end
+
 function EntityIdleSystem:startIdle(idleComponent)
 	idleComponent.state = true
+	idleComponent.actionSetId = idleComponent.defaultActionSetId
+	idleComponent.actionId = idleComponent.defaultActionId
 	
-	if not idleComponent.action then
-		self:getAction(idleComponent.actionSetId, idleComponent.actionId, idleComponent)
-	else
-		self.ACTION_METHODS:resetAction(idleComponent)
-		self:startAnimation(idleComponent)
-	end
+	self:getAction(idleComponent.actionSetId, idleComponent.actionId, idleComponent)
 end
 
 function EntityIdleSystem:stopIdle(idleComponent)

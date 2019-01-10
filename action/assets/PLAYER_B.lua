@@ -156,7 +156,7 @@ return {
 			walk = true,
 			walkAnimationSetId = 2,
 			walkAnimationId = 2,
-			idleActionSetId = 2,
+			idleActionSetId = 4,
 			idleActionId = 2,
 		},
 		

@@ -27,5 +27,6 @@ return {
 	START_COMBAT = 25,
 	END_COMBAT = 26,
 	COMBAT = 27,
-	
+	FREE_COMBAT = 28,
+	RESTRICT_COMBAT = 29,
 }

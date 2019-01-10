@@ -167,17 +167,22 @@ function EntityControllerSystem:resetEntityController(inputComponent)
 	inputComponent.controller = self.ENTITY_CONTROLLER[inputComponent.defaultControllerId]
 end
 
-function EntityControllerSystem:sendMovementActionRequest(requestType, movementComponent)
+function EntityControllerSystem:sendMovementActionRequest(requestType, movementComponent, animationSetId, 
+	animationId)
 	local movementSystemRequest = self.movementRequestPool:getCurrentAvailableObject()
 	movementSystemRequest.requestType = requestType
+	movementSystemRequest.animationSetId = animationSetId
+	movementSystemRequest.animationId = animationId
 	movementSystemRequest.movementComponent = movementComponent
 	self.eventDispatcher:postEvent(1, 2, movementSystemRequest)
 	self.movementRequestPool:incrementCurrentIndex()
 end
 
-function EntityControllerSystem:sendIdleActionRequest(requestType, idleComponent)
+function EntityControllerSystem:sendIdleActionRequest(requestType, idleComponent, actionSetId, actionId)
 	local idleSystemRequest = self.idleRequestPool:getCurrentAvailableObject()
 	idleSystemRequest.requestType = requestType
+	idleSystemRequest.actionSetId = actionSetId
+	idleSystemRequest.actionId = actionId
 	idleSystemRequest.idleComponent = idleComponent
 	self.eventDispatcher:postEvent(2, 2, idleSystemRequest)
 	self.idleRequestPool:incrementCurrentIndex()

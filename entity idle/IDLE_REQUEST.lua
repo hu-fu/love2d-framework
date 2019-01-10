@@ -1,4 +1,6 @@
 return {
 	START_IDLE = 1,
-	STOP_IDLE = 2
+	STOP_IDLE = 2,
+	START_IDLE_CUSTOM = 3,
+	STOP_IDLE_CUSTOM = 4,
 }

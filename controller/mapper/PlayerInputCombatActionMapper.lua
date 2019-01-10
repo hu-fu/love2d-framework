@@ -15,6 +15,8 @@ function CombatActionMapper.new ()
 	local self = setmetatable ({}, CombatActionMapper)
 		
 		self.COMBAT_REQUEST = require '/combat/COMBAT_REQUEST'
+		self.freeCombat = false
+		self.restrictCombat = false
 		self.request = nil
 	return self
 end
@@ -108,6 +110,20 @@ function CombatActionMapper:setEndCombat()
 	self.request = self.COMBAT_REQUEST.END_COMBAT
 end
 
+function CombatActionMapper:setFreeCombat()
+	self.freeCombat = true
+	self.restrictCombat = false
+	self.request = nil
+end
+
+function CombatActionMapper:setRestrictCombat()
+	self.freeCombat = false
+	self.restrictCombat = true
+	self.request = nil
+end
+
 function CombatActionMapper:resetMapping()
+	self.freeCombat = false
+	self.restrictCombat = false
 	self.request = nil
 end

@@ -178,14 +178,18 @@ function EventObjectPool:setCreateEventObjectMethods()
 		[self.EVENT_TYPES.MOVEMENT] = function()
 			return {
 				requestType = nil,
-				movementComponent = nil
+				movementComponent = nil,
+				animationSetId = nil,
+				animationId = nil
 			}
 		end,
 		
 		[self.EVENT_TYPES.IDLE] = function()
 			return {
 				requestType = nil,
-				idleComponent = nil
+				idleComponent = nil,
+				actionSetId = nil,
+				actionId = nil
 			}
 		end,
 		

@@ -113,11 +113,32 @@ EntityMovementSystem.resolveRequestMethods = {
 	
 	[EntityMovementSystem.MOVEMENT_REQUEST.SET_POSITION] = function(self, request)
 		self:setEntityPosition(request.movementComponent, request.x, request.y)
-	end
+	end,
+	
+	[EntityMovementSystem.MOVEMENT_REQUEST.START_MOVEMENT_CUSTOM] = function(self, request)
+		if request.animationSetId then
+			self:startMovementCustom(request.movementComponent, request.animationSetId, request.animationId)
+		else
+			self:startMovement(request.movementComponent)
+		end
+	end,
+	
+	[EntityMovementSystem.MOVEMENT_REQUEST.STOP_MOVEMENT_CUSTOM] = function(self, request)
+		--same as stop movement
+	end,
 }
+
+function EntityMovementSystem:startMovementCustom(movementComponent, animationSetId, animationId)
+	movementComponent.state = true
+	movementComponent.animationSetId = animationSetId
+	movementComponent.animationId = animationId
+	self:startAnimation(movementComponent)
+end
 
 function EntityMovementSystem:startMovement(movementComponent)
 	movementComponent.state = true
+	movementComponent.animationSetId = movementComponent.defaultAnimationSetId
+	movementComponent.animationId = movementComponent.defaultAnimationId
 	self:startAnimation(movementComponent)
 end
 
