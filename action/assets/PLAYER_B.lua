@@ -7,6 +7,7 @@ local ATTACK_TYPE = require '/combat/ATTACK_TYPE'
 return {
 	[ACTIONS.ACTION_ID[SET_ID].GENERIC] = {
 		id = 1,
+		animation = true,
 		animationSetId = 0,
 		animationId = 0,
 		totalTime = 0.0,
@@ -30,6 +31,7 @@ return {
 	
 	[ACTIONS.ACTION_ID[SET_ID].IDLE] = {
 		id = 2,
+		animation = true,
 		animationSetId = 2,
 		animationId = 1,
 		totalTime = 0.6,
@@ -53,6 +55,7 @@ return {
 	
 	[ACTIONS.ACTION_ID[SET_ID].DESPAWN_TEST] = {
 		id = 1,
+		animation = true,
 		animationSetId = 0,
 		animationId = 0,
 		totalTime = 0.1,
@@ -76,6 +79,7 @@ return {
 	
 	[ACTIONS.ACTION_ID[SET_ID].INTERACT_TEST] = {
 		id = 1,
+		animation = true,
 		animationSetId = 2,
 		animationId = 1,
 		totalTime = 1.2,
@@ -108,6 +112,7 @@ return {
 	
 	[ACTIONS.ACTION_ID[SET_ID].COMBAT_TEST] = {
 		id = 5,
+		animation = true,
 		animationSetId = 2,
 		animationId = 3,
 		totalTime = 0.3,
@@ -143,8 +148,9 @@ return {
 	
 	[ACTIONS.ACTION_ID[SET_ID].COMBAT_RANGED] = {
 		id = 6,
+		animation = false,
 		animationSetId = 2,
-		animationId = 3,
+		animationId = 4,
 		totalTime = 999.9,
 		replay = false,
 		
@@ -153,9 +159,11 @@ return {
 			cancel = true,
 			cancelTime = 999.7,
 			staminaCost = 20,
-			walk = true,
+			free = true,
+			walkAnimation = true,
 			walkAnimationSetId = 2,
 			walkAnimationId = 2,
+			idleAction = true,
 			idleActionSetId = 4,
 			idleActionId = 2,
 		},
@@ -219,6 +227,7 @@ return {
 	
 	[ACTIONS.ACTION_ID[SET_ID].KNOCKBACK_TEST] = {
 		id = 7,
+		animation = true,
 		animationSetId = 2,
 		animationId = 4,
 		totalTime = 0.3,

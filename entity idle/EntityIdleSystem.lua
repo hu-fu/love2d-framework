@@ -117,7 +117,19 @@ EntityIdleSystem.resolveRequestMethods = {
 	
 	[EntityIdleSystem.IDLE_REQUEST.STOP_IDLE_CUSTOM] = function(self, request)
 		self:stopIdle(request.idleComponent)
-	end
+	end,
+	
+	[EntityIdleSystem.IDLE_REQUEST.RESET_IDLE_ACTION] = function(self, request)
+		self:resetIdle(request.idleComponent)
+	end,
+	
+	[EntityIdleSystem.IDLE_REQUEST.RESET_IDLE_ACTION_CUSTOM] = function(self, request)
+		if request.actionSetId then
+			self:resetIdleCustom(request.idleComponent, request.actionSetId, request.actionId)
+		else
+			self:resetIdle(request.idleComponent)
+		end
+	end,
 }
 
 function EntityIdleSystem:getAction(actionSetId, actionId, idleComponent)
@@ -144,6 +156,18 @@ end
 
 function EntityIdleSystem:setActionOnComponent(component, actionObject)
 	component.action = actionObject
+end
+
+function EntityIdleSystem:resetIdle(idleComponent)
+	if idleComponent.state then
+		self:startIdle(idleComponent)
+	end
+end
+
+function EntityIdleSystem:resetIdleCustom(idleComponent, actionSetId, actionId)
+	if idleComponent.state then
+		self:startIdleCustom(idleComponent, actionSetId, actionId)
+	end
 end
 
 function EntityIdleSystem:startIdleCustom(idleComponent, actionSetId, actionId)

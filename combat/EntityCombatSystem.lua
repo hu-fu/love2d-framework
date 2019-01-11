@@ -30,6 +30,8 @@ EntityCombatSystem.SOUND = require '/sound/SOUND'
 EntityCombatSystem.SOUND_TYPE = require '/sound/SOUND_TYPE'
 EntityCombatSystem.SOUND_REQUEST = require '/sound/SOUND_REQUEST'
 EntityCombatSystem.DIALOGUE_REQUEST = require '/dialogue/DIALOGUE_REQUEST'
+EntityCombatSystem.IDLE_REQUEST = require '/entity idle/IDLE_REQUEST'
+EntityCombatSystem.MOVEMENT_REQUEST = require '/entity movement/MOVEMENT_REQUEST'
 
 -------------------
 --System Variables:
@@ -45,6 +47,8 @@ EntityCombatSystem.visualEffectRequestPool = EventObjectPool.new(EntityCombatSys
 EntityCombatSystem.healthRequestPool = EventObjectPool.new(EntityCombatSystem.EVENT_TYPE.ENTITY_HEALTH, 100)
 EntityCombatSystem.soundRequestPool = EventObjectPool.new(EntityCombatSystem.EVENT_TYPE.SOUND, 100)
 EntityCombatSystem.dialogueRequestPool = EventObjectPool.new(EntityCombatSystem.EVENT_TYPE.DIALOGUE, 100)
+EntityCombatSystem.idleRequestPool = EventObjectPool.new(EntityCombatSystem.EVENT_TYPE.IDLE, 100)
+EntityCombatSystem.movementRequestPool = EventObjectPool.new(EntityCombatSystem.EVENT_TYPE.MOVEMENT, 100)
 
 EntityCombatSystem.combatComponentTable = {}
 EntityCombatSystem.requestStack = {}
@@ -121,6 +125,8 @@ function EntityCombatSystem:update(dt)
 	self.healthRequestPool:resetCurrentIndex()
 	self.soundRequestPool:resetCurrentIndex()
 	self.dialogueRequestPool:resetCurrentIndex()
+	self.idleRequestPool:resetCurrentIndex()
+	self.movementRequestPool:resetCurrentIndex()
 	
 	--INFO_STR = self.combatComponentTable[3].attackComboState[1] .. ', ' .. 
 	--	self.combatComponentTable[3].attackComboState[2] .. ', ' .. 
@@ -166,9 +172,31 @@ function EntityCombatSystem:getActionRequestCallbackMethod()
 		if actionObject then
 			self:setActionOnComponent(component, actionObject) 
 			self.ACTION_METHODS:resetAction(component)
-			self:startAnimation(component)
+			self:setAnimation(component)
+			self:sendChangeStateRequest(component)
 		else
 			self:endState(component)
+		end
+	end
+end
+
+function EntityCombatSystem:setAnimation(component)
+	if not component.action.variables.walkAnimation or not 
+		component.action.variables.idleAction then
+		self:startAnimation(component)
+	else
+		if component.action.variables.walkAnimation then
+			self:modifyWalkAnimation(component, component.action.variables.walkAnimationSetId, 
+				component.action.variables.walkAnimationId)
+		else
+			self:resetWalkAnimation(component)
+		end
+		
+		if component.action.variables.idleAction then
+			self:modifyIdleAction(component, component.action.variables.idleActionSetId, 
+				component.action.variables.idleActionId)
+		else
+			self:resetIdleAction(component)
 		end
 	end
 end
@@ -185,6 +213,21 @@ function EntityCombatSystem:onActionEnd(combatComponent)
 	self:endState(combatComponent)
 end
 
+function EntityCombatSystem:sendChangeStateRequest(combatComponent)
+	local eventObj = self.entityInputRequestPool:getCurrentAvailableObject()
+	
+	eventObj.inputComponent = combatComponent.componentTable.input
+	
+	if combatComponent.action.variables.free then
+		eventObj.actionId = self.ENTITY_ACTION.FREE_COMBAT
+	else
+		eventObj.actionId = self.ENTITY_ACTION.RESTRICT_COMBAT
+	end
+	
+	self.eventDispatcher:postEvent(3, 4, eventObj)
+	self.entityInputRequestPool:incrementCurrentIndex()
+end
+
 function EntityCombatSystem:sendEndStateRequest(combatComponent)
 	local eventObj = self.entityInputRequestPool:getCurrentAvailableObject()
 	
@@ -193,6 +236,50 @@ function EntityCombatSystem:sendEndStateRequest(combatComponent)
 	
 	self.eventDispatcher:postEvent(3, 4, eventObj)
 	self.entityInputRequestPool:incrementCurrentIndex()
+end
+
+function EntityCombatSystem:resetWalkAnimation(component)
+	local eventObj = self.movementRequestPool:getCurrentAvailableObject()
+	eventObj.movementComponent = combatComponent.componentTable.movement
+	
+	eventObj.requestType = self.MOVEMENT_REQUEST.RESET_MOVEMENT
+	
+	self.eventDispatcher:postEvent(10, 2, eventObj)
+	self.movementRequestPool:incrementCurrentIndex()
+end
+
+function EntityCombatSystem:resetIdleAction(component)
+	local eventObj = self.idleRequestPool:getCurrentAvailableObject()
+	eventObj.inputComponent = combatComponent.componentTable.input
+	
+	eventObj.requestType = self.IDLE_REQUEST.RESET_IDLE_ACTION
+	
+	self.eventDispatcher:postEvent(9, 2, eventObj)
+	self.idleRequestPool:incrementCurrentIndex()
+end
+
+function EntityCombatSystem:modifyWalkAnimation(component, animationSetId, animationId)
+	local eventObj = self.movementRequestPool:getCurrentAvailableObject()
+	eventObj.movementComponent = combatComponent.componentTable.movement
+	eventObj.animationSetId = animationSetId
+	eventObj.animationId = animationId
+	
+	eventObj.requestType = self.MOVEMENT_REQUEST.RESET_MOVEMENT_CUSTOM
+	
+	self.eventDispatcher:postEvent(10, 2, eventObj)
+	self.movementRequestPool:incrementCurrentIndex()
+end
+
+function EntityCombatSystem:modifyIdleAction(component, actionSetId, actionId)
+	local eventObj = self.idleRequestPool:getCurrentAvailableObject()
+	eventObj.idleComponent = combatComponent.componentTable.idle
+	eventObj.actionSetId = actionSetId
+	eventObj.actionId = actionId
+	
+	eventObj.requestType = self.IDLE_REQUEST.RESET_IDLE_ACTION_CUSTOM
+	
+	self.eventDispatcher:postEvent(9, 2, eventObj)
+	self.idleRequestPool:incrementCurrentIndex()
 end
 
 function EntityCombatSystem:updateEntity(dt, combatComponent)

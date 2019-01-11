@@ -108,6 +108,7 @@ return {
 	
 	[ACTIONS.ACTION_ID[SET_ID].COMBAT_TEST] = {
 		id = 5,
+		animation = true
 		animationSetId = 1,
 		animationId = 3,
 		totalTime = 0.3,

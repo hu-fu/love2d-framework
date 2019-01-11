@@ -126,7 +126,31 @@ EntityMovementSystem.resolveRequestMethods = {
 	[EntityMovementSystem.MOVEMENT_REQUEST.STOP_MOVEMENT_CUSTOM] = function(self, request)
 		--same as stop movement
 	end,
+	
+	[EntityMovementSystem.MOVEMENT_REQUEST.RESET_MOVEMENT] = function(self, request)
+		self:resetMovement(request.movementComponent)
+	end,
+	
+	[EntityMovementSystem.MOVEMENT_REQUEST.RESET_MOVEMENT_CUSTOM] = function(self, request)
+		if request.animationSetId then
+			self:resetMovementCustom(request.movementComponent, request.animationSetId, request.animationId)
+		else
+			self:resetMovement(request.movementComponent)
+		end
+	end,
 }
+
+function EntityMovementSystem:resetMovement(movementComponent)
+	if movementComponent.state then
+		self:startMovement(movementComponent)
+	end
+end
+
+function EntityMovementSystem:resetMovementCustom(movementComponent, actionSetId, actionId)
+	if movementComponent.state then
+		self:startMovementCustom(movementComponent, actionSetId, actionId)
+	end
+end
 
 function EntityMovementSystem:startMovementCustom(movementComponent, animationSetId, animationId)
 	movementComponent.state = true
