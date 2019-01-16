@@ -86,6 +86,8 @@ local ENTITY_TEMPLATE = {
 				areaRadius = 3000,
 				targetEntityType = 0,
 				targetEntityRef = nil,
+				directionLock = true,
+				direction = 0,
 			},
 			
 			[ENTITY_COMPONENT.ACTION] = {

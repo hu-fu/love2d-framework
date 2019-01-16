@@ -174,7 +174,9 @@ function GameEntityBuilder:setCreateComponentMethods()
 				areaRadius = 0,
 				distanceToTarget = 0,
 				targetEntityType = 0,		--deprecated: all are generic type
-				targetHitbox = nil
+				targetHitbox = nil,
+				directionLock = true,
+				direction = 0,
 			}
 		end,
 		
@@ -294,7 +296,7 @@ function GameEntityBuilder:setCreateComponentMethods()
 				specialEquipped = 0,
 				lockupEquipped = 0,
 				knockbackEquipped = 0,
-				maxAttackEquipped = nil,
+				maxAttackEquipped = nil,	--wut
 				maxAttackCombo = nil,
 				attackComboState = {},
 				comboActivation = false,

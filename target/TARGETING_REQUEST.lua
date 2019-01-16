@@ -3,5 +3,6 @@ return {
 	SEARCH = 2,
 	SET_TARGET = 3,
 	REMOVE_TARGET = 4,
-	
+	SET_DIRECTION_LOCK = 5,
+	SET_LOCK_DIRECTION = 6,
 }

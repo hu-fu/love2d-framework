@@ -19,9 +19,11 @@ function PlayerGlobalInputMapper.new ()
 		
 		self.getOutputByStateMethods = {}
 		self.getStateByStateMethods = {}
+		self.cancelStateMethods = {}
 		
 		self:setGetOuputByStateMethods()
 		self:setGetStateByStateMethods()
+		self:setCancelStateMethods()
 	return self
 end
 
@@ -29,7 +31,10 @@ function PlayerGlobalInputMapper:getOutputs(controller, inputComponent)
 	local stateComponent = inputComponent.componentTable.actionState
 	local newState = self.getStateByStateMethods[stateComponent.state](self, controller, inputComponent)
 	
-	stateComponent.state = newState
+	if stateComponent.state ~= newState then
+		self.cancelStateMethods[stateComponent.state](self, controller, inputComponent, newState)
+		stateComponent.state = newState
+	end
 	
 	self.getOutputByStateMethods[stateComponent.state](self, controller, inputComponent)
 end
@@ -86,6 +91,42 @@ function PlayerGlobalInputMapper:setGetStateByStateMethods()
 				return self.ENTITY_STATE.COMBAT_FREE
 			else
 				return self.ENTITY_STATE.COMBAT_RESTRICTED
+			end
+		end,
+	}
+end
+
+function PlayerGlobalInputMapper:setCancelStateMethods()
+	self.cancelStateMethods = {
+		[self.ENTITY_STATE.FREE] = function(self, controller, inputComponent, newState)
+			--nothing
+		end,
+		
+		[self.ENTITY_STATE.SPAWN] = function(self, controller, inputComponent, newState)
+			--spawn component state disabled in the system
+		end,
+		
+		[self.ENTITY_STATE.DESPAWN] = function(self, controller, inputComponent, newState)
+			--already dead
+		end,
+		
+		[self.ENTITY_STATE.EVENT] = function(self, controller, inputComponent, newState)
+			--TODO
+		end,
+		
+		[self.ENTITY_STATE.COMBAT_FREE] = function(self, controller, inputComponent, newState)
+			if newState == self.ENTITY_STATE.EVENT or newState == self.ENTITY_STATE.DESPAWN then
+				controller.combatInputMapper:resetMapping()
+				controller.combatInputMapper:setEndCombat()
+				controller:addOutput(self.OUTPUT_ACTION.COMBAT)
+			end
+		end,
+		
+		[self.ENTITY_STATE.COMBAT_RESTRICTED] = function(self, controller, inputComponent, newState)
+			if newState == self.ENTITY_STATE.EVENT or newState == self.ENTITY_STATE.DESPAWN then
+				controller.combatInputMapper:resetMapping()
+				controller.combatInputMapper:setEndCombat()
+				controller:addOutput(self.OUTPUT_ACTION.COMBAT)
 			end
 		end,
 	}

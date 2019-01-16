@@ -203,7 +203,9 @@ function EventObjectPool:setCreateEventObjectMethods()
 			return {
 				requestType = nil,
 				targetingComponent = nil,
-				targetHitbox = nil
+				targetHitbox = nil,
+				lockState = nil,
+				direction = nil,
 			}
 		end,
 		

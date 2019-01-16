@@ -174,6 +174,7 @@ function EntityCombatSystem:getActionRequestCallbackMethod()
 			self.ACTION_METHODS:resetAction(component)
 			self:setAnimation(component)
 			self:sendChangeStateRequest(component)
+			self:setCombatDirection(component)
 		else
 			self:endState(component)
 		end
@@ -475,8 +476,8 @@ function EntityCombatSystem:isStateOver(combatComponent)
 end
 
 function EntityCombatSystem:isAttackActionAllowed(combatComponent)
-	if (not combatComponent.action or combatComponent.comboActivation) and 
-		self:staminaCheck(combatComponent) then
+	if (not combatComponent.action or combatComponent.action.variables.cancel
+		or combatComponent.comboActivation) and self:staminaCheck(combatComponent) then
 		return true
 	else
 		return false
@@ -484,6 +485,7 @@ function EntityCombatSystem:isAttackActionAllowed(combatComponent)
 end
 
 function EntityCombatSystem:isInterruptActionAllowed(combatComponent)
+	--if interrupt == true for example
 	return true
 end
 
@@ -527,11 +529,34 @@ function EntityCombatSystem:depleteStamina(staminaCost, combatComponent)
 	end
 end
 
+function EntityCombatSystem:setCombatDirection(component)
+	self:setLockDirection(component, component.componentTable.movement.rotation)
+end
+
+function EntityCombatSystem:setDirectionLockState(component, state)
+	local targetingComponent = component.componentTable.targeting
+	
+	if targetingComponent then
+		targetingComponent.directionLock = state
+	end
+end
+
+function EntityCombatSystem:setLockDirection(component, direction)
+	--should be a request but whatever
+	
+	local targetingComponent = component.componentTable.targeting
+	
+	if targetingComponent and targetingComponent.directionLock then
+		targetingComponent.direction = direction
+	end
+end
+
 --#other requests:#--
 
 function EntityCombatSystem:sendProjectileRequest(combatComponent, spawnType, rotation)
 	local hitbox = combatComponent.componentTable.hitbox
 	local projectileRequest = self.projectileRequestPool:getCurrentAvailableObject()
+	local targetingComponent = hitbox.componentTable.targeting
 	
 	projectileRequest.requestType = self.PROJECTILE_REQUEST.INIT_PROJECTILE
 	projectileRequest.spawnType = spawnType
@@ -541,7 +566,14 @@ function EntityCombatSystem:sendProjectileRequest(combatComponent, spawnType, ro
 	projectileRequest.x = hitbox.x + (hitbox.w/2)
 	projectileRequest.y = hitbox.y + (hitbox.h/2)
 	projectileRequest.direction = rotation
-	projectileRequest.targetEntity = hitbox.componentTable.targeting.targetHitbox
+	
+	if targetingComponent then
+		projectileRequest.targetEntity = targetingComponent.targetHitbox
+			
+		if targetingComponent.directionLock then
+			projectileRequest.direction = targetingComponent.direction
+		end
+	end
 	
 	self.eventDispatcher:postEvent(4, 1, projectileRequest)
 	self.projectileRequestPool:incrementCurrentIndex()

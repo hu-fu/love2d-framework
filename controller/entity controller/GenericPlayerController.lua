@@ -191,7 +191,13 @@ function GenericPlayerController:setEntityOutputMappingMethods()
 		end,
 		
 		[self.OUTPUT_ACTION.TARGETING] = function(self, controllerSystem, stateComponent)
-			
+			if self.targetingInputMapper.setState then
+				controllerSystem:sendTargetingActionRequest(self.TARGETING_REQUEST.SET_STATE,
+					stateComponent.componentTable.targeting)
+			elseif self.targetingInputMapper.getTarget then
+				controllerSystem:sendTargetingActionRequest(self.TARGETING_REQUEST.SEARCH,
+					stateComponent.componentTable.targeting)
+			end
 		end,
 		
 		[self.OUTPUT_ACTION.EVENT] = function(self, controllerSystem, stateComponent)

@@ -129,6 +129,14 @@ EntityTargetingSystem.resolveRequestMethods = {
 	[EntityTargetingSystem.TARGETING_REQUEST.REMOVE_TARGET] = function(self, request)
 		self:removeTarget(request.targetHitbox)
 	end,
+	
+	[EntityTargetingSystem.TARGETING_REQUEST.SET_DIRECTION_LOCK] = function(self, request)
+		self:setDirectionLock(request.targetingComponent, request.lockState, request.direction)
+	end,
+	
+	[EntityTargetingSystem.TARGETING_REQUEST.SET_LOCK_DIRECTION] = function(self, request)
+		self:setLockDirection(request.targetingComponent, request.direction)
+	end,
 }
 
 function EntityTargetingSystem:runState(targetingComponent)
@@ -313,6 +321,17 @@ end
 
 function EntityTargetingSystem:getDistanceSquaredBetweenPoints(aX, aY, bX, bY)
 	return math.ceil(math.abs((aX - (bX))^2 + (aY - (bY))^2))
+end
+
+function EntityTargetingSystem:setDirectionLock(targetingComponent, state, direction)
+	targetingComponent.directionLock = state
+	targetingComponent.direction = direction
+end
+
+function EntityTargetingSystem:setLockDirection(targetingComponent, direction)
+	if targetingComponent.directionLock then
+		targetingComponent.direction = direction
+	end
 end
 
 ----------------

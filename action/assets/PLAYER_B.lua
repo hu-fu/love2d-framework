@@ -157,7 +157,7 @@ return {
 		variables = {
 			combatState = COMBAT_STATE.ATTACK_RANGED,
 			cancel = true,
-			cancelTime = 999.7,
+			cancelTime = 999.9,
 			staminaCost = 20,
 			free = true,
 			walkAnimation = true,
@@ -171,8 +171,8 @@ return {
 		methods = {
 			{
 				id = 1,
-				callType = CALL_TYPE.THREAD_START,
-				callTime = 0.2,
+				callType = CALL_TYPE.ONCE,
+				callTime = 0.0,
 				timeFrequency = 0.1,
 				method = function(self, system, component)
 					
@@ -185,17 +185,18 @@ return {
 				end
 			},
 			{
-				id = 2,
-				callType = CALL_TYPE.ONCE,
-				callTime = 0.4,
-				timeFrequency = 0,
+				id = 1,
+				callType = CALL_TYPE.THREAD_START,
+				callTime = 0.0,
+				timeFrequency = 0.1,
 				method = function(self, system, component)
 					
-					--[[
-					system:sendVisualEffectRequest(component, 1, 1, 1, component.componentTable.spritebox, 
-						component.componentTable.spritebox.x, component.componentTable.spritebox.y, 
-						component.componentTable.movement.rotation)
-					]]
+					--shoot bullets pew pew pew
+					system:sendProjectileRequest(component, 1, component.componentTable.movement.rotation)
+					
+					system:sendSoundRequest(component, 1, 1, 2, 2, 'name', 0.0, false, false, component, 
+						false, component.componentTable.hitbox.x, component.componentTable.hitbox.y)
+					
 				end
 			},
 			{

@@ -386,6 +386,8 @@ EntityLoader.createEntityComponentMethods = {
 		component.areaRadius = templateComponent.areaRadius
 		component.targetEntityType = templateComponent.targetEntityType
 		component.targetEntityRef = templateComponent.targetEntityRef
+		component.directionLock = templateComponent.directionLock
+		component.direction = templateComponent.direction
 	end,
 	
 	[EntityLoader.ENTITY_COMPONENT.ACTION] = function(self, template, entityAsset, entity)

@@ -230,15 +230,9 @@ function EntitySpawnSystem:endState(spawnComponent)
 	local eventObj = self.entityInputRequestPool:getCurrentAvailableObject()
 	
 	eventObj.actionId = self.ENTITY_ACTION.END_SPAWN
-	eventObj.stateComponent = spawnComponent.componentTable.state
+	eventObj.inputComponent = spawnComponent.componentTable.input
 	
-	if spawnComponent.componentTable.playerInput and 
-		spawnComponent.componentTable.playerInput.state then
-		self.eventDispatcher:postEvent(3, 4, eventObj)
-	else
-		--send to ai controller
-	end
-	
+	self.eventDispatcher:postEvent(3, 4, eventObj)
 	self.entityInputRequestPool:incrementCurrentIndex()
 end
 
