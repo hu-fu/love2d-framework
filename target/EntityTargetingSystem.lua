@@ -78,6 +78,9 @@ function EntityTargetingSystem:update()
 	for i=1, #self.targetingComponentTable do
 		if self.targetingComponentTable[i].state then
 			self:runState(self.targetingComponentTable[i])
+			self:setSpriteboxQuadByTarget(self.targetingComponentTable[i])
+		else
+			self:setSpriteboxQuadByLock(self.targetingComponentTable[i])
 		end
 	end
 	
@@ -257,7 +260,9 @@ function EntityTargetingSystem:getQueryResults(spatialSystem, spatialQuery, resu
 		end
 	end
 	
-	self:resetState(targetingComponent)
+	if not targetingComponent.auto then
+		self:resetState(targetingComponent)
+	end
 end
 
 function EntityTargetingSystem:getSpatialQueryCallbackMethod(targetingComponent)
@@ -332,6 +337,31 @@ function EntityTargetingSystem:setLockDirection(targetingComponent, direction)
 	if targetingComponent.directionLock then
 		targetingComponent.direction = direction
 	end
+end
+
+function EntityTargetingSystem:setSpriteboxQuadByTarget(targetingComponent)
+	if targetingComponent.animationChange and targetingComponent.targetHitbox then
+		targetingComponent.componentTable.spritebox.direction = 
+			self.ENTITY_DIRECTION:getDirection(self:getDirectionToTarget(
+			targetingComponent.componentTable.hitbox.x, 
+			targetingComponent.componentTable.hitbox.y,
+			targetingComponent.targetHitbox))
+	end
+end
+
+function EntityTargetingSystem:setSpriteboxQuadByLock(targetingComponent)
+	if targetingComponent.animationChange and  targetingComponent.directionLock and
+		targetingComponent.direction then
+		targetingComponent.componentTable.spritebox.direction = 
+			self.ENTITY_DIRECTION:getDirection(targetingComponent.direction)
+	end
+end
+
+function EntityTargetingSystem:getDirectionToTarget(x, y, targetEntity)
+	local targetX, targetY = (targetEntity.x + targetEntity.w/2), (targetEntity.y + targetEntity.h/2)
+	local atanVal = math.atan2((targetY - y)*-1,(targetX - x))
+	if atanVal < 0 then atanVal = (math.pi*2) + atanVal end
+	return atanVal
 end
 
 ----------------

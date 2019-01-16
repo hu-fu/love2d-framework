@@ -81,13 +81,15 @@ local ENTITY_TEMPLATE = {
 			
 			[ENTITY_COMPONENT.TARGETING] = {
 				state = false,
+				auto = true,
 				defaultTargetingType = 1,
 				targetingType = 1,
 				areaRadius = 3000,
 				targetEntityType = 0,
 				targetEntityRef = nil,
 				directionLock = true,
-				direction = 0,
+				direction = false,
+				animationChange = true,
 			},
 			
 			[ENTITY_COMPONENT.ACTION] = {

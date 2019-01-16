@@ -381,6 +381,7 @@ EntityLoader.createEntityComponentMethods = {
 		local component = entity.components.targeting
 		local templateComponent = template.components[self.ENTITY_COMPONENT.TARGETING]
 		component.state = templateComponent.state
+		component.auto = templateComponent.auto
 		component.defaultTargetingType = templateComponent.defaultTargetingType
 		component.targetingType = templateComponent.targetingType
 		component.areaRadius = templateComponent.areaRadius
@@ -388,6 +389,7 @@ EntityLoader.createEntityComponentMethods = {
 		component.targetEntityRef = templateComponent.targetEntityRef
 		component.directionLock = templateComponent.directionLock
 		component.direction = templateComponent.direction
+		component.animationChange = templateComponent.animationChange
 	end,
 	
 	[EntityLoader.ENTITY_COMPONENT.ACTION] = function(self, template, entityAsset, entity)

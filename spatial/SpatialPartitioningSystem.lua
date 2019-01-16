@@ -1242,7 +1242,11 @@ SpatialPartitioningSystem.getDistanceToPointMethods = {
 			math.abs((x - (spatialEntity.parentEntity.x + spatialEntity.parentEntity.w/2))^2 + 
 				(y - (spatialEntity.parentEntity.y + spatialEntity.parentEntity.h/2))^2)
 		)
-	end
+	end,
+	
+	[SpatialPartitioningSystem.ENTITY_TYPES.UNDEFINED] = function(x, y, spatialEntity)
+		return 0	--possible bug?
+	end,
 }
 
 SpatialPartitioningSystem.getEntityQuadMethods = {

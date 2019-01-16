@@ -56,6 +56,7 @@ CollisionPairsUpdater.updateCollisionTypeQueue = {
 		CollisionPairsUpdater.COLLISION_TYPE.playerObstacle,
 		CollisionPairsUpdater.COLLISION_TYPE.hostileObstacle,
 		CollisionPairsUpdater.COLLISION_TYPE.friendProjectile,
+		CollisionPairsUpdater.COLLISION_TYPE.hostileProjectile,
 		CollisionPairsUpdater.COLLISION_TYPE.obstacleHostileProjectile,
 	},
 	{
@@ -70,12 +71,14 @@ CollisionPairsUpdater.updateCollisionTypeQueue = {
 		CollisionPairsUpdater.COLLISION_TYPE.playerObstacle,
 		CollisionPairsUpdater.COLLISION_TYPE.hostileObstacle,
 		CollisionPairsUpdater.COLLISION_TYPE.friendProjectile,
+		CollisionPairsUpdater.COLLISION_TYPE.hostileProjectile,
 		CollisionPairsUpdater.COLLISION_TYPE.obstacleHostileProjectile,
 	},
 	{
 		CollisionPairsUpdater.COLLISION_TYPE.playerHostile,
 		CollisionPairsUpdater.COLLISION_TYPE.playerObstacle,
 		CollisionPairsUpdater.COLLISION_TYPE.hostileObstacle,
+		CollisionPairsUpdater.COLLISION_TYPE.hostileProjectile,
 	}
 }
 

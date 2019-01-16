@@ -177,6 +177,7 @@ function GameEntityBuilder:setCreateComponentMethods()
 				targetHitbox = nil,
 				directionLock = true,
 				direction = 0,
+				animationChange = false,	--animation changes relative to current target/direction lock
 			}
 		end,
 		

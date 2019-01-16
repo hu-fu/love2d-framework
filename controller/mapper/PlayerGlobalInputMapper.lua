@@ -120,6 +120,8 @@ function PlayerGlobalInputMapper:setCancelStateMethods()
 				controller.combatInputMapper:setEndCombat()
 				controller:addOutput(self.OUTPUT_ACTION.COMBAT)
 			end
+			
+			self:resetTargetingMovementModifiers(controller, inputComponent)
 		end,
 		
 		[self.ENTITY_STATE.COMBAT_RESTRICTED] = function(self, controller, inputComponent, newState)
@@ -128,6 +130,8 @@ function PlayerGlobalInputMapper:setCancelStateMethods()
 				controller.combatInputMapper:setEndCombat()
 				controller:addOutput(self.OUTPUT_ACTION.COMBAT)
 			end
+			
+			self:resetTargetingMovementModifiers(controller, inputComponent)
 		end,
 	}
 end
@@ -219,4 +223,8 @@ function PlayerGlobalInputMapper:getTargetingOutput(controller, inputComponent)
 	if controller.targetingInputMapper.setState or controller.targetingInputMapper.getTarget then
 		controller:addOutput(self.OUTPUT_ACTION.TARGETING)
 	end
+end
+
+function PlayerGlobalInputMapper:resetTargetingMovementModifiers(controller, inputComponent)
+	inputComponent.componentTable.targeting.direction = false
 end
