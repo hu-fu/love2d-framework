@@ -218,6 +218,7 @@ function EntityTargetingSystem:removeTarget(targetHitbox)
 		if component.state and component.targetHitbox == targetHitbox then
 			
 			if component.auto then
+				component.targetHitbox = nil
 				self:searchNewTarget(component)
 			else
 				self:resetState(component)
@@ -254,7 +255,8 @@ end
 
 function EntityTargetingSystem:getQueryResults(spatialSystem, spatialQuery, results, targetingComponent)
 	for i=1, #results do
-		if targetingComponent.targetHitbox ~= results[i].parentEntity then
+		if targetingComponent.targetHitbox ~= results[i].parentEntity
+			and self:isEntityActive(results[i].parentEntity) then
 			targetingComponent.targetHitbox = results[i].parentEntity
 			return nil
 		end
@@ -367,6 +369,15 @@ function EntityTargetingSystem:getDirectionToTarget(x, y, targetEntity)
 	local atanVal = math.atan2((targetY - y)*-1,(targetX - x))
 	if atanVal < 0 then atanVal = (math.pi*2) + atanVal end
 	return atanVal
+end
+
+function EntityTargetingSystem:isEntityActive(component)
+	--modify this to check the entity state
+	if component.componentTable.health.healthPoints <= 0 then
+		return false
+	else
+		return true
+	end
 end
 
 ----------------
