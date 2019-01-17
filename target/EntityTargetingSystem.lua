@@ -340,12 +340,17 @@ function EntityTargetingSystem:setLockDirection(targetingComponent, direction)
 end
 
 function EntityTargetingSystem:setSpriteboxQuadByTarget(targetingComponent)
-	if targetingComponent.animationChange and targetingComponent.targetHitbox then
-		targetingComponent.componentTable.spritebox.direction = 
-			self.ENTITY_DIRECTION:getDirection(self:getDirectionToTarget(
-			targetingComponent.componentTable.hitbox.x, 
-			targetingComponent.componentTable.hitbox.y,
-			targetingComponent.targetHitbox))
+	if targetingComponent.animationChange then
+		if targetingComponent.targetHitbox then
+			targetingComponent.componentTable.spritebox.direction = 
+				self.ENTITY_DIRECTION:getDirection(self:getDirectionToTarget(
+				targetingComponent.componentTable.hitbox.x, 
+				targetingComponent.componentTable.hitbox.y,
+				targetingComponent.targetHitbox))
+		elseif targetingComponent.directionLock and targetingComponent.direction then
+			targetingComponent.componentTable.spritebox.direction = 
+				self.ENTITY_DIRECTION:getDirection(targetingComponent.direction)
+		end
 	end
 end
 
