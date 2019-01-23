@@ -20,8 +20,8 @@ function TargetingActionMapper.new ()
 	return self
 end
 
-function TargetingActionMapper:setSetState(state)
-	self.setState = state
+function TargetingActionMapper:setSetState()
+	self.setState = true
 end
 
 function TargetingActionMapper:setGetTarget(state)

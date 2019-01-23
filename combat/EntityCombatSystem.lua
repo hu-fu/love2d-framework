@@ -344,7 +344,7 @@ EntityCombatSystem.resolveRequestMethods = {
 	end,
 	
 	[EntityCombatSystem.COMBAT_REQUEST.KNOCKBACK] = function(self, request)
-		local actionSetId, actionId = self:getKnockbackAction(combatComponent)(request.combatComponent)
+		local actionSetId, actionId = self:getKnockbackAction(request.combatComponent)
 		self:activateInterruptAction(combatComponent, actionSetId, actionId)
 	end,
 	
@@ -407,6 +407,7 @@ end
 function EntityCombatSystem:endState(combatComponent)
 	self:stopAction(combatComponent)
 	self:stopAnimation(combatComponent)
+	self:resetWalkAnimation(combatComponent)
 	self:resetCombatComponent(combatComponent)
 	self:resetSpriteboxComponent(combatComponent.componentTable.spritebox)
 	self:sendEndStateRequest(combatComponent)
@@ -648,6 +649,16 @@ function EntityCombatSystem:sendDialogueRequest(combatComponent, dialogueRequest
 	
 	self.eventDispatcher:postEvent(8, 1, dialogueRequest)
 	self.dialogueRequestPool:incrementCurrentIndex()
+end
+
+function EntityCombatSystem:sendInputControllerRequest(combatComponent, actionId)
+	local eventObj = self.entityInputRequestPool:getCurrentAvailableObject()
+	
+	eventObj.actionId = actionId
+	eventObj.inputComponent = combatComponent.componentTable.input
+	
+	self.eventDispatcher:postEvent(3, 4, eventObj)
+	self.entityInputRequestPool:incrementCurrentIndex()
 end
 
 ----------------

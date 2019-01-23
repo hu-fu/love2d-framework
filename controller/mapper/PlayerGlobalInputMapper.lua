@@ -179,6 +179,8 @@ function PlayerGlobalInputMapper:setGetOuputByStateMethods()
 		[self.ENTITY_STATE.COMBAT_RESTRICTED] = function(self, controller, inputComponent)
 			if controller.combatInputMapper.restrictCombat then
 				controller:addOutput(self.OUTPUT_ACTION.STOP_MOVEMENT)
+			elseif controller.combatInputMapper.request == controller.COMBAT_REQUEST.KNOCKBACK then
+				controller:addOutput(self.OUTPUT_ACTION.COMBAT)
 			end
 		end,
 	}

@@ -95,7 +95,7 @@ function GenericPlayerController:setPlayerInputMappingMethods()
 		end,
 		
 		[self.INPUT_ACTION.SET_TARGETING_STATE] = function(self, inputComponent)
-			self.targetingInputMapper:setSetState(true)
+			self.targetingInputMapper:setSetState()
 		end,
 		
 		[self.INPUT_ACTION.SEARCH_TARGET] = function(self, inputComponent)
@@ -108,6 +108,7 @@ function GenericPlayerController:setPlayerInputMappingMethods()
 		
 		[self.INPUT_ACTION.ATTACK_A] = function(self, inputComponent)
 			self.combatInputMapper:setAttackA()
+			
 		end,
 		
 		[self.INPUT_ACTION.ATTACK_B] = function(self, inputComponent)
@@ -205,7 +206,6 @@ function GenericPlayerController:setEntityOutputMappingMethods()
 		end,
 		
 		[self.OUTPUT_ACTION.COMBAT] = function(self, controllerSystem, stateComponent)
-			--INFO_STR = tostring(stateComponent.state)
 			controllerSystem:sendCombatActionRequest(self.combatInputMapper.request, 
 				stateComponent.componentTable.combat)
 		end,

@@ -123,6 +123,7 @@ return {
 			cancel = false,
 			cancelTime = 0,
 			staminaCost = 20,
+			free = true,
 		},
 		
 		methods = {
@@ -141,6 +142,14 @@ return {
 				timeFrequency = 0,
 				method = function(self, system, component)
 					component.comboActivation = true
+				end
+			},
+			{
+				callType = CALL_TYPE.ONCE,
+				callTime = 0.29,
+				timeFrequency = 0,
+				method = function(self, system, component)
+					
 				end
 			}
 		}
@@ -246,7 +255,15 @@ return {
 				callTime = 0.0,
 				timeFrequency = 0,
 				method = function(self, system, component)
-					
+					INFO_STR = 1
+				end
+			},
+			{
+				callType = CALL_TYPE.ONCE,
+				callTime = 0.3,
+				timeFrequency = 0,
+				method = function(self, system, component)
+					INFO_STR = 0
 				end
 			},
 		}

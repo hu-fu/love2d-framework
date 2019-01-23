@@ -74,7 +74,6 @@ end
 ---------------
 
 function EntityTargetingSystem:update()
-	--TODO: run this once every x frames | divide component table
 	for i=1, #self.targetingComponentTable do
 		if self.targetingComponentTable[i].state then
 			self:runState(self.targetingComponentTable[i])
@@ -188,7 +187,9 @@ function EntityTargetingSystem:setTargetOnComponent(targetingComponent, targetHi
 end
 
 function EntityTargetingSystem:searchNewTarget(targetingComponent)
-	--a total mess, refactor please:
+	--a total mess, refactor please
+	--bug where calling this in certain circumstances is dreadfully slow
+		--origin might be the spatial sys request
 	
 	local hitbox = targetingComponent.componentTable.hitbox
 	local entityRole = targetingComponent.componentTable.scene.role
@@ -254,6 +255,8 @@ function EntityTargetingSystem:sendSpatialQuery(spatialQuery)
 end
 
 function EntityTargetingSystem:getQueryResults(spatialSystem, spatialQuery, results, targetingComponent)
+	if not targetingComponent.state then return nil end
+	
 	for i=1, #results do
 		if targetingComponent.targetHitbox ~= results[i].parentEntity
 			and self:isEntityActive(results[i].parentEntity) then
@@ -262,7 +265,9 @@ function EntityTargetingSystem:getQueryResults(spatialSystem, spatialQuery, resu
 		end
 	end
 	
-	if not targetingComponent.auto then
+	if targetingComponent.auto then
+		self:searchNewTarget(targetingComponent)
+	else 
 		self:resetState(targetingComponent)
 	end
 end
@@ -357,7 +362,7 @@ function EntityTargetingSystem:setSpriteboxQuadByTarget(targetingComponent)
 end
 
 function EntityTargetingSystem:setSpriteboxQuadByLock(targetingComponent)
-	if targetingComponent.animationChange and  targetingComponent.directionLock and
+	if targetingComponent.animationChange and targetingComponent.directionLock and
 		targetingComponent.direction then
 		targetingComponent.componentTable.spritebox.direction = 
 			self.ENTITY_DIRECTION:getDirection(targetingComponent.direction)
