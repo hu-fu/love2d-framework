@@ -158,6 +158,7 @@ function EntityTargetingSystem:runState(targetingComponent)
 	elseif targetingComponent.areaRadius < 0 then
 		--still not tested! - maybe not a great idea, too resource intensive perhaps
 			--delete the whole elseif statement to revert back to the older version
+				--I don't even know what this is
 		local hitbox = targetingComponent.componentTable.hitbox
 		local targetHitbox = targetingComponent.targetHitbox
 		local x, y = hitbox.x + (hitbox.w/2), hitbox.y + (hitbox.h/2)
@@ -188,8 +189,6 @@ end
 
 function EntityTargetingSystem:searchNewTarget(targetingComponent)
 	--a total mess, refactor please
-	--bug where calling this in certain circumstances is dreadfully slow
-		--origin might be the spatial sys request
 	
 	local hitbox = targetingComponent.componentTable.hitbox
 	local entityRole = targetingComponent.componentTable.scene.role
@@ -265,9 +264,7 @@ function EntityTargetingSystem:getQueryResults(spatialSystem, spatialQuery, resu
 		end
 	end
 	
-	if targetingComponent.auto then
-		self:searchNewTarget(targetingComponent)
-	else 
+	if not targetingComponent.auto then
 		self:resetState(targetingComponent)
 	end
 end

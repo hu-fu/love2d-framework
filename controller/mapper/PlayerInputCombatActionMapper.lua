@@ -15,8 +15,14 @@ function CombatActionMapper.new ()
 	local self = setmetatable ({}, CombatActionMapper)
 		
 		self.COMBAT_REQUEST = require '/combat/COMBAT_REQUEST'
+		
 		self.freeCombat = false
 		self.restrictCombat = false
+		
+		self.continueAttackA = false
+		self.continueAttackB = false
+		self.continueAttackC = false
+		
 		self.request = nil
 	return self
 end
@@ -42,6 +48,24 @@ function CombatActionMapper:setAttackC()
 		self.request = self.COMBAT_REQUEST.ATTACK_SLOT_C
 	end
 end
+
+function CombatActionMapper:setContinueAttackA()
+	self.continueAttackA = true
+	self.continueAttackB = false
+	self.continueAttackC = false
+end
+
+function CombatActionMapper:setContinueAttackB()
+	self.continueAttackA = false
+	self.continueAttackB = true
+	self.continueAttackC = false
+end
+
+function CombatActionMapper:setContinueAttackC()
+	self.continueAttackA = false
+	self.continueAttackB = false
+	self.continueAttackC = true
+end 
 
 function CombatActionMapper:setAttackMelee()
 	if self.request ~= self.COMBAT_REQUEST.END_COMBAT and self.request ~= self.COMBAT_REQUEST.LOCKUP
@@ -125,5 +149,8 @@ end
 function CombatActionMapper:resetMapping()
 	self.freeCombat = false
 	self.restrictCombat = false
+	self.continueAttackA = false
+	self.continueAttackB = false
+	self.continueAttackC = false
 	self.request = nil
 end

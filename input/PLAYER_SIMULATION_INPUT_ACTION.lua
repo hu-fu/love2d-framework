@@ -14,6 +14,9 @@ return {
 	ATTACK_A = 'attack_a',
 	ATTACK_B = 'attack_b',
 	ATTACK_C = 'attack_c',
+	CONTINUE_ATTACK_A = 'continue_attack_a',
+	CONTINUE_ATTACK_B = 'continue_attack_b',
+	CONTINUE_ATTACK_C = 'continue_attack_c',
 	END_ATTACK = 'end_attack',
 	SPECIAL_MOVE = 'special_move',
 }

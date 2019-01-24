@@ -141,6 +141,7 @@ function PlayerGlobalInputMapper:setGetOuputByStateMethods()
 		[self.ENTITY_STATE.FREE] = function(self, controller, inputComponent)
 			self:getMovementOutput(controller, inputComponent)
 			self:getTargetingOutput(controller, inputComponent)
+			self:getCombatContinueOutput(controller, inputComponent)
 		end,
 		
 		[self.ENTITY_STATE.SPAWN] = function(self, controller, inputComponent)
@@ -224,6 +225,18 @@ end
 function PlayerGlobalInputMapper:getTargetingOutput(controller, inputComponent)
 	if controller.targetingInputMapper.setState or controller.targetingInputMapper.getTarget then
 		controller:addOutput(self.OUTPUT_ACTION.TARGETING)
+	end
+end
+
+function PlayerGlobalInputMapper:getCombatContinueOutput(controller, inputComponent)
+	if controller.combatInputMapper.continueAttackA then
+		--send input to controller system? - no, it would be delayed by one frame
+	elseif controller.combatInputMapper.continueAttackB then
+		--send input to controller system? - no, it would be delayed by one frame
+	elseif controller.combatInputMapper.continueAttackC then
+		--send input to controller system? - no, it would be delayed by one frame
+	else
+		--do nothing
 	end
 end
 

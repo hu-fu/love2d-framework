@@ -118,6 +118,18 @@ function GenericPlayerController:setPlayerInputMappingMethods()
 			self.combatInputMapper:setAttackC()
 		end,
 		
+		[self.INPUT_ACTION.CONTINUE_ATTACK_A] = function(self, inputComponent)
+			self.combatInputMapper:setContinueAttackA()
+		end,
+		
+		[self.INPUT_ACTION.CONTINUE_ATTACK_B] = function(self, inputComponent)
+			self.combatInputMapper:setContinueAttackB()
+		end,
+		
+		[self.INPUT_ACTION.CONTINUE_ATTACK_C] = function(self, inputComponent)
+			self.combatInputMapper:setContinueAttackC()
+		end,
+		
 		[self.INPUT_ACTION.END_ATTACK] = function(self, inputComponent)
 			self.combatInputMapper:setEndAttack()
 		end,
