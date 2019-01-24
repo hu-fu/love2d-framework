@@ -141,17 +141,9 @@ return {
 				callTime = 0.25,
 				timeFrequency = 0,
 				method = function(self, system, component)
-					component.comboActivation = true
+					--component.comboActivation = true
 				end
 			},
-			{
-				callType = CALL_TYPE.ONCE,
-				callTime = 0.29,
-				timeFrequency = 0,
-				method = function(self, system, component)
-					
-				end
-			}
 		}
 	},
 	

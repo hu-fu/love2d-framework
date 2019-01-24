@@ -57,6 +57,7 @@ function EventObjectPool:setCreateEventObjectMethods()
 		
 		[self.EVENT_TYPES.ANIMATION] = function()
 			return {
+				requestType = nil,
 				animationSetId = nil,
 				animationId = nil,
 				spritebox = nil,

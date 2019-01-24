@@ -78,7 +78,7 @@ function EntityTargetingSystem:update()
 		if self.targetingComponentTable[i].state then
 			self:runState(self.targetingComponentTable[i])
 			self:setSpriteboxQuadByTarget(self.targetingComponentTable[i])
-		else
+		elseif self.targetingComponentTable[i].directionLock then
 			self:setSpriteboxQuadByLock(self.targetingComponentTable[i])
 		end
 	end

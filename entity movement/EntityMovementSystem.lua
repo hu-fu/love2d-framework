@@ -16,6 +16,7 @@ EntityMovementSystem.ENTITY_COMPONENT = require '/entity/ENTITY_COMPONENT'
 EntityMovementSystem.ENTITY_ACTION = require '/entity state/ENTITY_ACTION'
 EntityMovementSystem.ENTITY_DIRECTION = require '/entity state/ENTITY_DIRECTION'
 EntityMovementSystem.MOVEMENT_REQUEST = require '/entity movement/MOVEMENT_REQUEST'
+EntityMovementSystem.ANIMATION_REQUEST = require '/animation/ANIMATION_REQUEST'
 
 -------------------
 --System Variables:
@@ -205,6 +206,7 @@ end
 
 function EntityMovementSystem:startAnimation(movementComponent)
 	local animationRequest = self.animationRequestPool:getCurrentAvailableObject()
+	animationRequest.requestType = self.ANIMATION_REQUEST.SET_ANIMATION
 	animationRequest.animationSetId = movementComponent.animationSetId
 	animationRequest.animationId = movementComponent.animationId
 	animationRequest.spritebox = movementComponent.componentTable.spritebox

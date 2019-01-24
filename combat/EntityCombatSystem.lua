@@ -32,6 +32,7 @@ EntityCombatSystem.SOUND_REQUEST = require '/sound/SOUND_REQUEST'
 EntityCombatSystem.DIALOGUE_REQUEST = require '/dialogue/DIALOGUE_REQUEST'
 EntityCombatSystem.IDLE_REQUEST = require '/entity idle/IDLE_REQUEST'
 EntityCombatSystem.MOVEMENT_REQUEST = require '/entity movement/MOVEMENT_REQUEST'
+EntityCombatSystem.ANIMATION_REQUEST = require '/animation/ANIMATION_REQUEST'
 
 -------------------
 --System Variables:
@@ -290,6 +291,7 @@ end
 function EntityCombatSystem:startAnimation(combatComponent)
 	if combatComponent.action then
 		local animationRequest = self.animationRequestPool:getCurrentAvailableObject()
+		animationRequest.requestType = self.ANIMATION_REQUEST.SET_ANIMATION
 		animationRequest.animationSetId = combatComponent.action.animationSetId
 		animationRequest.animationId = combatComponent.action.animationId
 		animationRequest.spritebox = combatComponent.componentTable.spritebox

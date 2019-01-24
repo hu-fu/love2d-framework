@@ -1,0 +1,5 @@
+return {
+	SET_ANIMATION = 1,
+	REFRESH_ANIMATION = 2,
+	START_ANIMATION = 3,
+}

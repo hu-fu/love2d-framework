@@ -19,6 +19,7 @@ EntityDespawnSystem.ENTITY_DESPAWN = require '/despawn/ENTITY_DESPAWN'
 EntityDespawnSystem.DESPAWN_REQUEST = require '/despawn/DESPAWN_REQUEST'
 EntityDespawnSystem.ENTITY_ACTION = require '/entity state/ENTITY_ACTION'
 EntityDespawnSystem.QUERY_TYPES = require '/spatial/SPATIAL_QUERY'
+EntityDespawnSystem.ANIMATION_REQUEST = require '/animation/ANIMATION_REQUEST'
 
 -------------------
 --System Variables:
@@ -194,6 +195,7 @@ end
 function EntityDespawnSystem:startAnimation(despawnComponent)
 	if despawnComponent.action then
 		local animationRequest = self.animationRequestPool:getCurrentAvailableObject()
+		animationRequest.requestType = self.ANIMATION_REQUEST.SET_ANIMATION
 		animationRequest.animationSetId = despawnComponent.action.animationSetId
 		animationRequest.animationId = despawnComponent.action.animationId
 		animationRequest.spritebox = despawnComponent.componentTable.spritebox

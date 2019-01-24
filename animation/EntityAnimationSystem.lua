@@ -14,6 +14,7 @@ EntityAnimationSystem.ENTITY_DIRECTION = require '/entity state/ENTITY_DIRECTION
 EntityAnimationSystem.ENTITY_TYPE = require '/entity/ENTITY_TYPE'
 EntityAnimationSystem.ENTITY_COMPONENT = require '/entity/ENTITY_COMPONENT'
 EntityAnimationSystem.EVENT_TYPES = require '/event/EVENT_TYPE'
+EntityAnimationSystem.ANIMATION_REQUEST = require '/animation/ANIMATION_REQUEST'
 local SYSTEM_ID = require '/system/SYSTEM_ID'
 
 -------------------
@@ -32,6 +33,8 @@ EntityAnimationSystem.spriteAnimationPlayerObjectPool:buildObjectPool()
 EntityAnimationSystem.eventDispatcher = nil
 EntityAnimationSystem.eventListenerList = {}
 
+EntityAnimationSystem.requestStack = {}
+
 ----------------
 --Event Methods:
 ----------------
@@ -45,19 +48,8 @@ EntityAnimationSystem.eventMethods = {
 		end,
 		
 		[2] = function(request)
-			--set and start animation
-			EntityAnimationSystem:getAnimation(request.animationSetId, request.animationId, 
-				request.spritebox)
-		end,
-		
-		[3] = function(request)
-			--refresh animation (use to set a new animation direction)
-			EntityAnimationSystem:showAnimationFrame(request.spritebox)
-		end,
-		
-		[4] = function(request)
-			--start animation
-			EntityAnimationSystem:setAnimationOnSpritebox(request.spritebox, request.animationObject)
+			--request into stack
+			EntityAnimationSystem:addRequestToStack(request)
 		end
 	}
 }
@@ -100,8 +92,44 @@ function EntityAnimationSystem:update(dt)
 			self:playAnimation(dt, self.spriteComponentTable[i])
 		end
 	end
+	
+	self:resolveRequestStack()
 end
 
+function EntityAnimationSystem:resolveRequestStack()
+	for i=#self.requestStack, 1, -1 do
+		self:resolveRequest(self.requestStack[i])
+		self:removeRequestFromStack()
+	end
+end
+
+function EntityAnimationSystem:resolveRequest(request)
+	self.resolveRequestMethods[request.requestType](self, request)
+end
+
+function EntityAnimationSystem:addRequestToStack(request)
+	table.insert(self.requestStack, request)
+end
+
+function EntityAnimationSystem:removeRequestFromStack()
+	table.remove(self.requestStack)
+end
+
+EntityAnimationSystem.resolveRequestMethods = {
+	[EntityAnimationSystem.ANIMATION_REQUEST.SET_ANIMATION] = function(self, request)
+		self:getAnimation(request.animationSetId, request.animationId, 
+			request.spritebox)
+	end,
+	
+	[EntityAnimationSystem.ANIMATION_REQUEST.REFRESH_ANIMATION] = function(self, request)
+		self:showAnimationFrame(request.spritebox)
+	end,
+	
+	[EntityAnimationSystem.ANIMATION_REQUEST.START_ANIMATION] = function(self, request)
+		self:setAnimationOnSpritebox(request.spritebox, request.animationObject)
+	end,
+}
+		
 function EntityAnimationSystem:resetspriteComponentTable()
 	self.spriteComponentTable = {}
 end

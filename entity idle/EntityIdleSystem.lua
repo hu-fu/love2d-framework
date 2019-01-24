@@ -15,6 +15,7 @@ EntityIdleSystem.ENTITY_COMPONENT = require '/entity/ENTITY_COMPONENT'
 EntityIdleSystem.ENTITY_ACTION = require '/entity state/ENTITY_ACTION'
 EntityIdleSystem.IDLE_REQUEST = require '/entity idle/IDLE_REQUEST'
 EntityIdleSystem.ACTION_METHODS = require '/action/ACTION_METHOD'
+EntityIdleSystem.ANIMATION_REQUEST = require '/animation/ANIMATION_REQUEST'
 
 -------------------
 --System Variables:
@@ -207,6 +208,7 @@ end
 function EntityIdleSystem:startAnimation(idleComponent)
 	if idleComponent.action then
 		local animationRequest = self.animationRequestPool:getCurrentAvailableObject()
+		animationRequest.requestType = self.ANIMATION_REQUEST.SET_ANIMATION
 		animationRequest.animationSetId = idleComponent.action.animationSetId
 		animationRequest.animationId = idleComponent.action.animationId
 		animationRequest.spritebox = idleComponent.componentTable.spritebox

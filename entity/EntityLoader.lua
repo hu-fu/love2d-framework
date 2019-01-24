@@ -390,6 +390,10 @@ EntityLoader.createEntityComponentMethods = {
 		component.directionLock = templateComponent.directionLock
 		component.direction = templateComponent.direction
 		component.animationChange = templateComponent.animationChange
+		
+		if entityAsset.directionLock ~= nil then
+			component.directionLock = entityAsset.directionLock
+		end
 	end,
 	
 	[EntityLoader.ENTITY_COMPONENT.ACTION] = function(self, template, entityAsset, entity)

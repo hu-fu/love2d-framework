@@ -17,6 +17,7 @@ EntitySpawnSystem.ACTION_METHODS = require '/action/ACTION_METHOD'
 EntitySpawnSystem.ENTITY_SPAWN_TYPE = require '/spawn/ENTITY_SPAWN_TYPE'
 EntitySpawnSystem.ENTITY_SPAWN = require '/spawn/ENTITY_SPAWN'
 EntitySpawnSystem.SPAWN_REQUEST = require '/spawn/SPAWN_REQUEST'
+EntitySpawnSystem.ANIMATION_REQUEST = require '/animation/ANIMATION_REQUEST'
 
 -------------------
 --System Variables:
@@ -247,6 +248,7 @@ end
 function EntitySpawnSystem:startAnimation(spawnComponent)
 	if spawnComponent.action and spawnComponent.action.animationId then
 		local animationRequest = self.animationRequestPool:getCurrentAvailableObject()
+		animationRequest.requestType = self.ANIMATION_REQUEST.SET_ANIMATION
 		animationRequest.animationSetId = spawnComponent.action.animationSetId
 		animationRequest.animationId = spawnComponent.action.animationId
 		animationRequest.spritebox = spawnComponent.componentTable.spritebox

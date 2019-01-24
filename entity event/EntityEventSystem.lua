@@ -18,6 +18,7 @@ EntityEventSystem.ENTITY_ACTION = require '/entity state/ENTITY_ACTION'
 EntityEventSystem.ACTION_METHODS = require '/action/ACTION_METHOD'
 EntityEventSystem.ENTITY_ACTION = require '/entity state/ENTITY_ACTION'
 EntityEventSystem.ENTITY_EVENT_REQUEST = require '/entity event/ENTITY_EVENT_REQUEST'
+EntityEventSystem.ANIMATION_REQUEST = require '/animation/ANIMATION_REQUEST'
 
 -------------------
 --System Variables:
@@ -219,6 +220,7 @@ end
 function EntityEventSystem:startAnimation(eventComponent)
 	if eventComponent.action and eventComponent.action.animationId then
 		local animationRequest = self.animationRequestPool:getCurrentAvailableObject()
+		animationRequest.requestType = self.ANIMATION_REQUEST.SET_ANIMATION
 		animationRequest.animationSetId = eventComponent.action.animationSetId
 		animationRequest.animationId = eventComponent.action.animationId
 		animationRequest.spritebox = eventComponent.componentTable.spritebox

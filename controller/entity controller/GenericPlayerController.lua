@@ -108,7 +108,6 @@ function GenericPlayerController:setPlayerInputMappingMethods()
 		
 		[self.INPUT_ACTION.ATTACK_A] = function(self, inputComponent)
 			self.combatInputMapper:setAttackA()
-			
 		end,
 		
 		[self.INPUT_ACTION.ATTACK_B] = function(self, inputComponent)
