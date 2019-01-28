@@ -170,9 +170,9 @@ local ENTITY_TEMPLATE = {
 				maxAttackCombo = 3,
 				attackComboState = {},
 				comboActivation = false,
-				currentStamina = 10000,
-				maxStamina = 10000,
-				staminaRecoveryRate = 0.25,
+				currentStamina = 100,
+				maxStamina = 100,
+				staminaRecoveryRate = 0.15,
 			},
 			
 			[ENTITY_COMPONENT.HEALTH] = {

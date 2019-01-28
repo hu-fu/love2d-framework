@@ -54,7 +54,7 @@ return {
 	},
 	
 	[ACTIONS.ACTION_ID[SET_ID].DESPAWN_TEST] = {
-		id = 1,
+		id = 3,
 		animation = true,
 		animationSetId = 0,
 		animationId = 0,
@@ -78,7 +78,7 @@ return {
 	},
 	
 	[ACTIONS.ACTION_ID[SET_ID].INTERACT_TEST] = {
-		id = 1,
+		id = 4,
 		animation = true,
 		animationSetId = 2,
 		animationId = 1,
@@ -159,7 +159,7 @@ return {
 			combatState = COMBAT_STATE.ATTACK_RANGED,
 			cancel = true,
 			cancelTime = 999.9,
-			staminaCost = 20,
+			staminaCost = 0,
 			free = true,
 			walkAnimation = true,
 			walkAnimationSetId = 2,

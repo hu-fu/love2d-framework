@@ -240,7 +240,7 @@ function EntityCombatSystem:sendEndStateRequest(combatComponent)
 	self.entityInputRequestPool:incrementCurrentIndex()
 end
 
-function EntityCombatSystem:resetWalkAnimation(component)
+function EntityCombatSystem:resetWalkAnimation(combatComponent)
 	local eventObj = self.movementRequestPool:getCurrentAvailableObject()
 	eventObj.movementComponent = combatComponent.componentTable.movement
 	
@@ -250,7 +250,7 @@ function EntityCombatSystem:resetWalkAnimation(component)
 	self.movementRequestPool:incrementCurrentIndex()
 end
 
-function EntityCombatSystem:resetIdleAction(component)
+function EntityCombatSystem:resetIdleAction(combatComponent)
 	local eventObj = self.idleRequestPool:getCurrentAvailableObject()
 	eventObj.inputComponent = combatComponent.componentTable.input
 	
@@ -260,7 +260,7 @@ function EntityCombatSystem:resetIdleAction(component)
 	self.idleRequestPool:incrementCurrentIndex()
 end
 
-function EntityCombatSystem:modifyWalkAnimation(component, animationSetId, animationId)
+function EntityCombatSystem:modifyWalkAnimation(combatComponent, animationSetId, animationId)
 	local eventObj = self.movementRequestPool:getCurrentAvailableObject()
 	eventObj.movementComponent = combatComponent.componentTable.movement
 	eventObj.animationSetId = animationSetId
@@ -272,7 +272,7 @@ function EntityCombatSystem:modifyWalkAnimation(component, animationSetId, anima
 	self.movementRequestPool:incrementCurrentIndex()
 end
 
-function EntityCombatSystem:modifyIdleAction(component, actionSetId, actionId)
+function EntityCombatSystem:modifyIdleAction(combatComponent, actionSetId, actionId)
 	local eventObj = self.idleRequestPool:getCurrentAvailableObject()
 	eventObj.idleComponent = combatComponent.componentTable.idle
 	eventObj.actionSetId = actionSetId
@@ -368,7 +368,9 @@ EntityCombatSystem.resolveRequestMethods = {
 }
 
 function EntityCombatSystem:activateCombatAction(combatComponent, actionSetId, actionId, atkIndex)
-	if self:isAttackActionAllowed(combatComponent) then
+	if self:isAttackActionAllowed(combatComponent) and 
+		not self:compareAttackActions(combatComponent, actionSetId, actionId) then
+		
 		self:getAction(actionSetId, actionId, combatComponent)
 		
 		if combatComponent.action then
@@ -381,7 +383,7 @@ function EntityCombatSystem:activateCombatAction(combatComponent, actionSetId, a
 			end
 		end
 	else
-		
+		--maybe end state if action is not set?
 	end
 end
 
@@ -481,6 +483,15 @@ end
 function EntityCombatSystem:isAttackActionAllowed(combatComponent)
 	if (not combatComponent.action or combatComponent.action.variables.cancel
 		or combatComponent.comboActivation) and self:staminaCheck(combatComponent) then
+		return true
+	else
+		return false
+	end
+end
+
+function EntityCombatSystem:compareAttackActions(combatComponent, actionSetId, actionId)
+	--returns true if current action equals requested action (should check actionSetId too)
+	if combatComponent.action and combatComponent.action.id == actionId then
 		return true
 	else
 		return false

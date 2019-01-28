@@ -30,11 +30,11 @@ simulationInputChannel:setDefaultKeyMapping('s', simulationInputChannel.inputAct
 simulationInputChannel:setDefaultKeyMapping('v', simulationInputChannel.inputAction.INTERACT_REQUEST, simulationInputChannel.inputAction.NONE, 
 	simulationInputChannel.inputAction.NONE)
 simulationInputChannel:setDefaultKeyMapping('z', simulationInputChannel.inputAction.ATTACK_A, simulationInputChannel.inputAction.END_ATTACK, 
-	simulationInputChannel.inputAction.CONTINUE_ATTACK_A)
+	simulationInputChannel.inputAction.ATTACK_A)
 simulationInputChannel:setDefaultKeyMapping('x', simulationInputChannel.inputAction.ATTACK_B, simulationInputChannel.inputAction.END_ATTACK, 
-	simulationInputChannel.inputAction.CONTINUE_ATTACK_B)
+	simulationInputChannel.inputAction.ATTACK_B)
 simulationInputChannel:setDefaultKeyMapping('c', simulationInputChannel.inputAction.ATTACK_C, simulationInputChannel.inputAction.END_ATTACK, 
-	simulationInputChannel.inputAction.CONTINUE_ATTACK_C)
+	simulationInputChannel.inputAction.ATTACK_C)
 simulationInputChannel:setDefaultKeyMapping('space', simulationInputChannel.inputAction.SPECIAL_MOVE, simulationInputChannel.inputAction.NONE, 
 	simulationInputChannel.inputAction.NONE)
 	

@@ -34,6 +34,7 @@ EntityControllerSystem.despawnRequestPool = EventObjectPool.new(EntityController
 EntityControllerSystem.interactionRequestPool = EventObjectPool.new(EntityControllerSystem.EVENT_TYPE.INTERACTION, 25)
 EntityControllerSystem.entityEventRequestPool = EventObjectPool.new(EntityControllerSystem.EVENT_TYPE.ENTITY_EVENT, 25)
 EntityControllerSystem.entityCombatRequestPool = EventObjectPool.new(EntityControllerSystem.EVENT_TYPE.ENTITY_COMBAT, 25)
+EntityControllerSystem.playerInputRequestPool = EventObjectPool.new(EntityControllerSystem.EVENT_TYPE.PLAYER_INPUT, 10)
 
 ----------------
 --Event Methods:
@@ -167,6 +168,13 @@ function EntityControllerSystem:resetEntityController(inputComponent)
 	inputComponent.controller = self.ENTITY_CONTROLLER[inputComponent.defaultControllerId]
 end
 
+function EntityControllerSystem:addPlayerInputRequest(inputId)
+	local request = self.playerInputRequestPool:getCurrentAvailableObject()
+	request.inputId = inputId
+	self:addPlayerInputToStack(request)
+	inputSystem.playerInputRequestPool:incrementCurrentIndex()
+end
+
 function EntityControllerSystem:sendMovementActionRequest(requestType, movementComponent, animationSetId, 
 	animationId)
 	local movementSystemRequest = self.movementRequestPool:getCurrentAvailableObject()
@@ -229,6 +237,7 @@ function EntityControllerSystem:reset()
 	self.interactionRequestPool:resetCurrentIndex()
 	self.entityEventRequestPool:resetCurrentIndex()
 	self.entityCombatRequestPool:resetCurrentIndex()
+	self.playerInputRequestPool:resetCurrentIndex()
 end
 
 ----------------

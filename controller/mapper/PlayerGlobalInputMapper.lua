@@ -46,7 +46,7 @@ function PlayerGlobalInputMapper:setGetStateByStateMethods()
 				return self.ENTITY_STATE.SPAWN
 			elseif controller.spawnInputMapper.startDespawn then
 				return self.ENTITY_STATE.DESPAWN
-			elseif controller.combatInputMapper.request then
+			elseif controller.combatInputMapper.request and self:staminaCheck(inputComponent) then
 				return self.ENTITY_STATE.COMBAT_FREE
 			elseif controller.eventInputMapper.startEvent or controller.eventInputMapper.eventRequest then
 				return self.ENTITY_STATE.EVENT
@@ -141,7 +141,6 @@ function PlayerGlobalInputMapper:setGetOuputByStateMethods()
 		[self.ENTITY_STATE.FREE] = function(self, controller, inputComponent)
 			self:getMovementOutput(controller, inputComponent)
 			self:getTargetingOutput(controller, inputComponent)
-			self:getCombatContinueOutput(controller, inputComponent)
 		end,
 		
 		[self.ENTITY_STATE.SPAWN] = function(self, controller, inputComponent)
@@ -228,18 +227,14 @@ function PlayerGlobalInputMapper:getTargetingOutput(controller, inputComponent)
 	end
 end
 
-function PlayerGlobalInputMapper:getCombatContinueOutput(controller, inputComponent)
-	if controller.combatInputMapper.continueAttackA then
-		--send input to controller system? - no, it would be delayed by one frame
-	elseif controller.combatInputMapper.continueAttackB then
-		--send input to controller system? - no, it would be delayed by one frame
-	elseif controller.combatInputMapper.continueAttackC then
-		--send input to controller system? - no, it would be delayed by one frame
-	else
-		--do nothing
-	end
-end
-
 function PlayerGlobalInputMapper:resetTargetingMovementModifiers(controller, inputComponent)
 	inputComponent.componentTable.targeting.direction = false
+end
+
+function PlayerGlobalInputMapper:staminaCheck(component)
+	if component.componentTable.combat.currentStamina > 0 then
+		return true
+	else
+		return false
+	end
 end
