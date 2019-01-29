@@ -2,6 +2,8 @@ require '/state/GameState'
 
 local voidState = GameState.new()
 
+voidState.STATE_ID = require '/state/GAME_STATE'
+
 function voidState:init(stateManager)
 	self:reset()
 end
@@ -15,9 +17,9 @@ function voidState:update(stateManager, dt)
 end
 
 function voidState:draw(stateManager)
-	if stateManager:isStateInStack(stateManager.testState) then
+	if stateManager:isStateInStack(stateManager.stateTable[self.STATE_ID.TEST_STATE_C]) then
 		love.graphics.setColorMask(true, false, true, true)
-		stateManager.testState:draw(stateManager)
+		stateManager.stateTable[self.STATE_ID.TEST_STATE_C]:draw(stateManager)
 		love.graphics.setColorMask()
 	end
 	
@@ -25,7 +27,7 @@ function voidState:draw(stateManager)
 end
 
 function voidState:handleKeyPress(stateManager, key)
-	if key == 'p' then
+	if key == 'escape' then
 		self:finish(stateManager)
 	end
 end

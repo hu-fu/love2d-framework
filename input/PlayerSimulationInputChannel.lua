@@ -4,9 +4,13 @@ local simulationInputChannel = PlayerInputChannel.new(1)
 
 require '/persistent/GameDatabaseQuery'
 require '/event/EventObjectPool'
+require '/state/StateInitializer'
+simulationInputChannel.GAME_STATE = require '/state/GAME_STATE'
 simulationInputChannel.EVENT_TYPES = require '/event/EVENT_TYPE'
 simulationInputChannel.DATABASE_TABLES = require '/persistent/DATABASE_TABLE'
 simulationInputChannel.DATABASE_QUERY = require '/persistent/DATABASE_QUERY'
+
+simulationInputChannel.PAUSE_STATE_INITIALIZER = StateInitializer.new(simulationInputChannel.GAME_STATE.VOID)
 
 function simulationInputChannel:databaseQueryDefaultCallbackMethod() return function () end end
 simulationInputChannel.databaseSystemRequestPool = EventObjectPool.new(simulationInputChannel.EVENT_TYPES.DATABASE_REQUEST, 10)
@@ -37,7 +41,9 @@ simulationInputChannel:setDefaultKeyMapping('c', simulationInputChannel.inputAct
 	simulationInputChannel.inputAction.ATTACK_C)
 simulationInputChannel:setDefaultKeyMapping('space', simulationInputChannel.inputAction.SPECIAL_MOVE, simulationInputChannel.inputAction.NONE, 
 	simulationInputChannel.inputAction.NONE)
-	
+simulationInputChannel:setDefaultKeyMapping('escape', simulationInputChannel.inputAction.PAUSE, simulationInputChannel.inputAction.NONE, 
+	simulationInputChannel.inputAction.NONE)
+
 simulationInputChannel:revertToDefaultKeyMapping()
 
 simulationInputChannel:setDefaultMappingValue(simulationInputChannel.inputAction.NONE, simulationInputChannel.inputAction.NONE, 
@@ -164,6 +170,10 @@ simulationInputChannel.sendRequestMethods = {
 	[simulationInputChannel.inputAction.SPECIAL_MOVE] = function(inputSystem, self, input)
 		self:sendEntityControlRequest(inputSystem, input)
 	end,
+	
+	[simulationInputChannel.inputAction.PAUSE] = function(inputSystem, self, input)
+		self:sendPauseRequest(inputSystem, input)
+	end,
 }
 
 function simulationInputChannel:sendEntityControlRequest(inputSystem, input)
@@ -174,7 +184,10 @@ function simulationInputChannel:sendEntityControlRequest(inputSystem, input)
 end
 
 function simulationInputChannel:sendPauseRequest(inputSystem, input)
-	
+	local request = inputSystem.gameStateRequestPool:getCurrentAvailableObject()
+	request.stateInitializer = self.PAUSE_STATE_INITIALIZER
+	inputSystem.eventDispatcher:postEvent(3, 1, request)
+	inputSystem.gameStateRequestPool:incrementCurrentIndex()
 end
 
 return simulationInputChannel

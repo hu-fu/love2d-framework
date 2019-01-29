@@ -19,4 +19,5 @@ return {
 	CONTINUE_ATTACK_C = 'continue_attack_c',
 	END_ATTACK = 'end_attack',
 	SPECIAL_MOVE = 'special_move',
+	PAUSE = 'pause',
 }

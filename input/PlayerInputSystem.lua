@@ -28,6 +28,7 @@ PlayerInputSystem.eventDispatcher = nil
 PlayerInputSystem.eventListenerList = {}
 
 PlayerInputSystem.playerInputRequestPool = EventObjectPool.new(PlayerInputSystem.EVENT_TYPES.PLAYER_INPUT, 10)
+PlayerInputSystem.gameStateRequestPool = EventObjectPool.new(PlayerInputSystem.EVENT_TYPES.SET_GAME_STATE, 10)
 
 ----------------
 --Event Methods:
