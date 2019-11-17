@@ -10,7 +10,7 @@ function love.load()
 	SCREEN_H = 600
 	
 	--conf.lua not working
-	love.window.setMode(SCREEN_W, SCREEN_H, {resizable=true, vsync=1})
+	love.window.setMode(SCREEN_W, SCREEN_H, {fullscreen=false, resizable=true, vsync=1})
 	love.window.setTitle('Project_1_2')
 	
 	--------------------init game state:---------------------
@@ -33,6 +33,7 @@ function love.update(dt)
 end
 
 function love.draw()
+	love.graphics.scale(1.0, 1.0)
 	GAME_STATE_MANAGER:draw()
 end
 

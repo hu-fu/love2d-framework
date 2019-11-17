@@ -18,59 +18,117 @@ return {
 				attackEquipped = {{5,5,5},{5,5,5},{6,6,6}}},
 			
 			--floor
-			{id = 100, role = 7, template = 2, x = 0, y = 0, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*1), y = 0, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*2), y = 0, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*3), y = 0, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*4), y = 0, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*5), y = 0, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
+			{id = 100, role = 7, template = 2, x = 0, y = 0, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*1), y = 0, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*2), y = 0, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*3), y = 0, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*4), y = 0, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*5), y = 0, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
 			
-			{id = 100, role = 7, template = 2, x = 0, y = 320*1, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*1), y = 320*1, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*2), y = 320*1, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*3), y = 320*1, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*4), y = 320*1, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*5), y = 320*1, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
+			{id = 100, role = 7, template = 2, x = 0, y = 192*1, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*1), y = 192*1, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*2), y = 192*1, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*3), y = 192*1, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*4), y = 192*1, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*5), y = 192*1, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
 			
-			{id = 100, role = 7, template = 2, x = 0, y = 320*2, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*1), y = 320*2, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*2), y = 320*2, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*3), y = 320*2, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*4), y = 320*2, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*5), y = 320*2, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
+			{id = 100, role = 7, template = 2, x = 0, y = 192*2, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*1), y = 192*2, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*2), y = 192*2, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*3), y = 192*2, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*4), y = 192*2, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*5), y = 192*2, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
 			
-			{id = 100, role = 7, template = 2, x = 0, y = 320*3, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*1), y = 320*3, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*2), y = 320*3, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*3), y = 320*3, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*4), y = 320*3, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
-			{id = 100, role = 7, template = 2, x = (320*5), y = 320*3, spritesheetId = 3, 
-				spriteW = 320, spriteH = 320},
+			{id = 100, role = 7, template = 2, x = 0, y = 192*3, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*1), y = 192*3, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*2), y = 192*3, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*3), y = 192*3, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*4), y = 192*3, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			{id = 100, role = 7, template = 2, x = (288*5), y = 192*3, spritesheetId = 13, 
+				spriteW = 288, spriteH = 192},
+			
+			--walls
+			{id = 102, role = 4, template = 5, x = 0, y = 0, spritesheetId = 15, 
+				spriteW = 48, spriteH = 192, hitboxW = 48, hitboxH = 192,
+				quad = 1, collisionType = 8, mapCollisionType = 8},
+				
+			{id = 102, role = 4, template = 5, x = 48, y = 0, spritesheetId = 14, 
+				spriteW = 288, spriteH = 192, hitboxW = 288, hitboxH = 192,
+				quad = 1, collisionType = 8, mapCollisionType = 8},
+				
+			{id = 102, role = 4, template = 5, x = 336, y = 0, spritesheetId = 15, 
+				spriteW = 48, spriteH = 192, hitboxW = 48, hitboxH = 192,
+				quad = 1, collisionType = 8, mapCollisionType = 8},
+			
+			{id = 102, role = 4, template = 5, x = 384, y = 0, spritesheetId = 16, 
+				spriteW = 144, spriteH = 192, hitboxW = 144, hitboxH = 192,
+				quad = 1, collisionType = 8, mapCollisionType = 8},
+			
+			{id = 102, role = 4, template = 5, x = 528, y = 0, spritesheetId = 15, 
+				spriteW = 48, spriteH = 192, hitboxW = 48, hitboxH = 192,
+				quad = 1, collisionType = 8, mapCollisionType = 8},
+			
+			{id = 102, role = 4, template = 5, x = 576, y = 0, spritesheetId = 14, 
+				spriteW = 288, spriteH = 192, hitboxW = 288, hitboxH = 192,
+				quad = 1, collisionType = 8, mapCollisionType = 8},
+			
+			{id = 102, role = 4, template = 5, x = 864, y = 0, spritesheetId = 18, 
+				spriteW = 48, spriteH = 192, hitboxW = 48, hitboxH = 192,
+				quad = 1, collisionType = 8, mapCollisionType = 8},
+			
+			{id = 102, role = 4, template = 5, x = 912, y = 0, spritesheetId = 17, 
+				spriteW = 144, spriteH = 192, hitboxW = 144, hitboxH = 192,
+				quad = 1, collisionType = 8, mapCollisionType = 8},
+			
+			{id = 102, role = 4, template = 5, x = 1056, y = 0, spritesheetId = 18, 
+				spriteW = 48, spriteH = 192, hitboxW = 48, hitboxH = 192,
+				quad = 1, collisionType = 8, mapCollisionType = 8},
+
+			--pilar
+			--[[
+			{id = 202, role = 4, template = 5, x = 300, y = 100, spritesheetId = 21, 
+				spriteW = 130, spriteH = 382, hitboxW = 130, hitboxH = 382,
+				quad = 1, collisionType = 8, mapCollisionType = 8},
+			]]
+			
+			--foreground grid
+			--[[
+			{id = 103, role = 12, template = 2, x = 0, y = -200, spritesheetId = 20, 
+				spriteW = 971, spriteH = 991, quad = 1},
+			]]
+			
+			--a big grid
+			--[[
+			{id = 202, role = 4, template = 5, x = 350, y = -800, spritesheetId = 19, 
+				spriteW = 288, spriteH = 1227, hitboxW = 288, hitboxH = 1227,
+				quad = 1, collisionType = 8, mapCollisionType = 8},
+			]]
 			
 			--diagonal objects
+			--[[
 			{id = 101, role = 4, template = 5, x = 200, y = 200, spritesheetId = 7, 
 				spriteW = 144, spriteH = 144, hitboxW = 144, hitboxH = 144,
 				quad = 1, collisionType = 4, mapCollisionType = 4},
@@ -88,10 +146,13 @@ return {
 			{id = 102, role = 4, template = 5, x = 10, y = 10, spritesheetId = 9, 
 				spriteW = 144, spriteH = 144, hitboxW = 144, hitboxH = 144,
 				quad = 1, collisionType = 8, mapCollisionType = 8},
+			]]--
 			
 			--foreground
+			--[[
 			{id = 103, role = 12, template = 2, x = 164, y = 10, spritesheetId = 9, 
 				spriteW = 144, spriteH = 144, quad = 1},
+			]]
 			
 			--[[
 			{id = 101, role = 4, template = 5, x = 200, y = 200, spritesheetId = 7, 

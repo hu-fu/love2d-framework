@@ -4,7 +4,7 @@ local SET_ID = ANIMATIONS.SET_ID.PLAYER_B
 return {
 	[ANIMATIONS.ANIMATION_ID[SET_ID].IDLE] = {
 		id = 1,
-		spritesheetId = 11,
+		spritesheetId = 12,
 		totalTime = 0.1,
 		frameUpdates = {
 			{
@@ -28,7 +28,7 @@ return {
 	
 	[ANIMATIONS.ANIMATION_ID[SET_ID].WALK] = {
 		id = 2,
-		spritesheetId = 11,
+		spritesheetId = 12,
 		totalTime = 0.35,
 		frameUpdates = {
 			{
@@ -60,7 +60,7 @@ return {
 	
 	[ANIMATIONS.ANIMATION_ID[SET_ID].ATTACK] = {
 		id = 3,
-		spritesheetId = 11,
+		spritesheetId = 12,
 		totalTime = 0.1,
 		frameUpdates = {
 			{
@@ -84,7 +84,7 @@ return {
 	
 	[ANIMATIONS.ANIMATION_ID[SET_ID].HIT] = {
 		id = 4,
-		spritesheetId = 11,
+		spritesheetId = 12,
 		totalTime = 0.1,
 		frameUpdates = {
 			{

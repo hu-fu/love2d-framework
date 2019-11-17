@@ -41,11 +41,13 @@ SpatialEntityRenderer.drawEntityMethods = {
 			math.floor(spritebox.x - canvas.x), math.floor(spritebox.y - canvas.y))
 		
 		--draw hitbox (debug):
+		--[[
 		local hitbox = parentEntity.componentTable.hitbox
 		if hitbox then
 			love.graphics.rectangle('line', math.floor(hitbox.x - canvas.x), 
 				math.floor(hitbox.y - canvas.y), hitbox.w, hitbox.h)
 		end
+		]]
 	end,
 	
 	[SpatialEntityRenderer.ENTITY_TYPES.GENERIC_PROJECTILE] = function(canvas, parentEntity)

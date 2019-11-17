@@ -16,9 +16,12 @@ end
 
 function BackgroundImageLayer:draw(canvas)
 	if self.areaBackground then
+		--uncomment this to show background images:
+		--[[
 		self.imageRenderer:drawImage(canvas, self.areaBackground.imageId, 
 			self.areaBackground.x, self.areaBackground.y, self.areaBackground.xSpeed, 
 			self.areaBackground.ySpeed)
+		]]--
 	end
 end
 

@@ -22,17 +22,17 @@ local ENTITY_TEMPLATE = {
 				w = 50,
 				h = 50,
 				direction = 5,
-				defaultSpritesheetId = 11,
-				spritesheetId = 11,
+				defaultSpritesheetId = 12,
+				spritesheetId = 12,
 				quad = 5,
 				aniRepoId = 1
 			},
 			
 			[ENTITY_COMPONENT.HITBOX] = {
-				xDeviation = 15,
-				yDeviation = 26,
-				w = 20,
-				h = 20,
+				xDeviation = 0,
+				yDeviation = 30,
+				w = 27,
+				h = 27,
 				collisionType = 1,
 				mapCollisionType = 3
 			},
@@ -66,7 +66,7 @@ local ENTITY_TEMPLATE = {
 			[ENTITY_COMPONENT.MOVEMENT] = {
 				velocity = 300,
 				direction = 5,
-				spritesheetId = 11,
+				spritesheetId = 12,
 				defaultQuad = 9,
 				totalTime = 30,
 				currentTime = 0,
