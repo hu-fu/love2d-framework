@@ -60,6 +60,11 @@ FileHandlingSystem.getFileMethods = {
 		return ''
 	end,
 	
+	['settings'] = function(self, filename)
+		--return settings file (create new if not found)
+		return ''
+	end,
+	
 	--...
 }
 
@@ -77,6 +82,10 @@ FileHandlingSystem.writeFileMethods = {
 		--in this case the file for the generic entity is the same as the file for the area
 		--solution: both methods do the same
 		--write file and overwrite if it already exists
+	end,
+	
+	['settings'] = function(self, filename)
+		--what is this?
 	end,
 }
 

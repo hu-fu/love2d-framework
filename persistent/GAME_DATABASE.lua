@@ -9,6 +9,12 @@ local GAME_DB = {
 		--...
 	},
 	
+	['settings'] = {
+		['screen_w'] = 800, 
+		['screen_h'] = 600, 
+		['fullscreen'] = false
+	}
+	
 	--...
 }
 

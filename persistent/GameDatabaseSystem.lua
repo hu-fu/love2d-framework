@@ -91,7 +91,10 @@ GameDatabaseSystem.getPersistentTableObjectFromFileMethods = {
 		--in this case the file for the generic entity is the same as the file for the area
 		--solution: this method parses the file(string) and returns only the entity data table
 		--the area data table is returned by the area method, using the same file string
-		return ''
+	end,
+	
+	['settings'] = function(self, file)
+		--parse file(JSON string) into lua object
 	end,
 	
 	--...
@@ -109,7 +112,11 @@ end
 
 GameDatabaseSystem.modifyTableRowMethods = {
 	['generic_table'] = function(self, persistentObject)
-		local row = self:getDatabaseRows(tableId, persistentObject.id)
+		local row = self:getDatabaseRows(tableId, persistentObject)
+		--write from persistentObject to row
+	end,
+	
+	['settings'] = function(self, persistentObject)
 		--write from persistentObject to row
 	end,
 	
@@ -131,6 +138,11 @@ GameDatabaseSystem.createTableStringMethods = {
 		--in this case the file for the generic entity is the same as the file for the area
 		--solution: both methods do the same
 		--create both the entities and the area string in both methods
+		return ''
+	end,
+	
+	['settings'] = function(self)
+		--parse lua object into string
 		return ''
 	end,
 }
@@ -166,6 +178,11 @@ GameDatabaseSystem.getDatabaseRowMethods = {
 		return row
 	end,
 	
+	['settings'] = function(self, index)
+		--no need for index
+		return self.gameDatabase['settings']
+	end,
+	
 	--...
 }
 
@@ -183,6 +200,10 @@ GameDatabaseSystem.writeToDatabaseMethods = {
 		local index = object.components.main.id
 		local row = self.getDatabaseRow(tableId, index)
 		--write from object -> row
+	end,
+	
+	['settings'] = function(self, object)
+		
 	end,
 	
 	--...
