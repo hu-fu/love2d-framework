@@ -10,8 +10,6 @@ require '/debug/Debugger'
 
 INFO_STR = 0
 
-JSON_ENCODE = require '/json/json'
-
 FPS_CONFIG = require '/timestep/FpsConfig'
 
 ----------------------init systems:----------------------
@@ -26,24 +24,26 @@ GAME_STATE_MANAGER:runStateInitializer(stateInit)
 
 ---------------------init settings:----------------------
 
---adjustable (just for testing):
-SCREEN_W = 800
-SCREEN_H = 600
-	
---conf.lua not working
-love.window.setMode(SCREEN_W, SCREEN_H, {fullscreen=false, resizable=true, vsync=1})
 love.window.setTitle('Project_1_2')
 
---[[
-IMP: code the fileHandlingSystem
+---------------------------load settings routine:------------------------------
 
-(code this here then move to config folder)
-1. create config file if it doesn't exist
-1.1 write config table to file (get settings table string via createTableString(tableId))
-2. get file
-3. get settings from file (lua table via the game db)
-4. get default settings from game db
-5. modify game db default settings to file settings
+local databaseSystem = SYSTEM_INIT.systemTable[18]
+local fileSHandlingSystem = SYSTEM_INIT.systemTable[42]
 
-steps 3,4 and 5 can be done by invoking initTableFromFile(tableId, file) from game db
-]]
+local SETTINGS_FILE = fileSHandlingSystem:getFile('settings')
+
+if SETTINGS_FILE == nil then
+	local settingsFileBody = databaseSystem:createTableString('settings')
+	fileSHandlingSystem:writeFile('settings', '', settingsFileBody)
+	local SETTINGS_FILE = fileSHandlingSystem:getFile('settings')
+end
+
+databaseSystem:initTableFromFile('settings', SETTINGS_FILE)
+
+local SCREEN_W = databaseSystem.gameDatabase['settings']['screen_w']
+local SCREEN_H = databaseSystem.gameDatabase['settings']['screen_h']
+love.window.setMode(SCREEN_W, SCREEN_H, {fullscreen=false, resizable=true, vsync=1})
+
+------------------------load starting scene:-----------------------------------
+

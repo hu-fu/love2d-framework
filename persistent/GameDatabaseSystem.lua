@@ -28,6 +28,7 @@ require '/persistent/GameDatabase'
 local SYSTEM_ID = require '/system/SYSTEM_ID'
 GameDatabaseSystem.TABLES = require '/persistent/DATABASE_TABLE'
 GameDatabaseSystem.QUERY = require '/persistent/DATABASE_QUERY'
+GameDatabaseSystem.JSON_ENCODE = require '/json/json'
 
 -------------------
 --System Variables:
@@ -95,29 +96,36 @@ GameDatabaseSystem.getPersistentTableObjectFromFileMethods = {
 	
 	['settings'] = function(self, file)
 		--parse file(JSON string) into lua object
+		local tempTable = self.JSON_ENCODE:decode(file)
+		return tempTable
 	end,
 	
 	--...
 }
 
 function GameDatabaseSystem:modifyTable(tableId, persistentTableObject)
-	for i=1, #persistentTableObject do
-		self:modifyTableRow(tableId, persistentTableObject[i])
-	end
+	self:modifyTable(tableId, persistentTableObject)
 end
 
-function GameDatabaseSystem:modifyTableRow(tableId, persistentObject)
-	self.modifyTableRowMethods[tableId](self, persistentObject)
+function GameDatabaseSystem:modifyTable(tableId, persistentTableObject)
+	self.modifyTableMethods[tableId](self, persistentTableObject)
 end
 
-GameDatabaseSystem.modifyTableRowMethods = {
-	['generic_table'] = function(self, persistentObject)
-		local row = self:getDatabaseRows(tableId, persistentObject)
+GameDatabaseSystem.modifyTableMethods = {
+	['generic_table'] = function(self, persistentTableObject)
 		--write from persistentObject to row
+			--there was a for ROW do loop before this, but it's better to do it here
+			--for persistentTableObject[ROW] modify getDatabaseRow
+			--or just see settings below
 	end,
 	
-	['settings'] = function(self, persistentObject)
-		--write from persistentObject to row
+	['settings'] = function(self, persistentTableObject)
+		--write from persistentObject to table
+		local databaseTable = self.gameDatabase['settings']
+		
+		for key, val in pairs(persistentTableObject) do
+			databaseTable[key] = val
+		end
 	end,
 	
 	--...
@@ -143,7 +151,8 @@ GameDatabaseSystem.createTableStringMethods = {
 	
 	['settings'] = function(self)
 		--parse lua object into string
-		return ''
+		local tableString = JSON_ENCODE:encode_pretty(self.gameDatabase['settings'])
+		return tableString
 	end,
 }
 
@@ -162,6 +171,7 @@ function GameDatabaseSystem:getDatabaseRows(tableId, indexList)
 end
 
 function GameDatabaseSystem:getDatabaseRow(tableId, index)
+	--dunno if this is needed
 	return self.getDatabaseRowMethods[tableId](self, index)
 end
 

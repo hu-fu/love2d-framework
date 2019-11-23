@@ -272,6 +272,12 @@ SystemInitializer.initializeSystemMethods = {
 		self.systemTable[self.SYSTEM_ID.DIALOGUE] = system
 	end,
 	
+	[SystemInitializer.SYSTEM_ID.FILE_HANDLING] = function(self)
+		local system = require '/persistent/FileHandlingSystem'
+		system:init()
+		self.systemTable[self.SYSTEM_ID.FILE_HANDLING] = system
+	end,
+	
 	--...
 }
 

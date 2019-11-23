@@ -362,6 +362,14 @@ function EventObjectPool:setCreateEventObjectMethods()
 			}
 		end,
 		
+		[self.EVENT_TYPES.FILE] = function()
+			return {
+				fileName = nil,
+				fileBody = nil,
+				
+				responseCallback = nil,
+			}
+		end,
 	}
 end
 
