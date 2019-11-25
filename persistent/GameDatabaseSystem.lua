@@ -151,7 +151,7 @@ GameDatabaseSystem.createTableStringMethods = {
 	
 	['settings'] = function(self)
 		--parse lua object into string
-		local tableString = JSON_ENCODE:encode_pretty(self.gameDatabase['settings'])
+		local tableString = self.JSON_ENCODE:encode_pretty(self.gameDatabase['settings'])
 		return tableString
 	end,
 }

@@ -16,11 +16,6 @@ FPS_CONFIG = require '/timestep/FpsConfig'
 
 SYSTEM_INIT = require '/system/SystemInitializer'
 SYSTEM_INIT:init()
-	
-local stateInit = require '/test/change_scene'
-GAME_STATE_MANAGER = require '/state/GameStateManager'
-GAME_STATE_MANAGER:init(SYSTEM_INIT:getSystems())
-GAME_STATE_MANAGER:runStateInitializer(stateInit)
 
 ---------------------init settings:----------------------
 
@@ -47,3 +42,7 @@ love.window.setMode(SCREEN_W, SCREEN_H, {fullscreen=false, resizable=true, vsync
 
 ------------------------load starting scene:-----------------------------------
 
+local stateInit = require '/test/change_scene'
+GAME_STATE_MANAGER = require '/state/GameStateManager'
+GAME_STATE_MANAGER:init(SYSTEM_INIT:getSystems())
+GAME_STATE_MANAGER:runStateInitializer(stateInit)

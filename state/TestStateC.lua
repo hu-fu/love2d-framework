@@ -47,6 +47,14 @@ end
 
 function testStateC:handleKeyPress(stateManager, key)
 	self.systems[self.SYSTEM.PLAYER_INPUT]:handleKeyPress(key)
+	
+	if key == 'f5' then
+		self:saveState(stateManager)
+	end
+	
+	if key == 'f9' then
+		self:loadState(stateManager)
+	end
 end
 
 function testStateC:handleKeyRelease(stateManager, key)
@@ -55,6 +63,22 @@ end
 
 function testStateC:handleKeyHold(stateManager)
 	self.systems[self.SYSTEM.PLAYER_INPUT]:handleKeyHold()
+end
+
+function testStateC:saveState(stateManager)
+	--save game routine
+	--change to sceneSaveState
+	--1. save game to db
+	--2. save game from db to file
+	--3. resume game
+end
+
+function testStateC:loadState(stateManager)
+	--load game routine
+	--change to sceneLoadState
+	--1. load the area
+	--2. modify stuff using the db (maybe load from file too - just for testing the routine)
+	--3. resume game
 end
 
 --DEBUG:
