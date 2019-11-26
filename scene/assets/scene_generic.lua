@@ -8,14 +8,14 @@ return {
 	entityList = {
 		['generic'] = {
 			--generic
-			{id = 1, role = 3, template = 1, x = 100, y = 100,
+			{id = 1, role = 2, template = 1, x = 200, y = 350, playerInputState = true,
+				attackEquipped = {{5,5,5},{5,5,5},{6,6,6}}},
+			{id = 2, role = 3, template = 1, x = 100, y = 100,
 				scriptState = true, autoScriptId = 1, attackEquipped = {{1,1,1},{1,1,1},{1,1,1}}, 
 				controllerId = 'entity_generic', directionLock = false},
-			{id = 2, role = 3, template = 1, x = 200, y = 150,
+			{id = 3, role = 3, template = 1, x = 200, y = 150,
 				scriptState = true, autoScriptId = 1, attackEquipped = {{1,1,1},{1,1,1},{1,1,1}},
 				controllerId = 'entity_generic', directionLock = false},
-			{id = 3, role = 2, template = 1, x = 200, y = 350, playerInputState = true,
-				attackEquipped = {{5,5,5},{5,5,5},{6,6,6}}},
 			
 			--floor
 			{id = 100, role = 7, template = 2, x = 0, y = 0, spritesheetId = 13, 

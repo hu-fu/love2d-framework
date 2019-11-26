@@ -21,7 +21,7 @@ local SCRIPT = {
 		},
 		
 		init = function(self, cameraSystem, initRequest)
-			self.variables.entity = cameraSystem:getFocusEntityById(3, 1)
+			self.variables.entity = cameraSystem:getFocusEntityById(1, 1)
 			
 			if self.variables.entity then
 				cameraSystem.lens.x = self.variables.entity.components.hitbox.x
