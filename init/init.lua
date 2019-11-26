@@ -31,7 +31,7 @@ local SETTINGS_FILE = fileHandlingSystem:getFile('settings')
 if SETTINGS_FILE == nil then
 	local settingsFileBody = databaseSystem:createTableString('settings')
 	fileHandlingSystem:writeFile('settings', '', settingsFileBody)
-	local SETTINGS_FILE = fileHandlingSystem:getFile('settings')
+	SETTINGS_FILE = fileHandlingSystem:getFile('settings')
 end
 
 databaseSystem:initTableFromFile('settings', SETTINGS_FILE)
