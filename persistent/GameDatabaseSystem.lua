@@ -138,7 +138,9 @@ end
 GameDatabaseSystem.createTableStringMethods = {
 	['generic_table'] = function(self)
 		--parse lua object into string
-		return ''
+		--for testing purposes only!
+		local tableString = self.JSON_ENCODE:encode_pretty(self.gameDatabase['generic_table'])
+		return tableString
 	end,
 	
 	['generic_entity'] = function(self)
@@ -177,8 +179,18 @@ end
 
 GameDatabaseSystem.getDatabaseRowMethods = {
 	['generic_table'] = function(self, index)
-		--unique row, no need for index
-		return self.gameDatabase['generic_table'][index]
+		--this table is for testing only!
+		
+		local row = nil
+		
+		for i=1, #self.gameDatabase['generic_table'] do
+			if self.gameDatabase['generic_table'][i].id == index then
+				row = self.gameDatabase['generic_table'][i]
+				break
+			end
+		end
+		
+		return row
 	end,
 	
 	['generic_entity'] = function(self, index)
@@ -202,13 +214,19 @@ end
 
 GameDatabaseSystem.writeToDatabaseMethods = {
 	['generic_table'] = function(self, object)
+		--for testing purposes: object is the single player entity
 		
+		local row = self:getDatabaseRow('generic_table', object.components.main.id)
+		
+		--save player position to database
+		row.x = object.components.hitbox.x
+		row.y = object.components.hitbox.y
 	end,
 	
 	['generic_entity'] = function(self, object)
 		--EXAMPLE:
 		local index = object.components.main.id
-		local row = self.getDatabaseRow(tableId, index)
+		local row = self:getDatabaseRow(tableId, index)
 		--write from object -> row
 	end,
 	

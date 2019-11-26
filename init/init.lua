@@ -24,14 +24,14 @@ love.window.setTitle('Project_1_2')
 ---------------------------load settings routine:------------------------------
 
 local databaseSystem = SYSTEM_INIT.systemTable[18]
-local fileSHandlingSystem = SYSTEM_INIT.systemTable[42]
+local fileHandlingSystem = SYSTEM_INIT.systemTable[42]
 
-local SETTINGS_FILE = fileSHandlingSystem:getFile('settings')
+local SETTINGS_FILE = fileHandlingSystem:getFile('settings')
 
 if SETTINGS_FILE == nil then
 	local settingsFileBody = databaseSystem:createTableString('settings')
-	fileSHandlingSystem:writeFile('settings', '', settingsFileBody)
-	local SETTINGS_FILE = fileSHandlingSystem:getFile('settings')
+	fileHandlingSystem:writeFile('settings', '', settingsFileBody)
+	local SETTINGS_FILE = fileHandlingSystem:getFile('settings')
 end
 
 databaseSystem:initTableFromFile('settings', SETTINGS_FILE)

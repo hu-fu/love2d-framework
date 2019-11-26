@@ -71,6 +71,27 @@ function testStateC:saveState(stateManager)
 	--1. save game to db
 	--2. save game from db to file
 	--3. resume game
+	
+	local databaseSystem = self.systems[18]
+	local fileHandlingSystem = self.systems[42]
+	local entityLoader = self.systems[21]
+	local playerEntity = entityLoader:getEntityById(1, nil, nil)
+	
+	--save current state to db
+	databaseSystem:writeToDatabase('generic_table', playerEntity)
+	
+	--save db state to file
+	local saveFileName = 'test_save.txt'
+	local SAVE_FILE = fileHandlingSystem:getFile('generic_table', saveFileName)
+	local saveFileBody = databaseSystem:createTableString('generic_table')
+	
+	--create file if it doesn't exist
+	if SAVE_FILE == nil then
+		fileHandlingSystem:writeFile('generic_table', saveFileName, '...')
+		SAVE_FILE = fileHandlingSystem:getFile('generic_table', saveFileName)
+	end
+	
+	fileHandlingSystem:writeFile('generic_table', saveFileName, saveFileBody)
 end
 
 function testStateC:loadState(stateManager)

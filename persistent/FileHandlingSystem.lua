@@ -53,12 +53,7 @@ end
 
 FileHandlingSystem.getFileMethods = {
 	['generic_table'] = function(self, fileName)
-		--EXAMPLE:
-		--fileName = genericname.json -> name it here since its an unique file
-		--local path = self.genericFilePath .. fileName
-		--local file = love.getfile(path) or something who knows???
-		--if file == nil create it, get it again
-		--return file (as text string!)
+		local contents, size = love.filesystem.read(fileName, all)
 		return nil
 	end,
 	
@@ -80,11 +75,13 @@ FileHandlingSystem.getFileMethods = {
 }
 
 function FileHandlingSystem:writeFile(tableId, fileName, fileBody)
-	self.writeFileMethods[tableId](self, filename, fileBody)
+	self.writeFileMethods[tableId](self, fileName, fileBody)
 end
 
 FileHandlingSystem.writeFileMethods = {
 	['generic_table'] = function(self, fileName, fileBody)
+		love.filesystem.newFile(fileName)
+		love.filesystem.write(fileName, fileBody, all)
 		return nil
 	end,
 	

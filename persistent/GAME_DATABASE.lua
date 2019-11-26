@@ -4,8 +4,8 @@
 local GAME_DB = {
 	
 	['generic_table'] = {
-		{['id'] = 1, ['col_2'] = nil, ['col_3'] = nil},
-		{['id'] = 2, ['col_2'] = nil, ['col_3'] = nil},
+		--table for testing stuff
+		{id = 1, x = nil, y = nil}
 		--...
 	},
 	

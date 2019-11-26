@@ -548,7 +548,7 @@ EntityLoader.createEntityComponentMethods = {
 
 function EntityLoader:getEntityById(entityId, sceneId, entityType)
 	--TODO: test this (sceneId and entityType are optional parameters)
-	
+		--I think it works now
 	local entityDb = nil
 	
 	if sceneId then entityDb = self.entityDatabaseStack:getEntity(sceneId) end
@@ -557,15 +557,15 @@ function EntityLoader:getEntityById(entityId, sceneId, entityType)
 	if entityType then
 		local entityList = entityDb:getGlobalTable(entityType)
 		for i=1, #entityList do
-			if entityList.components.main.id == entityId then
-				return entity
+			if entityList[i].components.main.id == entityId then
+				return entityList[i]
 			end
 		end
 	else
 		for entityType, entityList in pairs(entityDb.globalTables) do
 			for i=1, #entityList do
-				if entityList.components.main.id == entityId then
-					return entity
+				if entityList[i].components.main.id == entityId then
+					return entityList[i]
 				end
 			end
 		end
