@@ -109,7 +109,8 @@ local ENTITY_TEMPLATE = {
 				frameCounter = 0,
 				currentMethodIndex = 1,
 				methodThreads = {},
-				areaSpawnId = 'generic_spawn_1'
+				--areaSpawnId = 'generic_spawn_1'
+				areaSpawnId = nil
 			},
 			
 			[ENTITY_COMPONENT.DESPAWN] = {

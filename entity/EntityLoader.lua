@@ -651,7 +651,8 @@ end
 
 function EntityLoader:requestAllEntityListsModifier(entityDb)
 	for entityType, entityList in pairs(entityDb.globalTables) do
-		self:requestEntityListModifier(entityList)
+		--self:requestEntityListModifier(entityList)	--uncomment this
+		self:requestEntityListModifierTest(entityList)	--for testing
 	end
 end
 
@@ -671,7 +672,7 @@ end
 
 function EntityLoader:getEntityModifierById(id, listMod)
 	for i=1, #listMod do
-		if listMod[i]['id'] == id then
+		if listMod[i].id == id then
 			return listMod[i]
 		end
 	end
@@ -679,13 +680,14 @@ function EntityLoader:getEntityModifierById(id, listMod)
 end
 
 function EntityLoader:modifyEntityList(list, listMod)
-	for i=1, list do
+	for i=1, #list do
 		local entity = list[i]
 		local entityModifier = self:getEntityModifierById(entity.components.main.id,
 			listMod)
 		if entityModifier then
 			self:modifyEntity(entity, entityModifier)
 		end
+		entityModifier = nil
 	end
 end
 
@@ -697,8 +699,8 @@ function EntityLoader:modifyEntityListCallback(list)
 end
 
 function EntityLoader:modifyEntityCallback(entity)
-	--callback for list modifier method
-	return function(results) 
+	--callback for entity modifier method
+	return function(results)
 		self:modifyEntity(entity, results)
 	end
 end
@@ -725,7 +727,12 @@ EntityLoader.modifyEntityComponentMethods = {
 	end,
 	
 	[EntityLoader.ENTITY_COMPONENT.SPRITEBOX] = function(entity, entityMod)
-	
+		--for testing
+		if entity.components.spritebox then
+			local component = entity.components.spritebox
+			component.x = entityMod.x
+			component.y = entityMod.y
+		end
 	end,
 	
 	[EntityLoader.ENTITY_COMPONENT.IDLE] = function(entity, entityMod)
@@ -733,7 +740,12 @@ EntityLoader.modifyEntityComponentMethods = {
 	end,
 	
 	[EntityLoader.ENTITY_COMPONENT.HITBOX] = function(entity, entityMod)
-	
+		--for testing
+		if entity.components.hitbox then
+			local component = entity.components.hitbox
+			component.x = entityMod.x + component.xDeviation
+			component.y = entityMod.y + component.yDeviation
+		end
 	end,
 	
 	[EntityLoader.ENTITY_COMPONENT.TRANSPORT] = function(entity, entityMod)
@@ -758,7 +770,43 @@ EntityLoader.modifyEntityComponentMethods = {
 	
 	[EntityLoader.ENTITY_COMPONENT.ACTION] = function(entity, entityMod)
 	
-	end
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.SPAWN] = function(entity, entityMod)
+		
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.DESPAWN] = function(entity, entityMod)
+		
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.SCRIPT] = function(entity, entityMod)
+		
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.EVENT] = function(entity, entityMod)
+		
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.ITEM] = function(entity, entityMod)
+		
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.INVENTORY] = function(entity, entityMod)
+		
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.COMBAT] = function(entity, entityMod)
+		
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.HEALTH] = function(entity, entityMod)
+		
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.DIALOGUE] = function(entity, entityMod)
+		
+	end,
 }
 
 function EntityLoader:indexEntityComponent(componentId, entity, entityDb)
@@ -808,7 +856,43 @@ EntityLoader.indexEntityComponentMethods = {
 	
 	[EntityLoader.ENTITY_COMPONENT.ACTION] = function(entity, entityDb)
 	
-	end
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.SPAWN] = function(entity, entityMod)
+		
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.DESPAWN] = function(entity, entityMod)
+		
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.SCRIPT] = function(entity, entityMod)
+		
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.EVENT] = function(entity, entityMod)
+		
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.ITEM] = function(entity, entityMod)
+		
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.INVENTORY] = function(entity, entityMod)
+		
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.COMBAT] = function(entity, entityMod)
+		
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.HEALTH] = function(entity, entityMod)
+		
+	end,
+	
+	[EntityLoader.ENTITY_COMPONENT.DIALOGUE] = function(entity, entityMod)
+		
+	end,
 }
 
 function EntityLoader:setEntityDbOnAllSystems()
@@ -914,6 +998,35 @@ EntityLoader.setEntityOnSystemMethods = {
 	
 	--...
 }
+
+--TEST:
+
+function EntityLoader:requestEntityModifierTest(entity)
+	--test function to test loading saved entity parameters
+	local queryObj = self.databaseQueryPool:getCurrentAvailableObject(self.DATABASE_QUERY.GENERIC)
+	self.databaseQueryPool.queryBuilder:setDatabaseQueryParameters(queryObj, 'generic_table', entity.components.main.id)
+	self.databaseQueryPool:incrementCurrentIndex()
+	queryObj.responseCallback = self:modifyEntityCallback(entity)
+	
+	local databaseSystemRequest = self.databaseSystemRequestPool:getCurrentAvailableObject()
+	databaseSystemRequest.databaseQuery = queryObj
+	self.eventDispatcher:postEvent(1, 1, databaseSystemRequest)
+	self.databaseSystemRequestPool:incrementCurrentIndex()
+end
+
+function EntityLoader:requestEntityListModifierTest(entityGlobalList)
+	--get mod from ingame db
+	
+	local queryObj = self.databaseQueryPool:getCurrentAvailableObject(self.DATABASE_QUERY.GENERIC)
+	self.databaseQueryPool.queryBuilder:setDatabaseQueryParameters(queryObj, 'generic_table', nil)
+	self.databaseQueryPool:incrementCurrentIndex()
+	queryObj.responseCallback = self:modifyEntityListCallback(entityGlobalList)
+	
+	local databaseSystemRequest = self.databaseSystemRequestPool:getCurrentAvailableObject()
+	databaseSystemRequest.databaseQuery = queryObj
+	self.eventDispatcher:postEvent(1, 1, databaseSystemRequest)
+	self.databaseSystemRequestPool:incrementCurrentIndex()
+end
 
 ----------------
 --Return module:

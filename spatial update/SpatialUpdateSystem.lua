@@ -130,6 +130,13 @@ function SpatialUpdateSystem:addUpdater(updater)
 	table.insert(self.updaterTable, updater)
 end
 
+function SpatialUpdateSystem:updateAll()
+	--run this on scene start
+	for i=1, #self.updaterTable do
+		self.updaterTable[i]:updateAll(self)
+	end
+end
+
 --DEBUG:
 function SpatialUpdateSystem:printAreaVariables()
 	INFO_STR = ''

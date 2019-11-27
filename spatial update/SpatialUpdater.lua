@@ -41,6 +41,10 @@ function SpatialUpdater:revertAreaQueueToDefault()
 	end
 end
 
+function SpatialUpdater:updateAll(updateSystem)
+
+end
+
 function SpatialUpdater:reset()
 	self.currentFrame = 1
 end

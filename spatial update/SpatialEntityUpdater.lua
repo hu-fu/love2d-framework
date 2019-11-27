@@ -73,6 +73,15 @@ function SpatialEntityUpdater:getCurrentUpdateRoles()
 	return self.updateEntityRoleQueue[self.currentFrame]
 end
 
+function SpatialEntityUpdater:updateAll(updateSystem)
+	--run this on frame 0
+	self.spatialEntityHashtable:reset()
+	local area = updateSystem.updateAreaTable[UPDATE_AREA.ALL]
+	local roles = self:getCurrentUpdateRoles()
+	local spatialQuery = self:createSpatialQuery(updateSystem, area, roles)
+	self:sendSpatialQuery(updateSystem, spatialQuery)
+end
+
 --debug:
 function SpatialEntityUpdater:writeCurrentAreaInfo(area)
 	INFO_STR = area.name

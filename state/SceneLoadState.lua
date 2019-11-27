@@ -189,6 +189,7 @@ function sceneLoadState:initDialogue()
 end
 
 --DEBUG:
+
 function sceneLoadState:writeDebugInfo(x, y)
 	love.graphics.print(INFO_STR, x, y)
 end

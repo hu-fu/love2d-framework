@@ -13,7 +13,7 @@ return {
 			{id = 2, role = 3, template = 1, x = 100, y = 100,
 				scriptState = true, autoScriptId = 1, attackEquipped = {{1,1,1},{1,1,1},{1,1,1}}, 
 				controllerId = 'entity_generic', directionLock = false},
-			{id = 3, role = 3, template = 1, x = 200, y = 150,
+			{id = 3, role = 3, template = 1, x = 200, y = 200,
 				scriptState = true, autoScriptId = 1, attackEquipped = {{1,1,1},{1,1,1},{1,1,1}},
 				controllerId = 'entity_generic', directionLock = false},
 			

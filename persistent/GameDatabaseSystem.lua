@@ -245,6 +245,10 @@ GameDatabaseSystem.runQueryMethods = {
 	[GameDatabaseSystem.QUERY.GENERIC] = function(self, query)
 		--get *
 		--run callback(results)
+		--test stuff
+		
+		local entityList = self.gameDatabase[query.queryParameters.tableId]
+		query.responseCallback(entityList)
 	end
 	
 	--...

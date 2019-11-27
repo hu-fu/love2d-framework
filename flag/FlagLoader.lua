@@ -72,7 +72,7 @@ end
 ---------------
 
 function FlagLoader:initState()
-	self:getFlagModifier()
+	--self:getFlagModifier()
 	self:setFlagsOnAllSystems()
 end
 

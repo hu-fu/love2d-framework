@@ -5,7 +5,7 @@ local GAME_DB = {
 	
 	['generic_table'] = {
 		--table for testing stuff
-		{id = 1, x = nil, y = nil}
+		{id = 1, x = 350, y = 350}
 		--...
 	},
 	
