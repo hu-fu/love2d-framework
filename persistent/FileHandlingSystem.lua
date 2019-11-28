@@ -54,7 +54,7 @@ end
 FileHandlingSystem.getFileMethods = {
 	['generic_table'] = function(self, fileName)
 		local contents, size = love.filesystem.read(fileName, all)
-		return nil
+		return contents
 	end,
 	
 	['generic_entity'] = function(self, filename)

@@ -42,7 +42,21 @@ love.window.setMode(SCREEN_W, SCREEN_H, {fullscreen=false, resizable=true, vsync
 
 ------------------------load starting scene:-----------------------------------
 
-local stateInit = require '/test/change_scene'
+--init scene from database:
+
+--init the table with the values in the file
+local saveFileName = 'test_save.txt'
+local SAVE_FILE = fileHandlingSystem:getFile('generic_table', saveFileName)
+databaseSystem:initTableFromFile('generic_table', SAVE_FILE)
+
+--build a new state initializer with the parameters from the db
+--local sceneInitializer = GameSceneInitializer.new(databaseSystem.gameDatabase['generic_table'][1].sceneId)	--this is the correct line, I just don't want to crash my old pc
+local sceneInitializer = GameSceneInitializer.new(1)	--hardcoded sceneId=1, see line above
+local stateInitializer = StateInitializer.new(4)
+local stateInitParams = stateInitializer:getInitParameters()
+stateInitParams.sceneInitializer = sceneInitializer
+
+--init the scene
 GAME_STATE_MANAGER = require '/state/GameStateManager'
 GAME_STATE_MANAGER:init(SYSTEM_INIT:getSystems())
-GAME_STATE_MANAGER:runStateInitializer(stateInit)
+GAME_STATE_MANAGER:runStateInitializer(stateInitializer)

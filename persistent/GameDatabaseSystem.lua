@@ -85,6 +85,8 @@ end
 GameDatabaseSystem.getPersistentTableObjectFromFileMethods = {
 	['generic_table'] = function(self, file)
 		--parse file(JSON string) into lua object
+		local tempTable = self.JSON_ENCODE:decode(file)
+		return tempTable
 	end,
 	
 	['generic_entity'] = function(self, file)
@@ -117,6 +119,12 @@ GameDatabaseSystem.modifyTableMethods = {
 			--there was a for ROW do loop before this, but it's better to do it here
 			--for persistentTableObject[ROW] modify getDatabaseRow
 			--or just see settings below
+		
+		local databaseTable = self.gameDatabase['generic_table']
+		
+		for key, val in pairs(persistentTableObject) do
+			databaseTable[key] = val
+		end
 	end,
 	
 	['settings'] = function(self, persistentTableObject)
