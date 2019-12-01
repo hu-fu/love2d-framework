@@ -124,7 +124,7 @@ function EventObjectPool:setCreateEventObjectMethods()
 		
 		[self.EVENT_TYPES.DATABASE_REQUEST] = function()
 			return {
-				databaseQuery = nil
+				databaseQuery = nil,
 			}
 		end,
 		

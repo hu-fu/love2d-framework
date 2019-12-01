@@ -60,3 +60,15 @@ stateInitParams.sceneInitializer = sceneInitializer
 GAME_STATE_MANAGER = require '/state/GameStateManager'
 GAME_STATE_MANAGER:init(SYSTEM_INIT:getSystems())
 GAME_STATE_MANAGER:runStateInitializer(stateInitializer)
+
+------------------------------load controls:----------------------------------
+
+local INPUT_FILE = fileHandlingSystem:getFile('input')
+
+if INPUT_FILE == nil then
+	local inputFileBody = databaseSystem:createTableString('input')
+	fileHandlingSystem:writeFile('input', '', inputFileBody)
+	INPUT_FILE = fileHandlingSystem:getFile('input')
+end
+
+databaseSystem:initTableFromFile('input', INPUT_FILE)

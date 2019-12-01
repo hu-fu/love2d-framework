@@ -23,7 +23,7 @@ function voidState:draw(stateManager)
 		love.graphics.setColorMask()
 	end
 	
-	love.graphics.print('Void state is running', (SCREEN_W/2)-50, SCREEN_H/2)
+	love.graphics.print('Void state is running', (800/2)-50, 600/2)
 end
 
 function voidState:handleKeyPress(stateManager, key)

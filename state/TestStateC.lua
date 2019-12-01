@@ -4,7 +4,6 @@ local testStateC = GameState.new()
 
 function testStateC:init(stateManager, initParam)
 	self:reset()
-	self.systems[self.SYSTEM.PLAYER_INPUT]:setActiveChannel(self.systems[self.SYSTEM.PLAYER_INPUT].channels.simulation)
 	self.systems[self.SYSTEM.ENTITY_SPAWN]:initScene()
 	self.systems[self.SYSTEM.SPATIAL_UPDATE]:updateAll()	--very important
 end
@@ -34,8 +33,8 @@ function testStateC:update(stateManager, dt)
 	self.systems[self.SYSTEM.SPATIAL_PARTITIONING]:runQueries()		--maybe it should be called at the start too?
 	self.systems[self.SYSTEM.DIALOGUE]:update(dt)
 	
-	local entityLoader = self.systems[21]
-	local playerEntity = entityLoader:getEntityById(1, nil, nil)
+	--local entityLoader = self.systems[21]
+	--local playerEntity = entityLoader:getEntityById(1, nil, nil)
 	
 	--INFO_STR = playerEntity.components.spritebox.x .. ', ' .. playerEntity.components.spritebox.y
 end
@@ -54,6 +53,7 @@ end
 function testStateC:handleKeyPress(stateManager, key)
 	self.systems[self.SYSTEM.PLAYER_INPUT]:handleKeyPress(key)
 	
+	--test:
 	if key == 'f5' then
 		self:saveState(stateManager)
 	end
@@ -104,11 +104,6 @@ function testStateC:loadState(stateManager)
 	--I can't believe this just works lmao
 	local stateInit = require '/test/change_scene'
 	stateManager:runStateInitializer(stateInit)
-end
-
-function testStateC:modifyMainEntity(stateManager)
-	--routine for modifying scene entities via db (test)
-	
 end
 
 --DEBUG:

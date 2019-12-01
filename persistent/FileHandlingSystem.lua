@@ -16,6 +16,7 @@ FileHandlingSystem.id = SYSTEM_ID.FILE_HANDLING
 
 FileHandlingSystem.saveFolderName = 'love_save_data'
 FileHandlingSystem.settingsFileName = 'settings.txt'
+FileHandlingSystem.inputFileName = 'input.txt'
 
 ---------------
 --Init Methods:
@@ -71,6 +72,12 @@ FileHandlingSystem.getFileMethods = {
 		return contents
 	end,
 	
+	['input'] = function(self, filename)
+		--return input file contents as string
+		local contents, size = love.filesystem.read(self.inputFileName, all)
+		return contents
+	end,
+	
 	--...
 }
 
@@ -96,6 +103,12 @@ FileHandlingSystem.writeFileMethods = {
 	['settings'] = function(self, filename, fileBody)
 		love.filesystem.newFile(self.settingsFileName)
 		love.filesystem.write(self.settingsFileName, fileBody, all)
+		return nil
+	end,
+	
+	['input'] = function(self, filename, fileBody)
+		love.filesystem.newFile(self.inputFileName)
+		love.filesystem.write(self.inputFileName, fileBody, all)
 		return nil
 	end,
 }

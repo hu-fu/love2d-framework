@@ -13,7 +13,12 @@ local GAME_DB = {
 		['screen_w'] = 800, 
 		['screen_h'] = 600, 
 		['fullscreen'] = false
-	}
+	},
+	
+	['input'] = {
+		['pause'] = 'escape', 
+		--add more
+	},
 	
 	--...
 }

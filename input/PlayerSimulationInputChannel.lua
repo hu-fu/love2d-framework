@@ -14,7 +14,7 @@ simulationInputChannel.PAUSE_STATE_INITIALIZER = StateInitializer.new(simulation
 
 function simulationInputChannel:databaseQueryDefaultCallbackMethod() return function () end end
 simulationInputChannel.databaseSystemRequestPool = EventObjectPool.new(simulationInputChannel.EVENT_TYPES.DATABASE_REQUEST, 10)
-simulationInputChannel.databaseQueryPool = DatabaseQueryPool.new(10, simulationInputChannel.DATABASE_QUERY.GENERIC, 
+simulationInputChannel.databaseQueryPool = DatabaseQueryPool.new(10, simulationInputChannel.DATABASE_QUERY.GET_TABLE, 
 	DatabaseQueryBuilder.new(), simulationInputChannel:databaseQueryDefaultCallbackMethod())
 
 simulationInputChannel.inputAction = require '/input/PLAYER_SIMULATION_INPUT_ACTION'
@@ -69,8 +69,8 @@ function simulationInputChannel:handleKeyHold(inputSystem, key)
 end
 
 function simulationInputChannel:requestCustomMappingFromDatabase(inputSystem)
-	local queryObj = self.databaseQueryPool:getCurrentAvailableObject(self.DATABASE_QUERY.GENERIC)
-	self.databaseQueryPool.queryBuilder:setDatabaseQueryParameters(queryObj, 'input_table')
+	local queryObj = self.databaseQueryPool:getCurrentAvailableObject(self.DATABASE_QUERY.GET_TABLE)
+	self.databaseQueryPool.queryBuilder:setDatabaseQueryParameters(queryObj, 'input')
 	self.databaseQueryPool:incrementCurrentIndex()
 	queryObj.responseCallback = self:alterCustomMappingCallback()
 	
@@ -82,10 +82,15 @@ end
 
 function simulationInputChannel:alterCustomMapping(inputMod)
 	--TODO, inputMod comes from the in-gamedb
+	--just for testing (chage the pause key example):
+	--use the setCurrentKeyMapping function not the default one!
+	
+	self:setCurrentKeyMapping(inputMod['pause'], simulationInputChannel.inputAction.PAUSE, simulationInputChannel.inputAction.NONE, 
+	simulationInputChannel.inputAction.NONE)
 end
 
 function simulationInputChannel:alterCustomMappingCallback()
-	return function() 
+	return function(inputMod) 
 		self:alterCustomMapping(inputMod)
 	end
 end

@@ -31,8 +31,7 @@ function sceneLoadState:init(stateManager, initParam)
 	self:reset()
 	self.initParam = initParam
 	--run transition(self.initParam.transitionType)
-	self:initInput()	--should be before this
-	self:initFlag()		--should be initiated way before this (on game file load)
+	self:initFlag()		--should be initiated way before this (on game file load) --this is going to be deprecated!
 end
 
 function sceneLoadState:update(stateManager, dt)
@@ -76,6 +75,7 @@ function sceneLoadState:update(stateManager, dt)
 		self:initProjectiles()
 		self:initVisualEffects()
 		self:initDialogue()
+		self:initInput()
 		self:initializeSceneState(stateManager)
 	end
 	
@@ -154,6 +154,7 @@ function sceneLoadState:initInput()
 	--this should go before this; at the start obviously; 
 		--called again after INPUT mapping modifications
 	local inputSystem = self.systems[self.SYSTEM.PLAYER_INPUT]
+	inputSystem:setActiveChannel(inputSystem.channels.simulation)
 	inputSystem:requestInputMappingFromDatabase()
 end
 

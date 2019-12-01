@@ -102,6 +102,12 @@ GameDatabaseSystem.getPersistentTableObjectFromFileMethods = {
 		return tempTable
 	end,
 	
+	['input'] = function(self, file)
+		--parse file(JSON string) into lua object
+		local tempTable = self.JSON_ENCODE:decode(file)
+		return tempTable
+	end,
+	
 	--...
 }
 
@@ -136,6 +142,15 @@ GameDatabaseSystem.modifyTableMethods = {
 		end
 	end,
 	
+	['input'] = function(self, persistentTableObject)
+		--write from persistentObject to table
+		local databaseTable = self.gameDatabase['input']
+		
+		for key, val in pairs(persistentTableObject) do
+			databaseTable[key] = val
+		end
+	end,
+	
 	--...
 }
 
@@ -162,6 +177,12 @@ GameDatabaseSystem.createTableStringMethods = {
 	['settings'] = function(self)
 		--parse lua object into string
 		local tableString = self.JSON_ENCODE:encode_pretty(self.gameDatabase['settings'])
+		return tableString
+	end,
+	
+	['input'] = function(self)
+		--parse lua object into string
+		local tableString = self.JSON_ENCODE:encode_pretty(self.gameDatabase['input'])
 		return tableString
 	end,
 }
@@ -213,6 +234,11 @@ GameDatabaseSystem.getDatabaseRowMethods = {
 		return self.gameDatabase['settings']
 	end,
 	
+	['input'] = function(self, index)
+		--no need for index
+		return self.gameDatabase['input']
+	end,
+	
 	--...
 }
 
@@ -253,10 +279,16 @@ GameDatabaseSystem.runQueryMethods = {
 	[GameDatabaseSystem.QUERY.GENERIC] = function(self, query)
 		--get *
 		--run callback(results)
-		--test stuff
+		--THIS IS JUST FOR TESTING!!!
 		
 		local entityList = self.gameDatabase[query.queryParameters.tableId]
 		query.responseCallback(entityList)
+	end,
+	
+	[GameDatabaseSystem.QUERY.GET_TABLE] = function(self, query)
+		
+		local results = self.gameDatabase[query.queryParameters.tableId]
+		query.responseCallback(results)
 	end
 	
 	--...

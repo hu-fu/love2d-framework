@@ -42,6 +42,10 @@ function DatabaseQueryBuilder:setCreateDatabaseQueryMethods()
 			databaseQuery.queryParameters.entityId = 0
 		end,
 		
+		[self.QUERY_TYPES.GET_TABLE] = function(databaseQuery)
+			databaseQuery.queryParameters.tableId = 0
+		end,
+		
 		--...
 	}
 end
@@ -56,6 +60,10 @@ function DatabaseQueryBuilder:setSetDatabaseQueryParametersMethods()
 		[self.QUERY_TYPES.GENERIC] = function(databaseQuery, tableId, entityId)
 			databaseQuery.queryParameters.tableId = tableId
 			databaseQuery.queryParameters.entityId = entityId
+		end,
+		
+		[self.QUERY_TYPES.GET_TABLE] = function(databaseQuery, tableId)
+			databaseQuery.queryParameters.tableId = tableId
 		end,
 		
 		--...
