@@ -29,7 +29,7 @@ function testStateC:update(stateManager, dt)
 	self.systems[self.SYSTEM.SOUND]:update(dt)
 	self.systems[self.SYSTEM.ENTITY_ANIMATION]:update(dt)
 	self.systems[self.SYSTEM.SPATIAL_UPDATE]:update(dt)
-	self.systems[self.SYSTEM.GAME_RENDERER]:update()
+	self.systems[self.SYSTEM.GAME_RENDERER]:update(dt)
 	self.systems[self.SYSTEM.SPATIAL_PARTITIONING]:runQueries()		--maybe it should be called at the start too?
 	self.systems[self.SYSTEM.DIALOGUE]:update(dt)
 	

@@ -148,6 +148,7 @@ function sceneLoadState:initRenderer()
 	gameRenderer:addLayerToList(gameRenderer.layers.effect)
 	gameRenderer:addLayerToList(gameRenderer.layers.dialogue)
 	gameRenderer:addLayerToList(gameRenderer.layers.foregroundSpatialEntity)
+	gameRenderer:addLayerToList(gameRenderer.layers.scrollingBackground)
 end
 
 function sceneLoadState:initInput()

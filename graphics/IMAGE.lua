@@ -1,4 +1,5 @@
 return {
 	DEFAULT = 1,
-	TEST_BACKGROUND = 2
+	TEST_BACKGROUND = 2,
+	SCROLL_TEST = 3
 }

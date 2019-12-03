@@ -18,6 +18,7 @@ return {
 				controllerId = 'entity_generic', directionLock = false},
 			
 			--floor
+			--[[
 			{id = 100, role = 7, template = 2, x = 0, y = 0, spritesheetId = 13, 
 				spriteW = 288, spriteH = 192},
 			{id = 100, role = 7, template = 2, x = (288*1), y = 0, spritesheetId = 13, 
@@ -69,6 +70,7 @@ return {
 				spriteW = 288, spriteH = 192},
 			{id = 100, role = 7, template = 2, x = (288*5), y = 192*3, spritesheetId = 13, 
 				spriteW = 288, spriteH = 192},
+			]]
 			
 			--walls
 			--[[
@@ -180,8 +182,10 @@ return {
 			--	spriteW = 0, spriteH = 0},
 				
 			--item
+			--[[
 			{id = 301, role = 9, template = 4, x = 500, y = 250, spritesheetId = 4, 
 				spriteW = 15, spriteH = 15},
+			]]
 			
 		},
 		--...

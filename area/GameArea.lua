@@ -47,6 +47,16 @@ function GameArea.new ()
 			ySpeed = 1
 		}
 		
+		self.scrollingBackground = {
+			imageId = nil,
+			x = 0,
+			y = 0,
+			direction = 1,
+			speed = 1,
+			width = 1,
+			height = 1,
+		}
+		
 		self.spawn = {}
 		
 	return self

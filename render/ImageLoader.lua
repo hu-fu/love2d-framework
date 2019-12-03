@@ -72,6 +72,7 @@ function ImageLoader:preloadImages()
 	--preload stuff here (everything if you can)
 	self:loadImage(self.IMAGE.DEFAULT)
 	self:loadImage(self.IMAGE.TEST_BACKGROUND)
+	self:loadImage(self.IMAGE.SCROLL_TEST)
 end
 
 function ImageLoader:init()

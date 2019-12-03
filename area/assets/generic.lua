@@ -15,7 +15,7 @@ return {
 	nodeSizeMultiplier = 3,
 	
 	--image:
-	backgroundImageId = 1,
+	backgroundImageId = nil,
 	backgroundX = 0,
 	backgroundY = -600,
 	backgroundXSpeed = 0.5,

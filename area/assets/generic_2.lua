@@ -15,7 +15,7 @@ return {
 	nodeSizeMultiplier = 3,
 	
 	--image:
-	backgroundImageId = 1,
+	backgroundImageId = nil,
 	backgroundX = 0,
 	backgroundY = -600,
 	backgroundXSpeed = 0.5,
@@ -25,6 +25,15 @@ return {
 	foregroundY = nil,
 	foregroundXSpeed = 1,
 	foregroundYSpeed = 1,
+	
+	--scrolling background
+	scrollingBackgroundImageId = 3,
+	scrollingBackgroundX = 0,
+	scrollingBackgroundY = 0,
+	scrollingBackgroundDirection = 3,	--UP/LEFT/DOWN/RIGHT
+	scrollingBackgroundSpeed = 1000,
+	scrollingBackgroundImageWidth = 1024,
+	scrollingBackgroundImageHeight = 654,
 	
 	--spawn
 	spawn = {
