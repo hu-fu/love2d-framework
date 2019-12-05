@@ -31,8 +31,8 @@ local ENTITY_TEMPLATE = {
 			[ENTITY_COMPONENT.HITBOX] = {
 				xDeviation = 0,
 				yDeviation = 30,
-				w = 27,
-				h = 27,
+				w = 23,
+				h = 23,
 				collisionType = 1,
 				mapCollisionType = 3
 			},

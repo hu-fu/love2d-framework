@@ -18,14 +18,14 @@ function InfiniteScrollingBackgroundLayer:setImageList(scrollingImage)
 end
 
 function InfiniteScrollingBackgroundLayer:update(gameRenderer, dt)
-	if self.scrollingImage.imageId then
+	if self.scrollingImage then
 		self.updateMethods[self.scrollingImage.direction](self, dt)
 	end
 end
 
 function InfiniteScrollingBackgroundLayer:draw(canvas)
 	
-	if self.scrollingImage.imageId then
+	if self.scrollingImage then
 		for i=1, #self.coordinateList do
 			
 			self.imageRenderer:drawImage(canvas, self.scrollingImage.imageId, 

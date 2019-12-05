@@ -51,7 +51,7 @@ databaseSystem:initTableFromFile('generic_table', SAVE_FILE)
 
 --build a new state initializer with the parameters from the db
 --local sceneInitializer = GameSceneInitializer.new(databaseSystem.gameDatabase['generic_table'][1].sceneId)	--this is the correct line, I just don't want to crash my old pc
-local sceneInitializer = GameSceneInitializer.new(2)	--hardcoded sceneId=1, see line above
+local sceneInitializer = GameSceneInitializer.new(1)	--hardcoded sceneId=1, see line above
 local stateInitializer = StateInitializer.new(4)
 local stateInitParams = stateInitializer:getInitParameters()
 stateInitParams.sceneInitializer = sceneInitializer

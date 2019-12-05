@@ -26,6 +26,15 @@ return {
 	foregroundXSpeed = 1,
 	foregroundYSpeed = 1,
 	
+	--scrolling background
+	infiniteScrollingBackgroundImageId = nil,
+	infiniteScrollingBackgroundX = 0,
+	infiniteScrollingBackgroundY = 0,
+	infiniteScrollingBackgroundDirection = 3,	--UP/LEFT/DOWN/RIGHT
+	infiniteScrollingBackgroundSpeed = 1000,
+	infiniteScrollingBackgroundImageWidth = 1024,
+	infiniteScrollingBackgroundImageHeight = 654,
+	
 	--spawn
 	spawn = {
 		{id = 'generic_spawn_1', x = 75, y = 75},
