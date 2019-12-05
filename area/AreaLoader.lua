@@ -146,13 +146,13 @@ function AreaLoader:createAreaFromAsset(assetFile)
 	areaObject.foreground.xSpeed = assetFile.foregroundXSpeed
 	areaObject.foreground.ySpeed = assetFile.foregroundYSpeed
 	
-	areaObject.scrollingBackground.imageId = assetFile.scrollingBackgroundImageId
-	areaObject.scrollingBackground.x = assetFile.scrollingBackgroundX
-	areaObject.scrollingBackground.y = assetFile.scrollingBackgroundY
-	areaObject.scrollingBackground.direction = assetFile.scrollingBackgroundDirection
-	areaObject.scrollingBackground.speed = assetFile.scrollingBackgroundSpeed
-	areaObject.scrollingBackground.width = assetFile.scrollingBackgroundImageWidth
-	areaObject.scrollingBackground.height = assetFile.scrollingBackgroundImageHeight
+	areaObject.infiniteScrollingBackground.imageId = assetFile.infiniteScrollingBackgroundImageId
+	areaObject.infiniteScrollingBackground.x = assetFile.infiniteScrollingBackgroundX
+	areaObject.infiniteScrollingBackground.y = assetFile.infiniteScrollingBackgroundY
+	areaObject.infiniteScrollingBackground.direction = assetFile.infiniteScrollingBackgroundDirection
+	areaObject.infiniteScrollingBackground.speed = assetFile.infiniteScrollingBackgroundSpeed
+	areaObject.infiniteScrollingBackground.width = assetFile.infiniteScrollingBackgroundImageWidth
+	areaObject.infiniteScrollingBackground.height = assetFile.infiniteScrollingBackgroundImageHeight
 	
 	areaObject.spawn = assetFile.spawn
 	

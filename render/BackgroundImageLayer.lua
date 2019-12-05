@@ -1,6 +1,6 @@
 require '/render/RendererLayer'
 
-local BackgroundImageLayer = RendererLayer.new(0, 0, 2, nil)
+local BackgroundImageLayer = RendererLayer.new(0, 0, -10, nil)
 
 BackgroundImageLayer.imageRenderer = require '/render/ImageRenderer'
 

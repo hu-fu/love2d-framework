@@ -27,13 +27,13 @@ return {
 	foregroundYSpeed = 1,
 	
 	--scrolling background
-	scrollingBackgroundImageId = 3,
-	scrollingBackgroundX = 0,
-	scrollingBackgroundY = 0,
-	scrollingBackgroundDirection = 3,	--UP/LEFT/DOWN/RIGHT
-	scrollingBackgroundSpeed = 1000,
-	scrollingBackgroundImageWidth = 1024,
-	scrollingBackgroundImageHeight = 654,
+	infiniteScrollingBackgroundImageId = 3,
+	infiniteScrollingBackgroundX = 0,
+	infiniteScrollingBackgroundY = 0,
+	infiniteScrollingBackgroundDirection = 3,	--UP/LEFT/DOWN/RIGHT
+	infiniteScrollingBackgroundSpeed = 1000,
+	infiniteScrollingBackgroundImageWidth = 1024,
+	infiniteScrollingBackgroundImageHeight = 654,
 	
 	--spawn
 	spawn = {

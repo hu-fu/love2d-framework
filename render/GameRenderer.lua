@@ -95,7 +95,7 @@ function GameRenderer:initializeLayers()
 	self.layers.effect = require '/render/EffectLayer'
 	self.layers.dialogue = require '/render/DialogueLayer'
 	self.layers.foregroundSpatialEntity = require '/render/ForegroundSpatialEntityLayer'
-	self.layers.scrollingBackground = require '/render/ScrollingBackgroundLayer'
+	self.layers.infiniteScrollingBackground = require '/render/InfiniteScrollingBackgroundLayer'
 	--add more layers (areaForeground)
 end
 
@@ -120,7 +120,7 @@ end
 
 function GameRenderer:setImageGraphics(imageTable)
 	self.layers.areaBackground.imageRenderer:setImageTable(imageTable)
-	self.layers.scrollingBackground.imageRenderer:setImageTable(imageTable)
+	self.layers.infiniteScrollingBackground.imageRenderer:setImageTable(imageTable)
 	--set on other layers if needed
 end
 
@@ -129,8 +129,8 @@ function GameRenderer:setAreaGraphics(area)
 		self.layers.areaBackground.areaBackground = area.background
 	end
 	
-	if area.scrollingBackground.imageId then
-		self.layers.scrollingBackground:setImageList(area.scrollingBackground)
+	if area.infiniteScrollingBackground.imageId then
+		self.layers.infiniteScrollingBackground:setImageList(area.infiniteScrollingBackground)
 	end
 	
 	--set on other layers if needed
@@ -174,8 +174,6 @@ function GameRenderer:updateCanvas()
 	if self.cameraLens then
 		self.canvas:setArea(self.cameraLens.x, self.cameraLens.y, self.cameraLens.w, 
 			self.cameraLens.h)
-		
-		INFO_STR = self.cameraLens.y
 	else
 		--self.canvas:setArea(0, 0, 0, 0)
 	end

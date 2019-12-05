@@ -47,7 +47,7 @@ function GameArea.new ()
 			ySpeed = 1
 		}
 		
-		self.scrollingBackground = {
+		self.infiniteScrollingBackground = {
 			imageId = nil,
 			x = 0,
 			y = 0,

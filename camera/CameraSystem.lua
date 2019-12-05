@@ -59,8 +59,8 @@ function CameraSystem:init()
 	self:resetView()
 	self:initBehaviour(self.CAMERA_BEHAVIOUR.GENERIC, nil)
 	
-	--debug:
-	self:setLensQuad(0, 0, 800, 600)
+	--debug (get from the database):
+	self:setLensQuad(0, 0, 1024, 768)
 end
 
 ---------------
