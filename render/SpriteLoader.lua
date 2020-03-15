@@ -117,6 +117,7 @@ function SpriteLoader:preloadSprites()
 	self:loadSprites(self.SPRITESHEET.GRID_VERTICAL_TEST)
 	self:loadSprites(self.SPRITESHEET.PILAR_TEST)
 	self:loadSprites(self.SPRITESHEET.PLATE_JUNCTION_TEST)
+	self:loadSprites(self.SPRITESHEET.GENERIC_ENTITY_F)
 end
 
 function SpriteLoader:init()

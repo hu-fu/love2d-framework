@@ -4,7 +4,7 @@ local SET_ID = ANIMATIONS.SET_ID.PLAYER_B
 return {
 	[ANIMATIONS.ANIMATION_ID[SET_ID].IDLE] = {
 		id = 1,
-		spritesheetId = 12,
+		spritesheetId = 23,
 		totalTime = 0.1,
 		frameUpdates = {
 			{
@@ -28,7 +28,7 @@ return {
 	
 	[ANIMATIONS.ANIMATION_ID[SET_ID].WALK] = {
 		id = 2,
-		spritesheetId = 12,
+		spritesheetId = 23,
 		totalTime = 0.35,
 		frameUpdates = {
 			{
@@ -47,20 +47,20 @@ return {
 		replay = true,
 		
 		quads = {
-			UP = {10, 9, 11, 9},			--{quad number, ...}
-			UP_LEFT = {13, 12, 14, 12},
-			LEFT = {16, 15, 17, 15},
-			DOWN_LEFT = {19, 18, 20, 18},
-			DOWN = {22, 21, 23, 21},
-			DOWN_RIGHT = {25, 24, 26, 24},
-			RIGHT = {28, 27, 29, 27},
-			UP_RIGHT = {31, 30, 32, 30}
+			UP = {9, 10, 11, 10},			--{quad number, ...}
+			UP_LEFT = {12, 13, 14, 13},
+			LEFT = {15, 16, 17, 16},
+			DOWN_LEFT = {18, 19, 20, 19},
+			DOWN = {21, 22, 23, 22},
+			DOWN_RIGHT = {24, 25, 26, 25},
+			RIGHT = {27, 28, 29, 28},
+			UP_RIGHT = {30, 31, 32, 31}
 		}
 	},
 	
 	[ANIMATIONS.ANIMATION_ID[SET_ID].ATTACK] = {
 		id = 3,
-		spritesheetId = 12,
+		spritesheetId = 23,
 		totalTime = 0.1,
 		frameUpdates = {
 			{
@@ -84,7 +84,7 @@ return {
 	
 	[ANIMATIONS.ANIMATION_ID[SET_ID].HIT] = {
 		id = 4,
-		spritesheetId = 12,
+		spritesheetId = 23,
 		totalTime = 0.1,
 		frameUpdates = {
 			{

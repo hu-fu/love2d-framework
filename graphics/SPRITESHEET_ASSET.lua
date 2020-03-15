@@ -24,4 +24,6 @@ return {
 	[SPRITESHEET.GRID_VERTICAL_TEST] = {id=15, spritesheetPath='/test/grid_vertical_test.png', quadPath='/test/grid_vertical_test'},
 	[SPRITESHEET.PILAR_TEST] = {id=16, spritesheetPath='/test/pilar_test_1.png', quadPath='/test/pilar_test_1'},
 	[SPRITESHEET.PLATE_JUNCTION_TEST] = {id=17, spritesheetPath='/test/plate_junction_test.png', quadPath='/test/plate_junction_test'},	
+	
+	[SPRITESHEET.GENERIC_ENTITY_F] = {id=18, spritesheetPath='/entity/player f.png', quadPath='/entity/player f'},
 }
