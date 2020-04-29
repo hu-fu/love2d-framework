@@ -32,6 +32,7 @@ function testStateC:update(stateManager, dt)
 	self.systems[self.SYSTEM.GAME_RENDERER]:update(dt)
 	self.systems[self.SYSTEM.SPATIAL_PARTITIONING]:runQueries()		--maybe it should be called at the start too?
 	self.systems[self.SYSTEM.DIALOGUE]:update(dt)
+	self.systems[self.SYSTEM.SCENE_SCRIPT]:update(dt)
 	
 	--local entityLoader = self.systems[21]
 	--local playerEntity = entityLoader:getEntityById(1, nil, nil)

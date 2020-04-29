@@ -140,6 +140,7 @@ end
 
 function sceneLoadState:initRenderer()
 	--I don't know where this should go, maybe here, maybe before this
+	--gameRenderer:
 	local gameRenderer = self.systems[self.SYSTEM.GAME_RENDERER]
 	gameRenderer:addLayerToList(gameRenderer.layers.spatialEntity)
 	gameRenderer:addLayerToList(gameRenderer.layers.backgroundSpatialEntity)
@@ -149,6 +150,7 @@ function sceneLoadState:initRenderer()
 	gameRenderer:addLayerToList(gameRenderer.layers.dialogue)
 	gameRenderer:addLayerToList(gameRenderer.layers.foregroundSpatialEntity)
 	gameRenderer:addLayerToList(gameRenderer.layers.infiniteScrollingBackground)
+	gameRenderer:addLayerToList(gameRenderer.layers.areaForeground)
 end
 
 function sceneLoadState:initInput()

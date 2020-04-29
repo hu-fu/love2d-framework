@@ -1,8 +1,8 @@
 ---------------------
---Entity Idle System:
+--Entity Combat System:
 ----------------------
 	--Action set id must be unique to all the combat actions
-	--	Terrible design but I'm not fixing it
+	--	Terrible design but I'm not fixing it (yes you are)
 	--	There's a command for running custom actionSetId/actionId, use that
 
 local EntityCombatSystem = {}

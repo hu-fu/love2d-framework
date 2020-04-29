@@ -1,3 +1,5 @@
+--player char only - delete this
+
 return {
 	SPAWN = 1,
 	DESPAWN = 2,

@@ -191,6 +191,13 @@ function SpatialPartitioningSystem:runQueries()
 	end
 end
 
+function SpatialPartitioningSystem:getSpatialEntityByEntityId(entityType, id)
+	for i=1, #list do
+		--spatialQueryMethods[SpatialPartitioningSystem.QUERY_TYPE.REINDEX_ENTITY]
+		--...
+	end
+end
+
 ----------------
 --Query methods:
 ----------------

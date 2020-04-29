@@ -370,6 +370,22 @@ function EventObjectPool:setCreateEventObjectMethods()
 				responseCallback = nil,
 			}
 		end,
+		
+		[self.EVENT_TYPES.LOAD_IMAGE] = function()
+			return {
+				imageId = nil,
+				
+				responseCallback = nil,
+			}
+		end,
+		
+		[self.EVENT_TYPES.LOAD_SPRITESHEET] = function()
+			return {
+				imageId = nil,
+				
+				responseCallback = nil,
+			}
+		end,
 	}
 end
 

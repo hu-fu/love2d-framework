@@ -300,7 +300,10 @@ function SystemInitializer:initializeSystemsOnSceneScript()
 	local system = self.systemTable[self.SYSTEM_ID.SCENE_SCRIPT]
 	system:setDependencies(self.systemTable[self.SYSTEM_ID.FLAG_LOADER], 
 		self.systemTable[self.SYSTEM_ID.ENTITY_LOADER], 
-		self.systemTable[self.SYSTEM_ID.AREA_LOADER])
+		self.systemTable[self.SYSTEM_ID.AREA_LOADER],
+		self.systemTable[self.SYSTEM_ID.SPATIAL_PARTITIONING],
+		self.systemTable[self.SYSTEM_ID.COLLISION]
+		)
 end
 
 function SystemInitializer:initializeCameraOnSystems()

@@ -1,0 +1,41 @@
+Created 18-03-2020
+
+1. Opening states
+1.1 State scripting
+1.2 State input scripting
+
+2. Start menu state
+2.1. State scripting
+2.2. Menu scripting
+2.3. Menu graphics
+
+3. Save/Load menus
+3.1. (same thngs as menu state)
+3.2. Connect to Load/Save API
+
+4. Save/Load API
+4.1. Load/Save for all file types
+4.2. API hooks
+
+5. New game state
+5.1. (same thngs as menu state)
+
+6. Scene scripting
+6.1. Scene scripting API -> has to work with all other systems -> do later
+
+7. Controls
+7.1. Control save/load
+7.2. Change controls
+7.3. control API (amke it work on controllers)
+
+8. Graphics
+8.1. On game graphics load (I don't know if this already works, test it)
+
+9. Animations
+9.1. Scripting
+9.2. Loading
+
+10. Actions
+10.1. Scripting
+10.1. Loading
+

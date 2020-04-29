@@ -26,4 +26,9 @@ return {
 	[SPRITESHEET.PLATE_JUNCTION_TEST] = {id=17, spritesheetPath='/test/plate_junction_test.png', quadPath='/test/plate_junction_test'},	
 	
 	[SPRITESHEET.GENERIC_ENTITY_F] = {id=18, spritesheetPath='/entity/player f.png', quadPath='/entity/player f'},
+	[SPRITESHEET.GENERIC_ENTITY_G] = {id=19, spritesheetPath='/entity/player g.png', quadPath='/entity/player g'},
+	
+	[SPRITESHEET.FINAL_BACKGROUND_A] = {id=25, spritesheetPath='/test/final_background_a.png', quadPath='/test/final_background_a'},
+	
+	[SPRITESHEET.MOVING_PLATFORM_A] = {id=26, spritesheetPath='/entity/moving platform a.png', quadPath='/entity/moving platform a'},
 }

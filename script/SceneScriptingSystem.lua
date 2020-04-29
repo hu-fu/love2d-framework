@@ -27,6 +27,8 @@ SceneScriptSystem.scriptTable = {}	--?
 SceneScriptSystem.flagSystem = nil
 SceneScriptSystem.entitySystem = nil
 SceneScriptSystem.areaSystem = nil
+SceneScriptSystem.spatialPartitioningSystem = nil
+SceneScriptSystem.collisionSystem = nil
 
 SceneScriptSystem.eventListenerList = {}
 SceneScriptSystem.eventDispatcher = nil
@@ -55,10 +57,12 @@ function SceneScriptSystem:init()
 	self:resetScriptTable()
 end
 
-function SceneScriptSystem:setDependencies(flagSystem, entitySystem, areaSystem)
+function SceneScriptSystem:setDependencies(flagSystem, entitySystem, areaSystem, spatialPartitioningSystem, collisionSystem)
 	self:setFlagSystem(flagSystem)
 	self:setEntitySystem(entitySystem)
 	self:setAreaSystem(areaSystem)
+	self:setSpatialPartitioningSystem(spatialPartitioningSystem)
+	self:setCollisionSystem(collisionSystem)
 end
 
 function SceneScriptSystem:setFlagSystem(flagSystem)
@@ -73,6 +77,14 @@ function SceneScriptSystem:setAreaSystem(areaSystem)
 	self.areaSystem = areaSystem
 end
 
+function SceneScriptSystem:setSpatialPartitioningSystem(spatialPartitioningSystem)
+	SceneScriptSystem.spatialPartitioningSystem = spatialPartitioningSystem
+end
+
+function SceneScriptSystem:setCollisionSystem(collisionSystem)
+	self.collisionSystem = collisionSystem
+end
+
 ---------------
 --Exec Methods:
 ---------------
@@ -82,7 +94,7 @@ function SceneScriptSystem:initScene(scene)
 	self:initScripts(scene.components.script.scriptIdList)
 end
 
-function SceneScriptSystem:main(dt)
+function SceneScriptSystem:update(dt)
 	self:runScripts(dt)
 end
 

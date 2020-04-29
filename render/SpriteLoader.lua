@@ -41,6 +41,8 @@ SpriteLoader.eventMethods = {
 		[1] = function(request)
 			--set entity request
 				--entity loader -> sprite loader -> load all needed entity sprites :)
+			
+			SpriteLoader:loadSpritesByEntityDb(request.entityDb)
 		end,
 		
 		[2] = function(request)
@@ -94,30 +96,8 @@ function SpriteLoader:createDefaultQuadTable()
 end
 
 function SpriteLoader:preloadSprites()
-	--preload stuff here (everything if you can)
+	--preload stuff here
 	self:loadSprites(self.SPRITESHEET.DEFAULT)
-	self:loadSprites(self.SPRITESHEET.GENERIC_ENTITY)
-	self:loadSprites(self.SPRITESHEET.TEST_FLOOR)
-	self:loadSprites(self.SPRITESHEET.TEST_ITEM)
-	self:loadSprites(self.SPRITESHEET.TEST_PROJECTILE)
-	self:loadSprites(self.SPRITESHEET.TEST_EFFECT)
-	self:loadSprites(self.SPRITESHEET.TEST_DIAGONAL)
-	self:loadSprites(self.SPRITESHEET.TEST_DIAGONAL_TWO)
-	self:loadSprites(self.SPRITESHEET.HOLE)
-	self:loadSprites(self.SPRITESHEET.GENERIC_ENTITY_B)
-	self:loadSprites(self.SPRITESHEET.GENERIC_ENTITY_C)
-	self:loadSprites(self.SPRITESHEET.GENERIC_ENTITY_D)
-	self:loadSprites(self.SPRITESHEET.TEST_FLOOR_1)
-	self:loadSprites(self.SPRITESHEET.TEST_WALL_1)
-	self:loadSprites(self.SPRITESHEET.TEST_WALL_2)
-	self:loadSprites(self.SPRITESHEET.TEST_WALL_3)
-	self:loadSprites(self.SPRITESHEET.TEST_WALL_4)
-	self:loadSprites(self.SPRITESHEET.TEST_WALL_5)
-	self:loadSprites(self.SPRITESHEET.GRID_TEST)
-	self:loadSprites(self.SPRITESHEET.GRID_VERTICAL_TEST)
-	self:loadSprites(self.SPRITESHEET.PILAR_TEST)
-	self:loadSprites(self.SPRITESHEET.PLATE_JUNCTION_TEST)
-	self:loadSprites(self.SPRITESHEET.GENERIC_ENTITY_F)
 end
 
 function SpriteLoader:init()
@@ -188,6 +168,19 @@ SpriteLoader.setSpriteTablesOnSystemMethods = {
 	
 	--...
 }
+
+function SpriteLoader:loadSpritesByEntityDb(entityDb)
+	for entityType, entityList in pairs(entityDb.globalTables) do
+		for entityIndex, entity in pairs(entityList) do
+			if entity.components.spritebox then
+				self:loadSprites(entity.components.spritebox.defaultSpritesheetId)
+				self:loadSprites(entity.components.spritebox.spritesheetId)
+			end
+			
+			--load from more components here
+		end
+	end
+end
 
 ----------------
 --Return module:

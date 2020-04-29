@@ -1,6 +1,7 @@
 --needs a revision once all the state systems are finished - very important!
 --FULL OF SPAGHETTI!!! It's cool, this can be the last thing we make
 --bugs up the ass
+--deprecated
 
 require '/controller/PlayerEntityController'
 

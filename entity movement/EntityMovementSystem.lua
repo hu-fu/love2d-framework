@@ -2,6 +2,8 @@
 --Entity Movement System:
 -------------------------
 
+--TODO: VECTOR BASED MOVEMENT YOU IMBECILE!!!
+
 local EntityMovementSystem = {}
 
 ---------------

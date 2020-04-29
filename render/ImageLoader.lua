@@ -39,6 +39,9 @@ ImageLoader.eventMethods = {
 		[1] = function(request)
 			--set area request
 				--area loader -> image loader -> load all needed images
+					--request.area
+						--how about unloading previous area images??
+			ImageLoader:loadImagesByArea(request.area)
 		end,
 		
 		[2] = function(request)
@@ -65,14 +68,12 @@ function ImageLoader:buildImageTable()
 end
 
 function ImageLoader:createDefaultImage()
-	self.defaultImage = self:loadImage(-1)
+	self.defaultImage = self:getImage(-1)
 end
 
 function ImageLoader:preloadImages()
-	--preload stuff here (everything if you can)
+	--preload stuff here
 	self:loadImage(self.IMAGE.DEFAULT)
-	self:loadImage(self.IMAGE.TEST_BACKGROUND)
-	self:loadImage(self.IMAGE.SCROLL_TEST)
 end
 
 function ImageLoader:init()
@@ -83,6 +84,12 @@ end
 ---------------
 --Exec Methods:
 ---------------
+
+function ImageLoader:getImage(imageId)
+	local asset = self:getImageAsset(imageId)
+	local filepath = self.folderPath .. asset.imagePath
+	return love.graphics.newImage(filepath)
+end
 
 function ImageLoader:loadImage(imageId)
 	local asset = self:getImageAsset(imageId)
@@ -112,6 +119,20 @@ ImageLoader.setImageTablesOnSystemMethods = {
 	
 	--...
 }
+
+function ImageLoader:loadImagesByArea(area)
+	if area.background.imageId then
+		self:loadImage(area.background.imageId)
+	end
+	
+	if area.foreground.imageId then
+		self:loadImage(area.foreground.imageId)
+	end
+	
+	if area.infiniteScrollingBackground.imageId then
+		self:loadImage(area.infiniteScrollingBackground.imageId)
+	end
+end
 
 ----------------
 --Return module:

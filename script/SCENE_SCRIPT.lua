@@ -1,5 +1,7 @@
 local SCENE_SCRIPT = {
-	GENERIC = 1
+	GENERIC = 1,
+	GENERIC_2 = 2,
+	
 }
 
 return SCENE_SCRIPT

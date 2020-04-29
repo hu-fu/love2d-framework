@@ -1,15 +1,79 @@
 return {
-	id = 1,
+	id = 3,
 	
-	tag = 'generic scene',
+	tag = 'generic scene 3',
 	
-	areaId = 1,
+	areaId = 3,
 	
 	entityList = {
 		['generic'] = {
 			--generic
-			{id = 1, role = 2, template = 1, x = 0, y = 0, playerInputState = true,
-				attackEquipped = {{5,5,5},{5,5,5},{6,6,6}}},
+			{id = 1, role = 2, template = 1, x = 400, y = 4000, playerInputState = true,
+				attackEquipped = {{5,5,5},{5,5,5},{6,6,6}}, areaSpawnId = nil},
+				--note: if the areaSpawnId is ~= nil here the game will use the save file position
+					--if there's no save file the x and y will be used instead
+			
+			--background b
+			{id = 100, role = 7, template = 2, x = 0, y = 3579, spritesheetId = 25, 
+				spriteW = 2112, spriteH = 4943},
+			
+			--moving platform
+			{id = 10, role = 7, template = 7, x = 744, y = 3080, spritesheetId = 26, 
+				spriteW = 672, spriteH = 548, scriptState = true, autoScriptId = 2},
+			
+			--level hitboxes
+			{id = 1000, role = 4, template = 5, x = 40, y = 3468, spritesheetId = 1, 
+				spriteW = 0, spriteH = 0, hitboxW = 655, hitboxH = 302,
+				quad = 1, collisionType = 2, mapCollisionType = 2},
+			
+			{id = 1001, role = 4, template = 5, x = 1464, y = 3468, spritesheetId = 1, 
+				spriteW = 0, spriteH = 0, hitboxW = 655, hitboxH = 302,
+				quad = 1, collisionType = 2, mapCollisionType = 2},
+			
+			{id = 1002, role = 4, template = 5, x = 1705, y = 4190, spritesheetId = 1, 
+				spriteW = 0, spriteH = 0, hitboxW = 191, hitboxH = 204,
+				quad = 1, collisionType = 2, mapCollisionType = 2},
+			
+			{id = 1003, role = 4, template = 5, x = 264, y = 4190, spritesheetId = 1, 
+				spriteW = 0, spriteH = 0, hitboxW = 191, hitboxH = 204,
+				quad = 1, collisionType = 2, mapCollisionType = 2},
+			
+			{id = 1004, role = 4, template = 5, x = 0, y = 3469, spritesheetId = 1, 
+				spriteW = 0, spriteH = 0, hitboxW = 41, hitboxH = 1499,
+				quad = 1, collisionType = 2, mapCollisionType = 2},
+			
+			{id = 1005, role = 4, template = 5, x = 2121, y = 3469, spritesheetId = 1, 
+				spriteW = 0, spriteH = 0, hitboxW = 41, hitboxH = 1499,
+				quad = 1, collisionType = 2, mapCollisionType = 2},
+			
+			{id = 1006, role = 4, template = 5, x = 679, y = 793, spritesheetId = 1, 
+				spriteW = 0, spriteH = 0, hitboxW = 66, hitboxH = 2787,
+				quad = 1, collisionType = 2, mapCollisionType = 2},
+			
+			{id = 1007, role = 4, template = 5, x = 1413, y = 793, spritesheetId = 1, 
+				spriteW = 0, spriteH = 0, hitboxW = 66, hitboxH = 2787,
+				quad = 1, collisionType = 2, mapCollisionType = 2},
+			
+			{id = 1008, role = 4, template = 5, x = 629, y = 0, spritesheetId = 1, 
+				spriteW = 0, spriteH = 0, hitboxW = 67, hitboxH = 795,
+				quad = 1, collisionType = 2, mapCollisionType = 2},
+			
+			{id = 1009, role = 4, template = 5, x = 1463, y = 0, spritesheetId = 1, 
+				spriteW = 0, spriteH = 0, hitboxW = 67, hitboxH = 795,
+				quad = 1, collisionType = 2, mapCollisionType = 2},
+			
+			{id = 1010, role = 4, template = 5, x = 697, y = 0, spritesheetId = 1, 
+				spriteW = 0, spriteH = 0, hitboxW = 765, hitboxH = 361,
+				quad = 1, collisionType = 2, mapCollisionType = 2},
+			
+			{id = 1011, role = 4, template = 5, x = 24, y = 4753, spritesheetId = 1, 
+				spriteW = 0, spriteH = 0, hitboxW = 2162, hitboxH = 168,
+				quad = 1, collisionType = 2, mapCollisionType = 2},
+			
+			--corridor hitbox (enable/disable on the area script)
+			{id = 2000, role = 4, template = 5, x = 696, y = 1288, spritesheetId = 1, 
+				spriteW = 0, spriteH = 0, hitboxW = 767, hitboxH = 1794,
+				quad = 1, collisionType = 8, mapCollisionType = 8},
 			
 			--[[
 			{id = 2, role = 3, template = 6, x = 100, y = 100,
@@ -192,7 +256,7 @@ return {
 		--...
 	},
 	
-	scriptIdList = {1},
+	scriptIdList = {1, 2},
 	
 	--add as many stuff as needed
 }

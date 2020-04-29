@@ -1,6 +1,7 @@
 ----------------
 --Game Renderer:
 ----------------
+--ATT: layers are initialized @ scene load state
 
 local GameRenderer = {}
 
@@ -96,6 +97,7 @@ function GameRenderer:initializeLayers()
 	self.layers.dialogue = require '/render/DialogueLayer'
 	self.layers.foregroundSpatialEntity = require '/render/ForegroundSpatialEntityLayer'
 	self.layers.infiniteScrollingBackground = require '/render/InfiniteScrollingBackgroundLayer'
+	self.layers.areaForeground = require '/render/ForegroundImageLayer'
 	--add more layers (areaForeground)
 end
 
@@ -121,6 +123,7 @@ end
 function GameRenderer:setImageGraphics(imageTable)
 	self.layers.areaBackground.imageRenderer:setImageTable(imageTable)
 	self.layers.infiniteScrollingBackground.imageRenderer:setImageTable(imageTable)
+	self.layers.areaForeground.imageRenderer:setImageTable(imageTable)
 	--set on other layers if needed
 end
 
@@ -131,6 +134,10 @@ function GameRenderer:setAreaGraphics(area)
 	
 	if area.infiniteScrollingBackground.imageId then
 		self.layers.infiniteScrollingBackground:setImageList(area.infiniteScrollingBackground)
+	end
+	
+	if area.foreground.imageId then
+		self.layers.areaForeground:setAreaForeground(area.foreground)
 	end
 	
 	--set on other layers if needed

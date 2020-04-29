@@ -1,0 +1,7 @@
+How to remove white transparency on paint.net:
+
+Select the Paint Bucket
+In the Colors window click More >>
+Move the Opacity - Alpha slider to the left
+On the toolbar, set Flood Mode to Global and the Blend Mode (the vial/potion icon) to Overwrite
+Click on the white area.

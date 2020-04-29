@@ -66,7 +66,6 @@ EntityLoader.eventMethods = {
 	[1] = {
 		[1] = function(request)
 			--scene init request
-			--INFO_STR = 'ENTITY LOADER ACTIVATED'
 			EntityLoader:initScene(request.sceneObj)
 		end,
 		
@@ -417,7 +416,10 @@ EntityLoader.createEntityComponentMethods = {
 		component.frameCounter = templateComponent.frameCounter
 		component.currentMethodIndex = templateComponent.currentMethodIndex
 		component.methodThreads = templateComponent.methodThreads
-		component.areaSpawnId = templateComponent.areaSpawnId	--should be asset, change it!
+		
+		if entityAsset.areaSpawnId then
+			component.areaSpawnId = entityAsset.areaSpawnId
+		end
 	end,
 	
 	[EntityLoader.ENTITY_COMPONENT.DESPAWN] = function(self, template, entityAsset, entity)
@@ -914,6 +916,7 @@ function EntityLoader:setEntityDbOnAllSystems()
 	self.setEntityDbOnSystemMethods[SYSTEM_ID.HEALTH](self, request)
 	self.setEntityDbOnSystemMethods[SYSTEM_ID.SOUND](self, request)
 	self.setEntityDbOnSystemMethods[SYSTEM_ID.GAME_RENDERER](self, request)
+	self.setEntityDbOnSystemMethods[SYSTEM_ID.SPRITE_LOADER](self, request)
 	self.initEntityRequestPool:incrementCurrentIndex()
 end
 
@@ -980,6 +983,10 @@ EntityLoader.setEntityDbOnSystemMethods = {
 	
 	[SYSTEM_ID.GAME_RENDERER] = function(entityLoader, request)
 		entityLoader.eventDispatcher:postEvent(18, 7, request)
+	end,
+	
+	[SYSTEM_ID.SPRITE_LOADER] = function(entityLoader, request)
+		entityLoader.eventDispatcher:postEvent(4, 1, request)
 	end,
 	
 	--...
